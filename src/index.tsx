@@ -26,8 +26,10 @@ const theme = createMuiTheme({
   palette: {
     primary: { main: "#ffd80a" },
     secondary: brown
-  }
+  },
+  typography: { fontFamily: "Montserrat", allVariants: { color: "white" } }
 });
+
 const Bootstrap: FC = () => {
   return (
     <ThemeProvider theme={theme}>

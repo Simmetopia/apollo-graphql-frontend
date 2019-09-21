@@ -28,7 +28,6 @@ export const CreateUserButton: FC<AuthProps> = ({ username }) => {
   const [create_user] = useMutation(create_user_mutation, {
     onCompleted: data => {
       client.writeData({ data: { localUser: data.signup } });
-      alert("Success");
     },
     onError: e => {
       if (e.message.match(/already/)) {
@@ -52,7 +51,6 @@ export const LoginAsUser: FC<AuthProps> = ({ username }) => {
   const [login_user] = useMutation(login_user_mutation, {
     onCompleted: data => {
       client.writeData({ data: { localUser: data.login } });
-      alert("Success");
     },
     onError: e => {
       if (e.message.match(/does not/)) {

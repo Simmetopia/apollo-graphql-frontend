@@ -1,14 +1,10 @@
 import React from "react";
 import { CreateUserForm } from "./CreateUserForm";
-import { styled, makeStyles } from "@material-ui/styles";
-import {
-  CssBaseline,
-  BottomNavigation,
-  BottomNavigationAction,
-  AppBar
-} from "@material-ui/core";
+import { styled } from "@material-ui/styles";
+import { CssBaseline } from "@material-ui/core";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import AuthenticatedRoot from "./AuthenticatedRoot";
 
 const AppRootDiv = styled("div")({
   minHeight: "100vh",
@@ -18,7 +14,7 @@ const AppRootDiv = styled("div")({
   backgroundColor: "rgb(50,50,50)"
 });
 
-const localUserQuery = gql`
+export const localUserQuery = gql`
   query LocalUser {
     localUser @client {
       id
@@ -34,7 +30,7 @@ const App: React.FC = () => {
     <AppRootDiv>
       <CssBaseline />
       {!hasActiveUser && <CreateUserForm />}
-      {hasActiveUser && <SimpleBottomNavigation />}
+      {hasActiveUser && <AuthenticatedRoot />}
     </AppRootDiv>
   );
 };

@@ -1,15 +1,19 @@
-import React from "react";
+import React, { FC } from "react";
 import { makeStyles } from "@material-ui/styles";
 
-import RestoreIcon from "@material-ui/icons/Restore";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+import RestoreIcon from "@material-ui/icons/Home";
+import FavoriteIcon from "@material-ui/icons/ShoppingCart";
+import LocationOnIcon from "@material-ui/icons/Face";
 
 import {
   AppBar,
   BottomNavigation,
-  BottomNavigationAction
+  BottomNavigationAction,
+  Typography,
+  Divider
 } from "@material-ui/core";
+import { UsernameIdView, ProfileRoot } from "./profile/ProfileRoot";
+import { ShopRoot } from "./shop/ShopRoot";
 
 const useStyles = makeStyles({
   appBar: {
@@ -22,13 +26,21 @@ const useStyles = makeStyles({
   }
 });
 
-export default function SimpleBottomNavigation() {
-  const [value, setValue] = React.useState(0);
+enum Pages {
+  WELCOME,
+  PROFILE,
+  SHOP
+}
+
+export default function AuthenticatedRoot() {
+  const [value, setValue] = React.useState(Pages.WELCOME);
   const classes = useStyles();
 
   return (
     <>
-      <div>you have been logged in</div>
+      {value === Pages.WELCOME && <WelcomePage />}
+      {value === Pages.PROFILE && <ProfileRoot />}
+      {value === Pages.SHOP && <ShopRoot />}
       <AppBar position="fixed" className={classes.appBar}>
         <BottomNavigation
           value={value}
@@ -41,17 +53,20 @@ export default function SimpleBottomNavigation() {
         >
           <BottomNavigationAction
             color="inherit"
-            label="Recents"
+            label="Welcome"
+            value={Pages.WELCOME}
             icon={<RestoreIcon />}
           />
           <BottomNavigationAction
             color="inherit"
-            label="Favorites"
+            label="Shop"
+            value={Pages.SHOP}
             icon={<FavoriteIcon />}
           />
           <BottomNavigationAction
             color="inherit"
-            label="Nearby"
+            label="Profile"
+            value={Pages.PROFILE}
             icon={<LocationOnIcon />}
           />
         </BottomNavigation>
@@ -59,3 +74,18 @@ export default function SimpleBottomNavigation() {
     </>
   );
 }
+export type LocalUser = { localUser: { username: string; id: string } };
+const WelcomePage: FC = () => (
+  <>
+    <Typography variant="h3" color="primary">
+      Welcome!
+    </Typography>
+    <Typography variant="caption">To watto's webshop of doom</Typography>
+    <Divider variant="middle" />
+    <Typography>
+      In this webshop you can find all the parts, all "legally" optained, to
+      build your very own lightsaber.
+    </Typography>
+    <UsernameIdView />
+  </>
+);
