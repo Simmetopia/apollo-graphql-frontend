@@ -7,24 +7,22 @@ import { Theme, Button } from "@material-ui/core";
 import React, { FC } from "react";
 
 import { useMutation } from "@apollo/react-hooks";
-import { UserItemListProps } from "./UserItemList";
+import { UserItemListProps, item_fragment } from "./UserItemList";
 
 const random_item_mutation = gql`
   mutation ItemCreate($userId: ID!) {
     randomItem(userId: $userId) {
       id
       inventory {
-        id
-        saberPart
-        partDescription
-        partName
+        ...item_fragment
       }
     }
   }
+  ${item_fragment}
 `;
 
 const useStyles = makeStyles<Theme>(theme => ({
-  spacer: { marginTop: theme.spacing(1), marginBottom: theme.spacing(2) }
+  spacer: { marginTop: theme.spacing(1) }
 }));
 
 export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {

@@ -11,6 +11,7 @@ const AppRootDiv = styled("div")({
   minWidth: "100vw",
   height: "100%",
   padding: 50,
+  paddingBottom: 70,
   backgroundColor: "rgb(50,50,50)"
 });
 

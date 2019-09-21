@@ -10,19 +10,28 @@ import {
 } from "@material-ui/core";
 import { useQuery } from "@apollo/react-hooks";
 import { UserQuery, UserQueryVariables } from "./__generated__/UserQuery";
+import { item_fragment as Fragment } from "./__generated__/item_fragment";
+
+export const item_fragment = gql`
+  fragment item_fragment on Item {
+    id
+    saberPart
+    partDescription
+    partName
+    price
+  }
+`;
 
 const items_query = gql`
   query UserQuery($id: ID) {
-    user(where: { id: $id }) {
+    user(where: { id: $id }) @connection(key: "user_items") {
       id
       inventory {
-        id
-        saberPart
-        partDescription
-        partName
+        ...item_fragment
       }
     }
   }
+  ${item_fragment}
 `;
 
 export type UserItemListProps = { userId: string };
@@ -43,23 +52,10 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   const userItems = data.user.inventory;
   return (
     <Grid container direction="column" spacing={1}>
-      {userItems.map(e => {
+      {userItems.map(item => {
         return (
-          <Grid item key={e.id}>
-            <ItemCard style={{ backgroundColor: "grey" }}>
-              <Typography>
-                <strong>Name: </strong>
-                {e.partName}
-              </Typography>
-              <Typography>
-                <strong>Part: </strong>
-                {e.saberPart}
-              </Typography>
-              <Typography>
-                <strong>Desc: </strong>
-                {ellipsis(e.partDescription || "", 50)}
-              </Typography>
-            </ItemCard>
+          <Grid item key={item.id}>
+            <SingleItemCard {...item} />
           </Grid>
         );
       })}
@@ -67,6 +63,28 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   );
 };
 
+export const SingleItemCard: FC<Fragment> = props => {
+  return (
+    <ItemCard style={{ backgroundColor: "grey" }}>
+      <Typography>
+        <strong>Name: </strong>
+        {props.partName}
+      </Typography>
+      <Typography>
+        <strong>Price: </strong>
+        {props.price}
+      </Typography>
+      <Typography>
+        <strong>Part: </strong>
+        {props.saberPart}
+      </Typography>
+      <Typography>
+        <strong>Desc: </strong>
+        {ellipsis(props.partDescription || "", 50)}
+      </Typography>
+    </ItemCard>
+  );
+};
 const ellipsis = (data: string, amount?: number) => {
   return data.slice(0, amount || 150) + " ...";
 };
