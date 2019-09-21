@@ -13,7 +13,7 @@ const create_user_mutation = gql`
 `;
 
 const login_user_mutation = gql`
-  mutation CreateUser($username: String!) {
+  mutation LoginUser($username: String!) {
     login(data: { username: $username }) {
       id
       username

@@ -1,0 +1,8 @@
+type localUser {
+  id: ID!
+  username: String!
+}
+
+extend type Query {
+  localUser: localUser
+}
