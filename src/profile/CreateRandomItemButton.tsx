@@ -1,13 +1,13 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from '@material-ui/styles';
 
-import { Theme, Button } from "@material-ui/core";
+import { Theme, Button } from '@material-ui/core';
 
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { useMutation } from "@apollo/react-hooks";
-import { UserItemListProps, item_fragment } from "./UserItemList";
+import { useMutation } from '@apollo/react-hooks';
+import { UserItemListProps, item_fragment } from './UserItemList';
 
 const random_item_mutation = gql`
   mutation ItemCreate($userId: ID!) {
@@ -22,12 +22,12 @@ const random_item_mutation = gql`
 `;
 
 const useStyles = makeStyles<Theme>(theme => ({
-  spacer: { marginTop: theme.spacing(1) }
+  spacer: { marginTop: theme.spacing(1) },
 }));
 
 export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {
   const [mutation, { loading }] = useMutation(random_item_mutation, {
-    variables: { userId }
+    variables: { userId },
   });
   const classes = useStyles();
   return (

@@ -1,21 +1,21 @@
-import React, { FC } from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import { createMuiTheme } from "@material-ui/core/styles";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { ThemeProvider } from "@material-ui/styles";
-import { brown } from "@material-ui/core/colors";
+import React, { FC } from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import { createMuiTheme } from '@material-ui/core/styles';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { ThemeProvider } from '@material-ui/styles';
+import { brown } from '@material-ui/core/colors';
 
 /*
  * APOLLO CLIENT SETUP
  */
 const client = new ApolloClient({
-  uri: "http://localhost:4000",
+  uri: 'http://localhost:4000',
   clientState: {
-    defaults: { localUser: { id: "", username: "", __typename: "User" } }
-  }
+    defaults: { localUser: { id: '', username: '', __typename: 'User' } },
+  },
 });
 
 /*
@@ -24,10 +24,10 @@ const client = new ApolloClient({
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#ffd80a" },
-    secondary: brown
+    primary: { main: '#ffd80a' },
+    secondary: brown,
   },
-  typography: { fontFamily: "Montserrat", allVariants: { color: "white" } }
+  typography: { fontFamily: 'Montserrat', allVariants: { color: 'white' } },
 });
 
 const Bootstrap: FC = () => {
@@ -40,7 +40,7 @@ const Bootstrap: FC = () => {
   );
 };
 
-ReactDOM.render(<Bootstrap />, document.getElementById("root"));
+ReactDOM.render(<Bootstrap />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

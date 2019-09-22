@@ -1,12 +1,12 @@
-import React, { FC } from "react";
-import Typography from "@material-ui/core/Typography/Typography";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
-import { item_fragment, SingleItemCard } from "../profile/UserItemList";
+import React, { FC } from 'react';
+import Typography from '@material-ui/core/Typography/Typography';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
+import { item_fragment, SingleItemCard } from '../profile/UserItemList';
 
-import { WebshopItems } from "./__generated__/WebshopItems";
-import LinearProgress from "@material-ui/core/LinearProgress/LinearProgress";
-import Grid from "@material-ui/core/Grid/Grid";
+import { WebshopItems } from './__generated__/WebshopItems';
+import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
+import Grid from '@material-ui/core/Grid/Grid';
 const webshop_query = gql`
   query WebshopItems {
     getWebshopContent @connection(key: "webshop_content") {

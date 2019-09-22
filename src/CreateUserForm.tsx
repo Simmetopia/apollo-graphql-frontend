@@ -1,16 +1,16 @@
-import React, { FC, useState } from "react";
-import { LoginAsUser, CreateUserButton } from "./auth/SignupButtons";
-import { TextField, Grid } from "@material-ui/core";
+import React, { FC, useState } from 'react';
+import { LoginAsUser, CreateUserButton } from './auth/SignupButtons';
+import { TextField, Grid } from '@material-ui/core';
 
 export const CreateUserForm: FC = () => {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('');
   return (
     <Grid container direction="column" spacing={2}>
       <TextField
-        inputProps={{ style: { color: "#fff" } }}
+        inputProps={{ style: { color: '#fff' } }}
         variant="outlined"
         color="secondary"
-        placeholder={"username"}
+        placeholder={'username'}
         onChange={e => setUsername(e.target.value)}
       />
       <Grid item>

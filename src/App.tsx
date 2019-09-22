@@ -1,17 +1,17 @@
-import React from "react";
-import { CreateUserForm } from "./CreateUserForm";
-import { styled } from "@material-ui/styles";
-import { CssBaseline } from "@material-ui/core";
-import AuthenticatedRoot from "./AuthenticatedRoot";
-import { useLocalData } from "./useLocalData";
+import React from 'react';
+import { CreateUserForm } from './CreateUserForm';
+import { styled } from '@material-ui/styles';
+import { CssBaseline } from '@material-ui/core';
+import AuthenticatedRoot from './AuthenticatedRoot';
+import { useLocalData } from './useLocalData';
 
-const AppRootDiv = styled("div")({
-  minHeight: "100vh",
-  minWidth: "100vw",
-  height: "100%",
+const AppRootDiv = styled('div')({
+  minHeight: '100vh',
+  minWidth: '100vw',
+  height: '100%',
   padding: 50,
   paddingBottom: 70,
-  backgroundColor: "rgb(50,50,50)"
+  backgroundColor: 'rgb(50,50,50)',
 });
 
 const App: React.FC = () => {

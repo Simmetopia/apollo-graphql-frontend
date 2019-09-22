@@ -1,7 +1,7 @@
-import React, { FC } from "react";
-import { gql } from "apollo-boost";
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import { Button } from "@material-ui/core";
+import React, { FC } from 'react';
+import { gql } from 'apollo-boost';
+import { useApolloClient, useMutation } from '@apollo/react-hooks';
+import { Button } from '@material-ui/core';
 
 const create_user_mutation = gql`
   mutation CreateUser($username: String!) {
@@ -31,16 +31,12 @@ export const CreateUserButton: FC<AuthProps> = ({ username }) => {
     },
     onError: e => {
       if (e.message.match(/already/)) {
-        alert("User with this username already exists");
+        alert('User with this username already exists');
       }
-    }
+    },
   });
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() => create_user({ variables: { username } })}
-    >
+    <Button variant="contained" color="primary" onClick={() => create_user({ variables: { username } })}>
       Create new user
     </Button>
   );
@@ -54,17 +50,13 @@ export const LoginAsUser: FC<AuthProps> = ({ username }) => {
     },
     onError: e => {
       if (e.message.match(/does not/)) {
-        alert("Unkown user");
+        alert('Unkown user');
       }
-    }
+    },
   });
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={() => login_user({ variables: { username } })}
-    >
+    <Button variant="contained" color="primary" onClick={() => login_user({ variables: { username } })}>
       Login
     </Button>
   );

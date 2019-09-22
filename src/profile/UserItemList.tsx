@@ -1,16 +1,10 @@
-import React, { FC } from "react";
-import gql from "graphql-tag";
-import { styled } from "@material-ui/styles";
-import {
-  Card,
-  Theme,
-  LinearProgress,
-  Grid,
-  Typography
-} from "@material-ui/core";
-import { useQuery } from "@apollo/react-hooks";
-import { UserQuery, UserQueryVariables } from "./__generated__/UserQuery";
-import { item_fragment as Fragment } from "./__generated__/item_fragment";
+import React, { FC } from 'react';
+import gql from 'graphql-tag';
+import { styled } from '@material-ui/styles';
+import { Card, Theme, LinearProgress, Grid, Typography } from '@material-ui/core';
+import { useQuery } from '@apollo/react-hooks';
+import { UserQuery, UserQueryVariables } from './__generated__/UserQuery';
+import { item_fragment as Fragment } from './__generated__/item_fragment';
 
 export const item_fragment = gql`
   fragment item_fragment on Item {
@@ -36,16 +30,13 @@ const items_query = gql`
 
 export type UserItemListProps = { userId: string };
 const ItemCard = styled(Card)<Theme>(({ theme }) => ({
-  ...theme.mixins.gutters()
+  ...theme.mixins.gutters(),
 }));
 
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
-  const { data, loading } = useQuery<UserQuery, UserQueryVariables>(
-    items_query,
-    {
-      variables: { id: userId }
-    }
-  );
+  const { data, loading } = useQuery<UserQuery, UserQueryVariables>(items_query, {
+    variables: { id: userId },
+  });
   if (loading || !data || !data.user || !data.user.inventory) {
     return <LinearProgress />;
   }
@@ -65,7 +56,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
 
 export const SingleItemCard: FC<Fragment> = props => {
   return (
-    <ItemCard style={{ backgroundColor: "grey" }}>
+    <ItemCard style={{ backgroundColor: 'grey' }}>
       <Typography>
         <strong>Name: </strong>
         {props.partName}
@@ -80,11 +71,11 @@ export const SingleItemCard: FC<Fragment> = props => {
       </Typography>
       <Typography>
         <strong>Desc: </strong>
-        {ellipsis(props.partDescription || "", 50)}
+        {ellipsis(props.partDescription || '', 50)}
       </Typography>
     </ItemCard>
   );
 };
 const ellipsis = (data: string, amount?: number) => {
-  return data.slice(0, amount || 150) + " ...";
+  return data.slice(0, amount || 150) + ' ...';
 };

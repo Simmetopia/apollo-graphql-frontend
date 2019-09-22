@@ -1,16 +1,13 @@
-import React, { FC } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import Typography from "@material-ui/core/Typography/Typography";
-import { GenerateRandomItemButton } from "./CreateRandomItemButton";
-import Divider from "@material-ui/core/Divider/Divider";
-import { UserItemList } from "./UserItemList";
-import gql from "graphql-tag";
-import {
-  UserDetailsQuery,
-  UserDetailsQueryVariables
-} from "./__generated__/UserDetailsQuery";
-import { LinearProgress } from "@material-ui/core";
-import { useLocalData } from "../useLocalData";
+import React, { FC } from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import Typography from '@material-ui/core/Typography/Typography';
+import { GenerateRandomItemButton } from './CreateRandomItemButton';
+import Divider from '@material-ui/core/Divider/Divider';
+import { UserItemList } from './UserItemList';
+import gql from 'graphql-tag';
+import { UserDetailsQuery, UserDetailsQueryVariables } from './__generated__/UserDetailsQuery';
+import { LinearProgress } from '@material-ui/core';
+import { useLocalData } from '../useLocalData';
 
 export const ProfileRoot: FC = () => {
   const { id } = useLocalData();
@@ -37,10 +34,9 @@ const user_details_query = gql`
 `;
 
 export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
-  const { data, loading } = useQuery<
-    UserDetailsQuery,
-    UserDetailsQueryVariables
-  >(user_details_query, { variables: { userId } });
+  const { data, loading } = useQuery<UserDetailsQuery, UserDetailsQueryVariables>(user_details_query, {
+    variables: { userId },
+  });
   if (loading) {
     return <LinearProgress />;
   } else if (!data || !data.user) {

@@ -1,6 +1,6 @@
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import { LocalUser } from "./__generated__/LocalUser";
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+import { LocalUser } from './__generated__/LocalUser';
 
 const localUserQuery = gql`
   query LocalUser {
