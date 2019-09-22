@@ -48,14 +48,13 @@ export default function AuthenticatedRoot() {
         >
           <BottomNavigationAction color="inherit" label="Welcome" value={Pages.WELCOME} icon={<RestoreIcon />} />
           <BottomNavigationAction color="inherit" label="Shop" value={Pages.SHOP} icon={<FavoriteIcon />} />
-          BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE}
-          icon={<LocationOnIcon />}
-          />
+          <BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE} icon={<LocationOnIcon />} />
         </BottomNavigation>
       </AppBar>
     </>
   );
 }
+
 export type LocalUser = { localUser: { username: string; id: string } };
 const WelcomePage: FC = () => {
   const { id } = useLocalData();
