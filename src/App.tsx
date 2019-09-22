@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateUserForm } from './CreateUserForm';
+import { CreateUserForm } from './auth/CreateUserForm';
 import { styled } from '@material-ui/styles';
 import { CssBaseline } from '@material-ui/core';
 import AuthenticatedRoot from './AuthenticatedRoot';

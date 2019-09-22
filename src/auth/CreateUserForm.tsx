@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { LoginAsUser, CreateUserButton } from './auth/SignupButtons';
+import { LoginAsUser, CreateUserButton } from './SignupButtons';
 import { TextField, Grid } from '@material-ui/core';
 
 export const CreateUserForm: FC = () => {

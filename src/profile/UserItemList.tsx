@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
-import gql from 'graphql-tag';
-import { styled } from '@material-ui/styles';
-import { Card, Theme, LinearProgress, Grid, Typography } from '@material-ui/core';
 import { useQuery } from '@apollo/react-hooks';
+import { Grid, LinearProgress } from '@material-ui/core';
+import gql from 'graphql-tag';
+import React, { FC } from 'react';
+import SingleItemCard from './SingleItemCard';
 import { UserQuery, UserQueryVariables } from './__generated__/UserQuery';
-import { item_fragment as Fragment } from './__generated__/item_fragment';
 
 export const item_fragment = gql`
   fragment item_fragment on Item {
@@ -29,9 +28,7 @@ const items_query = gql`
 `;
 
 export type UserItemListProps = { userId: string };
-const ItemCard = styled(Card)<Theme>(({ theme }) => ({
-  ...theme.mixins.gutters(),
-}));
+
 
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   const { data, loading } = useQuery<UserQuery, UserQueryVariables>(items_query, {
@@ -54,28 +51,4 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   );
 };
 
-export const SingleItemCard: FC<Fragment> = props => {
-  return (
-    <ItemCard style={{ backgroundColor: 'grey' }}>
-      <Typography>
-        <strong>Name: </strong>
-        {props.partName}
-      </Typography>
-      <Typography>
-        <strong>Price: </strong>
-        {props.price} Pleggat's
-      </Typography>
-      <Typography>
-        <strong>Part: </strong>
-        {props.saberPart}
-      </Typography>
-      <Typography>
-        <strong>Desc: </strong>
-        {ellipsis(props.partDescription || '', 50)}
-      </Typography>
-    </ItemCard>
-  );
-};
-const ellipsis = (data: string, amount?: number) => {
-  return data.slice(0, amount || 150) + ' ...';
-};
+
