@@ -72,7 +72,7 @@ export const SingleItemCard: FC<Fragment> = props => {
       </Typography>
       <Typography>
         <strong>Price: </strong>
-        {props.price}
+        {props.price} Pleggat's
       </Typography>
       <Typography>
         <strong>Part: </strong>

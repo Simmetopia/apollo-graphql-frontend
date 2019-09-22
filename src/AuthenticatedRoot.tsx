@@ -12,8 +12,9 @@ import {
   Typography,
   Divider
 } from "@material-ui/core";
-import { UsernameIdView, ProfileRoot } from "./profile/ProfileRoot";
+import { UserDetails, ProfileRoot } from "./profile/ProfileRoot";
 import { ShopRoot } from "./shop/ShopRoot";
+import { useLocalData } from "./useLocalData";
 
 const useStyles = makeStyles({
   appBar: {
@@ -63,7 +64,7 @@ export default function AuthenticatedRoot() {
             value={Pages.SHOP}
             icon={<FavoriteIcon />}
           />
-          <BottomNavigationAction
+          BottomNavigationAction
             color="inherit"
             label="Profile"
             value={Pages.PROFILE}
@@ -75,17 +76,20 @@ export default function AuthenticatedRoot() {
   );
 }
 export type LocalUser = { localUser: { username: string; id: string } };
-const WelcomePage: FC = () => (
-  <>
-    <Typography variant="h3" color="primary">
-      Welcome!
-    </Typography>
-    <Typography variant="caption">To watto's webshop of doom</Typography>
-    <Divider variant="middle" />
-    <Typography>
-      In this webshop you can find all the parts, all "legally" optained, to
-      build your very own lightsaber.
-    </Typography>
-    <UsernameIdView />
-  </>
-);
+const WelcomePage: FC = () => {
+  const { id } = useLocalData();
+  return (
+    <>
+      <Typography variant="h3" color="primary">
+        Welcome!
+      </Typography>
+      <Typography variant="caption">To watto's webshop of doom</Typography>
+      <Divider variant="middle" />
+      <Typography>
+        In this webshop you can find all the parts, all "legally" optained, to
+        build your very own lightsaber.
+      </Typography>
+      <UserDetails userId={id} />
+    </>
+  );
+};
