@@ -25,6 +25,8 @@ const SingleItemCard: FC<Fragment> = props => {
                 <strong>Desc: </strong>
                 {ellipsis(props.partDescription || '', 50)}
             </Typography>
+            {props.children}
+
         </ItemCard>
     );
 };

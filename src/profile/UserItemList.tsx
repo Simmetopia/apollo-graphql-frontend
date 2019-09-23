@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import React, { FC } from 'react';
 import SingleItemCard from './SingleItemCard';
 import { UserQuery, UserQueryVariables } from './__generated__/UserQuery';
+import { SellButton } from './SellButton';
 
 export const item_fragment = gql`
   fragment item_fragment on Item {
@@ -43,7 +44,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
       {userItems.map(item => {
         return (
           <Grid item key={item.id}>
-            <SingleItemCard {...item} />
+            <SingleItemCard {...item} ><SellButton /></SingleItemCard>
           </Grid>
         );
       })}

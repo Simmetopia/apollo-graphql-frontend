@@ -7,6 +7,7 @@ import React, { FC } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
 import { item_fragment } from '../profile/UserItemList';
 import { WebshopItems } from './__generated__/WebshopItems';
+import { BuyButton } from './BuyButton';
 
 const webshop_query = gql`
   query WebshopItems {
@@ -30,7 +31,7 @@ export const ShopRoot: FC = () => {
       <Grid container spacing={1} direction="column">
         {data.getWebshopContent.map(item => (
           <Grid item key={item.id}>
-            <SingleItemCard {...item} />
+            <SingleItemCard  {...item} ><BuyButton /></SingleItemCard>
           </Grid>
         ))}
       </Grid>
