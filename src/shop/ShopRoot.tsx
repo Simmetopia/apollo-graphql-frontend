@@ -31,7 +31,9 @@ export const ShopRoot: FC = () => {
       <Grid container spacing={1} direction="column">
         {data.getWebshopContent.map(item => (
           <Grid item key={item.id}>
-            <SingleItemCard  {...item} ><BuyButton /></SingleItemCard>
+            <SingleItemCard {...item}>
+              <BuyButton itemId={item.id} />
+            </SingleItemCard>
           </Grid>
         ))}
       </Grid>
