@@ -5,16 +5,7 @@ import React, { FC } from 'react';
 import SingleItemCard from './SingleItemCard';
 import { UserQuery, UserQueryVariables } from './__generated__/UserQuery';
 import { SellButton } from './SellButton';
-
-export const item_fragment = gql`
-  fragment item_fragment on Item {
-    id
-    saberPart
-    partDescription
-    partName
-    price
-  }
-`;
+import { item_fragment } from '../item_fragment';
 
 const items_query = gql`
   query UserQuery($id: ID) {
@@ -30,7 +21,6 @@ const items_query = gql`
 
 export type UserItemListProps = { userId: string };
 
-
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   const { data, loading } = useQuery<UserQuery, UserQueryVariables>(items_query, {
     variables: { id: userId },
@@ -44,12 +34,12 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
       {userItems.map(item => {
         return (
           <Grid item key={item.id}>
-            <SingleItemCard {...item} ><SellButton /></SingleItemCard>
+            <SingleItemCard {...item}>
+              <SellButton itemId={item.id} />
+            </SingleItemCard>
           </Grid>
         );
       })}
     </Grid>
   );
 };
-
-

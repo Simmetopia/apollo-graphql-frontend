@@ -7,7 +7,8 @@ import { Theme, Button } from '@material-ui/core';
 import React, { FC } from 'react';
 
 import { useMutation } from '@apollo/react-hooks';
-import { UserItemListProps, item_fragment } from './UserItemList';
+import { UserItemListProps } from './UserItemList';
+import { item_fragment } from '../item_fragment';
 
 const random_item_mutation = gql`
   mutation ItemCreate($userId: ID!) {

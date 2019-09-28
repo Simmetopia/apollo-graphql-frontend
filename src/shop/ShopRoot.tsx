@@ -5,9 +5,9 @@ import Typography from '@material-ui/core/Typography/Typography';
 import gql from 'graphql-tag';
 import React, { FC } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
-import { item_fragment } from '../profile/UserItemList';
 import { WebshopItems } from './__generated__/WebshopItems';
 import { BuyButton } from './BuyButton';
+import { item_fragment } from '../item_fragment';
 
 const webshop_query = gql`
   query WebshopItems {
@@ -18,15 +18,13 @@ const webshop_query = gql`
   ${item_fragment}
 `;
 export const ShopRoot: FC = () => {
-  const { data, loading } = useQuery<WebshopItems>(webshop_query);
-  if (loading) {
-    return <LinearProgress />;
-  }
+  const { data, loading } = useQuery<WebshopItems>(webshop_query, { fetchPolicy: 'cache-and-network' });
   if (!data || !data.getWebshopContent) {
     return null;
   }
   return (
     <>
+      {loading && <LinearProgress />}
       <Typography>shop root</Typography>
       <Grid container spacing={1} direction="column">
         {data.getWebshopContent.map(item => (
