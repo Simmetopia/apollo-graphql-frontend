@@ -1,18 +1,19 @@
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
-import { LocalUser } from './__generated__/LocalUser';
+import { makeVar, useReactiveVar } from "@apollo/client";
 
-const localUserQuery = gql`
-  query LocalUser {
-    localUser @client {
-      id
-      username
-    }
-  }
-`;
+type LocalUser = {
+  name?: string;
+  id?: string
+
+}
+const defaultUser: LocalUser  = {};
+
+const userVar = makeVar<LocalUser>(defaultUser)
+
+
+
 
 // Since we are quering from local state, we can "safely" use ! operator
 export const useLocalData = () => {
-  const { data } = useQuery<LocalUser>(localUserQuery)!;
-  return data!.localUser!;
+  const data = useReactiveVar(userVar)
+  return data;
 };

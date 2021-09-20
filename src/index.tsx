@@ -2,9 +2,8 @@ import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createMuiTheme } from '@material-ui/core/styles';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { createTheme } from '@material-ui/core/styles';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ThemeProvider } from '@material-ui/styles';
 import { brown } from '@material-ui/core/colors';
 
@@ -13,15 +12,16 @@ import { brown } from '@material-ui/core/colors';
  */
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
-  clientState: {
-    defaults: { localUser: { id: '', username: '', __typename: 'User' } },
-  },
+    cache: new InMemoryCache({}),
+  // clientState: {
+  //   defaults: { localUser: { id: '', username: '', __typename: 'User' } },
+  // },
 });
 
 /*
  * Theme setup
  */
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: { main: '#ffd80a' },
     secondary: brown,
