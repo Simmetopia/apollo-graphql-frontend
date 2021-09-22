@@ -5,7 +5,7 @@ import { useLocalData } from '../useLocalData';
 
 type Props = { itemId: string };
 export const SellButton: FC<Props> = ({ itemId }) => {
-  const { id } = useLocalData();
+  const [{ id }] = useLocalData();
 
   return (
     <IconButton onClick={console.log}>

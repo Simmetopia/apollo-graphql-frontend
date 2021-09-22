@@ -6,7 +6,7 @@ import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
 
 export const ProfileRoot: FC = () => {
-  const { id } = useLocalData();
+  const [{ id }] = useLocalData();
   if(!id) {
     return <div> something wong </div>
   }
