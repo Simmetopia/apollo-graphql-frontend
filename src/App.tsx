@@ -15,7 +15,7 @@ const AppRootDiv = styled('div')({
 });
 
 const App: React.FC = () => {
-  const localUser = useLocalData();
+  const [localUser] = useLocalData();
   const hasActiveUser = !!localUser && !!localUser.id;
   return (
     <AppRootDiv>
