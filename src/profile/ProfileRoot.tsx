@@ -6,9 +6,9 @@ import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
 
 export const ProfileRoot: FC = () => {
-  const { id } = useLocalData();
-  if(!id) {
-    return <div> something wong </div>
+  const [{ id }] = useLocalData();
+  if (!id) {
+    return <div> something wong </div>;
   }
   return (
     <>
@@ -23,7 +23,6 @@ export const ProfileRoot: FC = () => {
   );
 };
 
-
 export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
-  return <div> User Details </div>
+  return <div> User Details </div>;
 };
