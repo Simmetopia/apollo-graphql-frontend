@@ -4,11 +4,14 @@ import { makeStyles } from '@material-ui/styles';
 import RestoreIcon from '@material-ui/icons/Home';
 import FavoriteIcon from '@material-ui/icons/ShoppingCart';
 import LocationOnIcon from '@material-ui/icons/Face';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
 import { AppBar, BottomNavigation, BottomNavigationAction, Typography, Divider } from '@material-ui/core';
+
 import { UserDetails, ProfileRoot } from './profile/ProfileRoot';
 import { ShopRoot } from './shop/ShopRoot';
 import { useLocalData } from './useLocalData';
+import { CreateUserForm } from './auth/CreateUserForm';
 
 const useStyles = makeStyles({
   appBar: {
@@ -25,17 +28,25 @@ enum Pages {
   WELCOME,
   PROFILE,
   SHOP,
+  LOGOUT,
 }
 
 export default function AuthenticatedRoot() {
   const [value, setValue] = React.useState(Pages.WELCOME);
   const classes = useStyles();
+  const [_, setData] = useLocalData();
+
+  function removeUser(): void {
+    setData({});
+  }
 
   return (
     <>
       {value === Pages.WELCOME && <WelcomePage />}
       {value === Pages.PROFILE && <ProfileRoot />}
       {value === Pages.SHOP && <ShopRoot />}
+      {value === Pages.LOGOUT && <CreateUserForm />}
+
       <AppBar position="fixed" className={classes.appBar}>
         <BottomNavigation
           value={value}
@@ -49,6 +60,7 @@ export default function AuthenticatedRoot() {
           <BottomNavigationAction color="inherit" label="Welcome" value={Pages.WELCOME} icon={<RestoreIcon />} />
           <BottomNavigationAction color="inherit" label="Shop" value={Pages.SHOP} icon={<FavoriteIcon />} />
           <BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE} icon={<LocationOnIcon />} />
+          <BottomNavigationAction color="inherit" label="Logout" onClick={removeUser} icon={<MeetingRoomIcon />} />
         </BottomNavigation>
       </AppBar>
     </>
@@ -58,7 +70,7 @@ export default function AuthenticatedRoot() {
 export type LocalUser = { localUser: { username: string; id: string } };
 const WelcomePage: FC = () => {
   const [{ id }] = useLocalData();
-  if(!id) {
+  if (!id) {
     return <div> what </div>
   }
   return (

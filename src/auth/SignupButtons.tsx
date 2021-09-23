@@ -38,6 +38,7 @@ export const CreateUserButton: FC<AuthProps> = ({ username }) => {
   if (loading) {
     return <CircularProgress />
   }
+
   return (
     <>
       <Button variant="contained" color="primary" onClick={() => userCreate({ variables: { username } })}>
@@ -63,7 +64,10 @@ export const LoginAsUser: FC<AuthProps> = ({ username }) => {
 
   return (
     <>
-      <Button variant="contained" color="primary" onClick={() => userLogin({ variables: { username } })}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => { userLogin({ variables: { username } }) }}>
         Login
       </Button>
     </>
