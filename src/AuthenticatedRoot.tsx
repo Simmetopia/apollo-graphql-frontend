@@ -6,12 +6,6 @@ import FavoriteIcon from '@material-ui/icons/ShoppingCart';
 import LocationOnIcon from '@material-ui/icons/Face';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 
-
-
-// import AccessibilityIcon from '@mui/icons-material/Accessibility';
-
-// import LogoutIcon from '@mui/icons-material/Logout';
-
 import { AppBar, BottomNavigation, BottomNavigationAction, Typography, Divider } from '@material-ui/core';
 
 import { UserDetails, ProfileRoot } from './profile/ProfileRoot';
@@ -29,8 +23,6 @@ const useStyles = makeStyles({
     backgroundColor: '#616161',
   },
 });
-
-type AuthProps = { username: string };
 
 enum Pages {
   WELCOME,
