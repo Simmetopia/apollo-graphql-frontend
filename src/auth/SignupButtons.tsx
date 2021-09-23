@@ -38,6 +38,7 @@ export const CreateUserButton: FC<AuthProps> = ({ username }) => {
   if (loading) {
     return <CircularProgress />
   }
+
   return (
     <>
       <Button variant="contained" color="primary" onClick={() => userCreate({ variables: { username } })}>
