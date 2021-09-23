@@ -64,7 +64,10 @@ export const LoginAsUser: FC<AuthProps> = ({ username }) => {
 
   return (
     <>
-      <Button variant="contained" color="primary" onClick={() => userLogin({ variables: { username } })}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => { userLogin({ variables: { username } }) }}>
         Login
       </Button>
     </>
