@@ -11,7 +11,7 @@ export const CreateUserForm: FC = () => {
         variant="outlined"
         color="secondary"
         placeholder={'username'}
-        onChange={e => setUsername(e.target.value)}
+        onChange={(e) => setUsername(e.target.value)}
       />
       <Grid item>
         <Grid container spacing={1}>

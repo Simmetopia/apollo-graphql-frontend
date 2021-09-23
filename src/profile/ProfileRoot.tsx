@@ -7,6 +7,7 @@ import { useLocalData } from '../useLocalData';
 import gql from 'graphql-tag';
 import { useLazyQuery } from '@apollo/client';
 import { UserDetailsQuery, UserDetailsQueryVariables } from './__generated__/UserDetailsQuery';
+import EditUserDetails from './EditUserDetails';
 
 export const query = gql`
   query UserDetailsQuery($id: ID!) {
@@ -21,7 +22,7 @@ export const query = gql`
 `;
 
 export const ProfileRoot: FC = () => {
-  const [{ id }, { name }] = useLocalData();
+  const [{ id }] = useLocalData();
   if (!id) {
     return <div> something wong </div>;
   }
@@ -34,12 +35,13 @@ export const ProfileRoot: FC = () => {
       <Divider variant="middle" />
       <UserItemList userId={id} />
       <GenerateRandomItemButton userId={id} />
+      <EditUserDetails userId={id} />
     </>
   );
 };
 
 export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
-  const [getUserDetails, { data, loading }] = useLazyQuery<UserDetailsQuery, UserDetailsQueryVariables>(query, {
+  const [getUserDetails, { data }] = useLazyQuery<UserDetailsQuery, UserDetailsQueryVariables>(query, {
     variables: { id: userId },
   });
 
@@ -51,15 +53,6 @@ export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
 
   return (
     <>
-      {/* {Object.entries(data?.GetUserDetails ?? {}).map(([key, value]) =>
-        key === 'firstName' ? (
-          <Typography>First name: {value}</Typography>
-        ) : key === 'lastName' ? (
-          <Typography>Last name: {value}</Typography>
-        ) : (
-          key
-        ),
-      )} */}
       <Typography>
         First name: <strong>{data?.GetUserDetails?.firstName}</strong>
       </Typography>
