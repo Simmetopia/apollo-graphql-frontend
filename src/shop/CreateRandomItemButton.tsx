@@ -21,8 +21,8 @@ export const itemCreateMutation = gql`
   }
 `;
 
-export const deleteItemsMutaion = gql`
-  mutation deleteItemsMutaion {
+export const deleteItemsMutation = gql`
+  mutation deleteItemsMutation {
     DeleteItemsNotOwned {
       ItemsDeleted
     }
@@ -41,7 +41,7 @@ export const GenerateRandomItemButton: FC<Props> = ({ }) => {
   const [ItemCreate, { data: mutationData }] = useMutation(itemCreateMutation, {
     refetchQueries: [{query:GetAllItemsQuery}],
   });
-  const [DeleteItemsNotOwned, {data}] = useMutation(deleteItemsMutaion, {onCompleted: () => {
+  const [DeleteItemsNotOwned, {data}] = useMutation(deleteItemsMutation, {onCompleted: () => {
     for (let i = 0; i < 10; i++) {
     ItemCreate()
   }}})
