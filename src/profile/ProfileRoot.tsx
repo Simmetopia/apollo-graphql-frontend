@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography/Typography';
-import { GenerateRandomItemButton } from './CreateRandomItemButton';
+
 import Divider from '@material-ui/core/Divider/Divider';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
@@ -34,7 +34,6 @@ export const ProfileRoot: FC = () => {
       </Typography>
       <Divider variant="middle" />
       <UserItemList userId={id} />
-      <GenerateRandomItemButton userId={id} />
       <EditUserDetails userId={id} />
     </>
   );
