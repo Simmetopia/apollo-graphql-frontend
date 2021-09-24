@@ -51,6 +51,10 @@
     "@graphql-codegen/typescript-operations": "2.1.4",
     "@graphql-codegen/typescript-react-apollo": "3.1.4",
     "apollo": "^2.33.6",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0"
   }
 }

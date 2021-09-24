@@ -1,24 +1,29 @@
 import React, { FC } from "react";
-
 import { Typography, Card } from "@material-ui/core";
+import { getAllItemsQuery_GetAllItems } from "../shop/__generated__/getAllItemsQuery";
+import '../shop/Shop.css'
 
-const SingleItemCard: FC = props => {
+const SingleItemCard: FC<{item:getAllItemsQuery_GetAllItems | null}> = ({children, item}) => {
+    
+    if(!item){
+        return <div> something wong </div>;
+      }
+
     return (
-        <Card >
-            <Typography>
-                <strong>Name: </strong>
+        <Card className="CardItem" style={{backgroundColor: "ThreeDDarkShadow"}}>
+            <Typography color="primary">
+                <strong >Name: {item.partName}</strong>
             </Typography>
-            <Typography>
-                <strong>Price: </strong>
-      </Typography>
-            <Typography>
-                <strong>Part: </strong>
+            <Typography color="primary">
+                <strong>Price: {item.price} coins</strong>
             </Typography>
-            <Typography>
-                <strong>Desc: </strong>
+            <Typography color="primary">
+                <strong>Part: {item.saberPart}</strong>
             </Typography>
-            {props.children}
-
+            <Typography color="primary">
+                <strong>Description: {item.partDescription}</strong>
+            </Typography>
+            {children}
         </Card>
     );
 };
