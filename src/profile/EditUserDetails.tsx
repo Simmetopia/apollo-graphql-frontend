@@ -9,6 +9,9 @@ import {
   userDetailsUpdateMutationVariables,
 } from './__generated__/userDetailsUpdateMutation';
 
+import { userDetailsquery } from './ProfileRoot';
+import { useLocalData } from '../useLocalData';
+
 const useStyles = makeStyles<Theme>((theme) => ({
   spacer: { marginTop: theme.spacing(5) },
 }));
@@ -23,14 +26,14 @@ export const userDetailsUpdate = gql`
 `;
 
 export const EditUserDetails: FC<{ userId: string }> = ({ userId }) => {
+  const [{ id }] = useLocalData();
   const [userUpdate, { data }] = useSWMutaion<userDetailsUpdateMutation, userDetailsUpdateMutationVariables>(
     userDetailsUpdate,
+    { refetchQueries: [{ query: userDetailsquery, variables: { id: id } }] },
   );
   const classes = useStyles();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-
-  useEffect(() => {}, [data]);
 
   return (
     <>

@@ -9,7 +9,7 @@ import { useLazyQuery } from '@apollo/client';
 import { UserDetailsQuery, UserDetailsQueryVariables } from './__generated__/UserDetailsQuery';
 import EditUserDetails from './EditUserDetails';
 
-export const query = gql`
+export const userDetailsquery = gql`
   query UserDetailsQuery($id: ID!) {
     GetUserDetails(input: { id: $id }) {
       firstName
@@ -41,7 +41,7 @@ export const ProfileRoot: FC = () => {
 };
 
 export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
-  const [getUserDetails, { data }] = useLazyQuery<UserDetailsQuery, UserDetailsQueryVariables>(query, {
+  const [getUserDetails, { data }] = useLazyQuery<UserDetailsQuery, UserDetailsQueryVariables>(userDetailsquery, {
     variables: { id: userId },
   });
 
