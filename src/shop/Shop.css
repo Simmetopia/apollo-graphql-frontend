@@ -18,3 +18,9 @@
   text-transform: uppercase;
   text-align: center;
 }
+
+.money {
+  text-align: center;
+  position: initial;
+  color: #feda4a;
+}

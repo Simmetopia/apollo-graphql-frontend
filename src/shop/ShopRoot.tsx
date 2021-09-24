@@ -9,6 +9,7 @@ import { useLocalData } from '../useLocalData';
 import { BuyButton } from './BuyButton';
 import { GenerateRandomItemButton, itemCreateMutation } from './CreateRandomItemButton';
 import { getAllItemsQuery } from './__generated__/getAllItemsQuery'
+import { userMoneyQuery, userMoneyQueryVariables} from './__generated__/userMoneyQuery'
 
 
 export const GetAllItemsQuery = gql`
@@ -23,26 +24,42 @@ export const GetAllItemsQuery = gql`
   }
 `;
 
+export const UserMoneyQuery = gql`
+  query userMoneyQuery($id: ID!) {
+    GetUser(input: { id: $id }) {
+      money
+    }
+  }
+`;
+
 export const ShopRoot: FC = () => {
-  const { data} = useQuery<getAllItemsQuery>(GetAllItemsQuery, {fetchPolicy: 'network-only',});
-  
-  
- const [{ id }] = useLocalData();
+  const { data } = useQuery<getAllItemsQuery>(GetAllItemsQuery, {fetchPolicy: 'network-only',});
+  const [{ id }] = useLocalData();
+  const { data: userData } = useQuery<userMoneyQuery, userMoneyQueryVariables>(UserMoneyQuery, {
+    variables: { id: id },
+  });
+
+  if (!id) {
+    return <div> something wong </div>;
+  }
+  if(userData?.GetUser === undefined){
+    return <div> something wong </div>;
+  }
 
   if(data?.GetAllItems === null){
     return <div> something wong </div>;
   }
   
-  if (!id) {
-    return <div> something wong </div>;
-  }
+  
+
+  
 
   return (
     <>
       <h1 className="star-wars">Star Wars Marked</h1>
       <Grid container spacing={1} direction="row">
         {data?.GetAllItems.map(item => (
-          <Grid item key={item?.id} className="CardItem">
+          <Grid item key={item?.id}>
             <SingleItemCard item={item}>
               <BuyButton itemId={item?.id} />
             </SingleItemCard>
@@ -50,6 +67,7 @@ export const ShopRoot: FC = () => {
         ))}
       </Grid>
       <GenerateRandomItemButton />
+      <h3 className="money">Money: {userData.GetUser?.money}</h3>
     </>
   );
 };
