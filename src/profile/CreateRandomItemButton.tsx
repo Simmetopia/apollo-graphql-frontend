@@ -30,7 +30,7 @@ export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {
       className={classes.spacer}
       color="primary"
       disabled={false}
-      onClick={() => console.log(itemCreate({ variables: {userId} }))}
+      onClick={() => itemCreate({ variables: {userId} })}
     >
       Generate random item
     </Button>
