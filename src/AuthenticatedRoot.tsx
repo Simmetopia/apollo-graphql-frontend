@@ -57,7 +57,7 @@ export default function AuthenticatedRoot() {
 
 export type LocalUser = { localUser: { username: string; id: string } };
 const WelcomePage: FC = () => {
-  const [{ id }] = useLocalData();
+  const [{ id }, { name }] = useLocalData();
   if (!id) {
     return <div> what </div>;
   }
