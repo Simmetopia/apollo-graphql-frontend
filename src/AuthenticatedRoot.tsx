@@ -37,6 +37,7 @@ export default function AuthenticatedRoot() {
       {value === Pages.PROFILE && <ProfileRoot />}
       {value === Pages.SHOP && <ShopRoot />}
       <AppBar position="fixed" className={classes.appBar}>
+      
         <BottomNavigation
           value={value}
           color="secondary"
@@ -46,10 +47,12 @@ export default function AuthenticatedRoot() {
           showLabels
           className={classes.darkColor}
         >
+          
           <BottomNavigationAction color="inherit" label="Welcome" value={Pages.WELCOME} icon={<RestoreIcon />} />
           <BottomNavigationAction color="inherit" label="Shop" value={Pages.SHOP} icon={<FavoriteIcon />} />
           <BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE} icon={<LocationOnIcon />} />
         </BottomNavigation>
+        
       </AppBar>
     </>
   );
