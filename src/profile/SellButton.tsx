@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import RemoveShopIcon from '@material-ui/icons/RemoveShoppingCart';
+import ShopIcon from '@material-ui/icons/ShoppingCart';
 import { IconButton } from '@material-ui/core';
 import { useLocalData } from '../useLocalData';
 
@@ -9,7 +9,7 @@ export const SellButton: FC<Props> = ({ itemId }) => {
 
   return (
     <IconButton onClick={console.log}>
-      <RemoveShopIcon />
+      <ShopIcon />
     </IconButton>
   );
 };

@@ -11,7 +11,6 @@ import { AppBar, BottomNavigation, BottomNavigationAction, Typography, Divider }
 import { UserDetails, ProfileRoot } from './profile/ProfileRoot';
 import { ShopRoot } from './shop/ShopRoot';
 import { useLocalData } from './useLocalData';
-import { CreateUserForm } from './auth/CreateUserForm';
 
 const useStyles = makeStyles({
   appBar: {
@@ -28,7 +27,6 @@ enum Pages {
   WELCOME,
   PROFILE,
   SHOP,
-  LOGOUT,
 }
 
 export default function AuthenticatedRoot() {
@@ -36,7 +34,7 @@ export default function AuthenticatedRoot() {
   const classes = useStyles();
   const [_, setData] = useLocalData();
 
-  function removeUser(): void {
+  function logoutUser(): void {
     setData({});
   }
 
@@ -45,7 +43,6 @@ export default function AuthenticatedRoot() {
       {value === Pages.WELCOME && <WelcomePage />}
       {value === Pages.PROFILE && <ProfileRoot />}
       {value === Pages.SHOP && <ShopRoot />}
-      {value === Pages.LOGOUT && <CreateUserForm />}
 
       <AppBar position="fixed" className={classes.appBar}>
         <BottomNavigation
@@ -60,7 +57,7 @@ export default function AuthenticatedRoot() {
           <BottomNavigationAction color="inherit" label="Welcome" value={Pages.WELCOME} icon={<RestoreIcon />} />
           <BottomNavigationAction color="inherit" label="Shop" value={Pages.SHOP} icon={<FavoriteIcon />} />
           <BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE} icon={<LocationOnIcon />} />
-          <BottomNavigationAction color="inherit" label="Logout" onClick={removeUser} icon={<MeetingRoomIcon />} />
+          <BottomNavigationAction color="inherit" label="Logout" onClick={logoutUser} icon={<MeetingRoomIcon />} />
         </BottomNavigation>
       </AppBar>
     </>
