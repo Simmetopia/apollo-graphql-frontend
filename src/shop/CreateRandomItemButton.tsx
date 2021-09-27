@@ -6,7 +6,7 @@ import React, { FC, useEffect } from 'react';
 
 import { UserItemListProps } from '../profile/UserItemList';
 import { gql, useMutation } from '@apollo/client';
-import { GetAllItemsQuery } from './ShopRoot';
+import { GetAllShopItemsQuery } from './ShopRoot';
 import { async } from 'q';
 
 export const itemCreateMutation = gql`
@@ -33,19 +33,21 @@ const useStyles = makeStyles<Theme>((theme) => ({
   spacer: { marginTop: theme.spacing(1) },
 }));
 
-type Props = {
-};
+type Props = {};
 
-export const GenerateRandomItemButton: FC<Props> = ({ }) => {
+export const GenerateRandomItemButton: FC<Props> = ({}) => {
   const classes = useStyles();
   const [ItemCreate, { data: mutationData }] = useMutation(itemCreateMutation, {
-    refetchQueries: [{query:GetAllItemsQuery}],
+    refetchQueries: [{ query: GetAllShopItemsQuery }],
   });
-  const [DeleteItemsNotOwned, {data}] = useMutation(deleteItemsMutation, {onCompleted: () => {
-    for (let i = 0; i < 10; i++) {
-    ItemCreate()
-  }}})
-  
+  const [DeleteItemsNotOwned, { data }] = useMutation(deleteItemsMutation, {
+    onCompleted: () => {
+      for (let i = 0; i < 10; i++) {
+        ItemCreate();
+      }
+    },
+  });
+
   return (
     <div
       style={{
@@ -60,8 +62,7 @@ export const GenerateRandomItemButton: FC<Props> = ({ }) => {
         color="primary"
         disabled={false}
         onClick={() => {
-          DeleteItemsNotOwned()
-          
+          DeleteItemsNotOwned();
         }}
       >
         Generate random item
