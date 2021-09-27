@@ -4,7 +4,7 @@ import SingleItemCard from './SingleItemCard';
 import { SellButton } from './SellButton';
 import gql from 'graphql-tag';
 import { useSWQuery } from '../utils/useSWQuery';
-import { ItemDisplayQuery, ItemDisplayQueryVariables } from './__generated__/ItemDisplayQuery'
+import { ItemDisplayQuery, ItemDisplayQueryVariables } from './__generated__/ItemDisplayQuery';
 
 export type UserItemListProps = { userId: string };
 

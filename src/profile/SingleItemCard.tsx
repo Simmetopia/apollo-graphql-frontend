@@ -4,27 +4,20 @@ import '../styles/ProfileStyle.css';
 import { SWLabelValue } from "./SWLabelValue";
 import { ItemDisplayQuery_displayItems } from "./__generated__/ItemDisplayQuery";
 
-const useStyles = makeStyles({
-    appBar: {
-        minWidth: 350,
-        maxWidth: "40%",
-        maxHeight: "200px"
-
-    },
-});
-
 const SingleItemCard: FC<{ item: ItemDisplayQuery_displayItems }> = ({ children, item }) => {
 
-    const classes = useStyles();
 
     return (
-        <Card className={classes.appBar}>
+        <div className="rounded p-3 bg-white shadow flex flex-col gap-3">
             <SWLabelValue label="Name:" value={item.partName}></SWLabelValue>
             <SWLabelValue label="Price:" value="{item.price}"></SWLabelValue>
             <SWLabelValue label="Part:" value={item.saberPart}></SWLabelValue>
             <SWLabelValue label="Desc:" value="{item.partDescription}"></SWLabelValue>
-            {children}
-        </Card>
+            <div className="self-end">
+                {children}
+
+            </div>
+        </div>
     );
 };
 export default SingleItemCard;

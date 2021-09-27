@@ -27,26 +27,19 @@ export const ProfileRoot: FC = () => {
 
   return (
     <>
-      <table width="100%">
-        <tr >
-          <th className="text" align="left">
-            <UserDetails userId={id} />
-          </th>
-          <th className="text">
-            <Typography variant="h6" align="left" >
-              Items
-            </Typography>
-          </th>
-        </tr>
-        <tr>
-          <td className={classes.td}></td>
-          <td className={classes.td}>
-            <Divider variant="middle" />
-            <UserItemList userId={id} />
-            <GenerateRandomItemButton userId={id} />
-          </td>
-        </tr>
-      </table>
+      <div className="grid grid-cols-3">
+        <div className="col-span-2">
+          <UserDetails userId={id} />
+        </div>
+        <div>
+          <Typography variant="h6" align="left" >
+            Items
+          </Typography>
+          <UserItemList userId={id} />
+          <GenerateRandomItemButton userId={id} />
+        </div>
+
+      </div>
     </>
   );
 };
