@@ -1,24 +1,29 @@
+import { Card, makeStyles } from "@material-ui/core";
 import React, { FC } from "react";
+import '../styles/ProfileStyle.css';
+import { SWLabelValue } from "./SWLabelValue";
+import { ItemDisplayQuery_displayItems } from "./__generated__/ItemDisplayQuery";
 
-import { Typography, Card } from "@material-ui/core";
+const useStyles = makeStyles({
+    appBar: {
+        minWidth: 350,
+        maxWidth: "40%",
+        maxHeight: "200px"
 
-const SingleItemCard: FC = props => {
+    },
+});
+
+const SingleItemCard: FC<{ item: ItemDisplayQuery_displayItems }> = ({ children, item }) => {
+
+    const classes = useStyles();
+
     return (
-        <Card >
-            <Typography>
-                <strong>Name: </strong>
-            </Typography>
-            <Typography>
-                <strong>Price: </strong>
-      </Typography>
-            <Typography>
-                <strong>Part: </strong>
-            </Typography>
-            <Typography>
-                <strong>Desc: </strong>
-            </Typography>
-            {props.children}
-
+        <Card className={classes.appBar}>
+            <SWLabelValue label="Name:" value={item.partName}></SWLabelValue>
+            <SWLabelValue label="Price:" value="{item.price}"></SWLabelValue>
+            <SWLabelValue label="Part:" value={item.saberPart}></SWLabelValue>
+            <SWLabelValue label="Desc:" value="{item.partDescription}"></SWLabelValue>
+            {children}
         </Card>
     );
 };

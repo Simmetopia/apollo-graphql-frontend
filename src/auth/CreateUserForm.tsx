@@ -6,8 +6,8 @@ import { UserLoginMutation, UserLoginMutationVariables } from './__generated__/U
 import gql from 'graphql-tag';
 import { useLocalData } from '../useLocalData';
 
-const userLoginMutation = gql`
- mutation UserLoginMutation($username: String!) {
+const userLoginMutations = gql`
+ mutation UserLoginMutations($username: String!) {
  userLogin(username: $username) {
    id
    username
@@ -15,7 +15,7 @@ const userLoginMutation = gql`
 `
 
 export const CreateUserForm: FC = () => {
-  const [userLogin, { data, loading }] = useSWMutation<UserLoginMutation, UserLoginMutationVariables>(userLoginMutation);
+  const [userLogin, { data, loading }] = useSWMutation<UserLoginMutation, UserLoginMutationVariables>(userLoginMutations);
   const [username, setUsername] = useState('');
   const [_, setData] = useLocalData();
 

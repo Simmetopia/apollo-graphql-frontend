@@ -1,10 +1,11 @@
 import { makeStyles } from '@material-ui/styles';
 import { Theme, Button } from '@material-ui/core';
 import React, { FC } from 'react';
-import { UserItemListProps } from './UserItemList';
+import { itemDisplayQuery, UserItemListProps } from './UserItemList';
 import { useSWMutation } from '../utils/useSWMutation';
 import gql from 'graphql-tag';
 import { ItemCreateMutation, ItemCreateMutationVariables } from './__generated__/ItemCreateMutation'
+import { ASTNode, DocumentNode } from 'graphql';
 
 const useStyles = makeStyles<Theme>(theme => ({
   spacer: { marginTop: theme.spacing(1) },
@@ -20,9 +21,14 @@ const itemCreateMutation = gql`
  }} 
 `
 
-export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {
-  const [itemCreate, { data, loading }] = useSWMutation<ItemCreateMutation, ItemCreateMutationVariables>(itemCreateMutation);
+function extractNameFromQuery(query: DocumentNode): string {
+  const a = query.definitions[0]
+  return (a as any).name.value as string
+}
 
+export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {
+  const [itemCreate, { data, loading }] = useSWMutation<ItemCreateMutation, ItemCreateMutationVariables>(itemCreateMutation, { refetchQueries: [extractNameFromQuery(itemDisplayQuery)] });
+  console.log(itemDisplayQuery)
   const classes = useStyles();
   return (
     <Button
@@ -30,7 +36,7 @@ export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {
       className={classes.spacer}
       color="primary"
       disabled={false}
-      onClick={() => itemCreate({ variables: {userId} })}
+      onClick={() => itemCreate({ variables: { userId } })}
     >
       Generate random item
     </Button>
