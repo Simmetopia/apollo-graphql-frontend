@@ -17,6 +17,10 @@ export interface ItemDisplayQuery_displayItems_PartName {
   name: string;
 }
 
+export interface ItemDisplayQuery_displayItems_User {
+  __typename: "User";
+  username: string;
+}
 
 export interface ItemDisplayQuery_displayItems {
   __typename: "Item";
@@ -26,6 +30,7 @@ export interface ItemDisplayQuery_displayItems {
   PartName: ItemDisplayQuery_displayItems_PartName | null;
   partDescription: string | null;
   price: number | null;
+  User: ItemDisplayQuery_displayItems_User | null;
 }
 
 export interface ItemDisplayQuery {
@@ -33,5 +38,5 @@ export interface ItemDisplayQuery {
 }
 
 export interface ItemDisplayQueryVariables {
-  userId: string;
+  username: string;
 }

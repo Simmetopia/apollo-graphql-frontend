@@ -6,11 +6,11 @@ import gql from 'graphql-tag';
 import { useSWQuery } from '../utils/useSWQuery';
 import { ItemDisplayQuery, ItemDisplayQueryVariables } from './__generated__/ItemDisplayQuery';
 
-export type UserItemListProps = { userId: string };
+export type UserItemListPropsUsername = { username: string };
 
 export const itemDisplayQuery = gql`
- query ItemDisplayQuery($userId: String!) {
- displayItems(userId: $userId) {
+ query ItemDisplayQuery($username: String!) {
+ displayItems(username: $username) {
     id
     userId
     SaberPart
@@ -23,11 +23,15 @@ export const itemDisplayQuery = gql`
     }
     partDescription
     price
+    User
+    {
+      username
+    }
  }} 
 `
 
-export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
-  const { data } = useSWQuery<ItemDisplayQuery, ItemDisplayQueryVariables>(itemDisplayQuery, ({ variables: { userId } }));
+export const UserItemList: FC<UserItemListPropsUsername> = ({ username }) => {
+  const { data } = useSWQuery<ItemDisplayQuery, ItemDisplayQueryVariables>(itemDisplayQuery, ({ variables: { username } }));
 
   return (
     <Grid container direction="column" spacing={1}>
