@@ -34,7 +34,7 @@ export const UserItemList: FC<UserItemListPropsUsername> = ({ username }) => {
   const { data } = useSWQuery<ItemDisplayQuery, ItemDisplayQueryVariables>(itemDisplayQuery, ({ variables: { username } }));
 
   return (
-    <Grid container direction="column" spacing={1}>
+    <Grid container direction="row" spacing={1}>
       {data?.displayItems.map(item => {
         return (
           <Grid item key={item.id}>

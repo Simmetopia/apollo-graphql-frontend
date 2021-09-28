@@ -15,7 +15,7 @@ export const SWLabelValue: FC<Props> = ({ label, value }) => {
 
     return (
         <Typography>
-            <strong className={classes.cardLabel}>{label} {value}</strong>
+            <div className={classes.cardLabel}>{label} {value}</div>
         </Typography>
     );
 }
