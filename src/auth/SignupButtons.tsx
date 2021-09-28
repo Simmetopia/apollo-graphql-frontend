@@ -16,7 +16,7 @@ const userCreateMutation = gql`
  }} 
 `
 
-const userLoginMutation = gql`
+export const userLoginMutation = gql`
  mutation UserLoginMutation($username: String!) {
  userLogin(username: $username) {
    id

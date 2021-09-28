@@ -1,11 +1,22 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography/Typography';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import Divider from '@material-ui/core/Divider/Divider';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles, TextField } from '@material-ui/core';
+import { useSWQuery } from '../utils/useSWQuery';
+import gql from 'graphql-tag';
+import { ShowUserDetails, ShowUserDetailsVariables } from './__generated__/ShowUserDetails'
 
+const showUserDetails = gql`
+ query ShowUserDetails($userId: String!) {
+  userDetails(userId: $userId) {
+   id
+   username
+   money
+ }} 
+`
 
 const useStyles = makeStyles({
   td: {
@@ -28,10 +39,10 @@ export const ProfileRoot: FC = () => {
   return (
     <>
       <div className="grid grid-cols-3">
-        <div className="col-span-2">
+        <div >
           <UserDetails userId={id} />
         </div>
-        <div>
+        <div className="col-span-2">
           <Typography variant="h6" align="left" >
             Items
           </Typography>
@@ -46,5 +57,18 @@ export const ProfileRoot: FC = () => {
 
 
 export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
-  return <div> User Details </div>
+  const { data } = useSWQuery<ShowUserDetails, ShowUserDetailsVariables>(showUserDetails, ({ variables: { userId } }));
+
+  return (
+    <>
+      <Typography variant="h4">
+        Username: {data?.userDetails?.username}
+      </Typography>
+
+      <Typography variant="h4">
+        Money: {data?.userDetails?.money}
+      </Typography>
+
+    </>
+  )
 };
