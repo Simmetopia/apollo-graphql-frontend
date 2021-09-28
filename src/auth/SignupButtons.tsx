@@ -1,10 +1,8 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { Button, CircularProgress } from '@material-ui/core';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
 import { userLoginQuery, userLoginQueryVariables } from './__generated__/userLoginQuery';
 import { UserCreateMutation, UserCreateMutationVariables } from './__generated__/UserCreateMutation';
-import { useSnackbar } from 'notistack';
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
 import { useSWMutaion } from '../utils/useSWMutation';
 import { useLocalData } from '../useLocalData';
@@ -33,10 +31,6 @@ export const CreateUserButton: FC<AuthProps> = ({ username }) => {
   const [userCreate, { data, loading }] = useSWMutaion<UserCreateMutation, UserCreateMutationVariables>(
     userCreateMutation,
   );
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   if (loading) {
     return <CircularProgress />;
