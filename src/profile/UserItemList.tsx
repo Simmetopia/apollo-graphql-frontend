@@ -12,10 +12,18 @@ export type UserItemListProps = { userId: string };
 export const itemDisplayQuery = gql`
  query ItemDisplayQuery($userId: String!) {
  displayItems(userId: $userId) {
-   id
-   userId
-   saberPart
-   partName
+    id
+    userId
+    SaberPart
+    {
+      name
+    }
+    PartName
+    {
+      name
+    }
+    partDescription
+    price
  }} 
 `
 //price

@@ -16,8 +16,16 @@ const itemCreateMutation = gql`
  itemCreate(userId: $userId) {
    id
    userId
-   saberPart
-   partName
+   SaberPart
+   {
+     name
+   }
+   PartName
+   {
+     name
+   }
+   partDescription
+   price
  }} 
 `
 
