@@ -28,7 +28,7 @@ function extractNameFromQuery(query: DocumentNode): string {
 
 export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {
   const [itemCreate, { data, loading }] = useSWMutation<ItemCreateMutation, ItemCreateMutationVariables>(itemCreateMutation, { refetchQueries: [extractNameFromQuery(itemDisplayQuery)] });
-  console.log(itemDisplayQuery)
+
   const classes = useStyles();
   return (
     <Button

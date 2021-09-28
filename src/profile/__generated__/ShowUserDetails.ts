@@ -4,19 +4,20 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: UserLoginMutations
+// GraphQL query operation: ShowUserDetails
 // ====================================================
 
-export interface UserLoginMutations_userLogin {
+export interface ShowUserDetails_userDetails {
   __typename: "User";
   id: string;
   username: string;
+  money: number;
 }
 
-export interface UserLoginMutations {
-  userLogin: UserLoginMutations_userLogin | null;
+export interface ShowUserDetails {
+  userDetails: ShowUserDetails_userDetails | null;
 }
 
-export interface UserLoginMutationsVariables {
-  username: string;
+export interface ShowUserDetailsVariables {
+  userId: string;
 }
