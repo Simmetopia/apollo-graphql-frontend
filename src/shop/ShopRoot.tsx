@@ -4,13 +4,13 @@ import gql from 'graphql-tag';
 import React, { FC } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
 import { itemDisplayQuery } from '../profile/UserItemList';
-import { ItemDisplayQuery } from '../profile/__generated__/ItemDisplayQuery';
+import { ItemDisplayQuery, ItemDisplayQueryVariables } from '../profile/__generated__/ItemDisplayQuery';
 import { useSWQuery } from '../utils/useSWQuery';
 import { BuyButton } from './BuyButton';
 
 
 export const ShopRoot: FC = () => {
-  const { data } = useSWQuery<ItemDisplayQuery>(itemDisplayQuery, ({ variables: { username: "dark_saber_dealer_69" } }));
+  const { data } = useSWQuery<ItemDisplayQuery, ItemDisplayQueryVariables>(itemDisplayQuery, ({ variables: { username: "dark_saber_dealer_69" } }));
 
   return (
     <>
