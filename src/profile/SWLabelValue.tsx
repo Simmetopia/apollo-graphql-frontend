@@ -4,8 +4,7 @@ import { FC } from "react";
 
 const useStyles = makeStyles(() => ({
     cardLabel: {
-        color: "black"
-
+        color: "#00ff00"
     }
 }))
 

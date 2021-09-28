@@ -3,19 +3,11 @@ import { LoginAsUser, CreateUserButton } from './SignupButtons';
 import { TextField, Grid, CircularProgress } from '@material-ui/core';
 import { useSWMutation } from '../utils/useSWMutation';
 import { UserLoginMutation, UserLoginMutationVariables } from './__generated__/UserLoginMutation';
-import gql from 'graphql-tag';
 import { useLocalData } from '../useLocalData';
-
-const userLoginMutations = gql`
- mutation UserLoginMutations($username: String!) {
- userLogin(username: $username) {
-   id
-   username
- }} 
-`
+import { userLoginMutation } from './SignupButtons'
 
 export const CreateUserForm: FC = () => {
-  const [userLogin, { data, loading }] = useSWMutation<UserLoginMutation, UserLoginMutationVariables>(userLoginMutations);
+  const [userLogin, { data, loading }] = useSWMutation<UserLoginMutation, UserLoginMutationVariables>(userLoginMutation);
   const [username, setUsername] = useState('');
   const [_, setData] = useLocalData();
 

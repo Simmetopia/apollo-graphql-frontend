@@ -17,6 +17,7 @@ export interface ItemDisplayQuery_displayItems_PartName {
   name: string;
 }
 
+
 export interface ItemDisplayQuery_displayItems {
   __typename: "Item";
   id: string;
