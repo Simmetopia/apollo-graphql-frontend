@@ -1,13 +1,12 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import Typography from '@material-ui/core/Typography/Typography';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
-import Divider from '@material-ui/core/Divider/Divider';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
-import { Grid, makeStyles, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { useSWQuery } from '../utils/useSWQuery';
 import gql from 'graphql-tag';
-import { ShowUserDetails, ShowUserDetailsVariables } from './__generated__/ShowUserDetails'
+import { ShowUserDetails, ShowUserDetailsVariables } from './__generated__/ShowUserDetails';
 
 const showUserDetails = gql`
  query ShowUserDetails($userId: String!) {

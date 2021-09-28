@@ -13,7 +13,7 @@ const userCreateMutation = gql`
  userCreate(username: $username) {
    id
    username
- }} 
+ }}
 `
 
 export const userLoginMutation = gql`
