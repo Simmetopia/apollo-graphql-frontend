@@ -34,13 +34,14 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   return (
     <Grid container direction="column" spacing={1}>
       {data?.GetUser.inventory.map((item) => {
-        return (
-          <Grid item key={item?.id}>
-            <UserItemCard item={item}>
-              <SellButton itemId={item?.id} />
-            </UserItemCard>
-          </Grid>
-        );
+        if (item?.inShop === true)
+          return (
+            <Grid item key={item?.id}>
+              <UserItemCard item={item}>
+                <SellButton itemId={item?.id} />
+              </UserItemCard>
+            </Grid>
+          );
       })}
     </Grid>
   );

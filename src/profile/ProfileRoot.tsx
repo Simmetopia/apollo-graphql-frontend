@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography/Typography';
-
 import Divider from '@material-ui/core/Divider/Divider';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
@@ -8,6 +7,8 @@ import gql from 'graphql-tag';
 import { useLazyQuery } from '@apollo/client';
 import { UserDetailsQuery, UserDetailsQueryVariables } from './__generated__/UserDetailsQuery';
 import EditUserDetails from './EditUserDetails';
+import SortItemList from './SortItemList';
+import Stack from '@mui/material/Stack';
 
 export const userDetailsquery = gql`
   query UserDetailsQuery($id: ID!) {
@@ -29,12 +30,16 @@ export const ProfileRoot: FC = () => {
   return (
     <>
       <UserDetails userId={id} />
+      <Stack direction="row">
+        <EditUserDetails userId={id} />
+        <SortItemList></SortItemList>
+      </Stack>
+
       <Typography variant="h6" align="center">
         Items
       </Typography>
       <Divider variant="middle" />
       <UserItemList userId={id} />
-      <EditUserDetails userId={id} />
     </>
   );
 };
