@@ -4,8 +4,10 @@ import { DocumentNode } from 'graphql';
 import gql from 'graphql-tag';
 import React, { FC } from 'react';
 import { useSWMutation } from '../utils/useSWMutation';
-import { itemDisplayQuery, UserItemListProps } from './UserItemList';
+import { itemDisplayQuery } from './UserItemList';
 import { ItemCreateMutation, ItemCreateMutationVariables } from './__generated__/ItemCreateMutation';
+
+export type UserItemListPropsId = { userId: string };
 
 const useStyles = makeStyles<Theme>(theme => ({
   spacer: { marginTop: theme.spacing(1) },
@@ -34,7 +36,7 @@ function extractNameFromQuery(query: DocumentNode): string {
   return (a as any).name.value as string
 }
 
-export const GenerateRandomItemButton: FC<UserItemListProps> = ({ userId }) => {
+export const GenerateRandomItemButton: FC<UserItemListPropsId> = ({ userId }) => {
   const [itemCreate, { data, loading }] = useSWMutation<ItemCreateMutation, ItemCreateMutationVariables>(itemCreateMutation, { refetchQueries: [extractNameFromQuery(itemDisplayQuery)] });
 
   const classes = useStyles();

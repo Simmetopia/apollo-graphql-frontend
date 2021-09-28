@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 export const ProfileRoot: FC = () => {
   const classes = useStyles();
 
-  const [{ id }] = useLocalData();
+  const [{ id, name },] = useLocalData();
   if (!id) {
     return <div> something wong </div>
   }
@@ -45,7 +45,7 @@ export const ProfileRoot: FC = () => {
           <Typography variant="h6" align="left" >
             Items
           </Typography>
-          <UserItemList userId={id} />
+          <UserItemList username={name!} />
           <GenerateRandomItemButton userId={id} />
         </div>
 
