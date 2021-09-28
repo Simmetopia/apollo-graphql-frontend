@@ -19,6 +19,11 @@ const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({
       <Typography color="primary">
         <strong>Description: {item.partDescription}</strong>
       </Typography>
+      {item.inShop && <Typography color="primary">
+        <strong>You are selling this item for: {item.price}</strong>
+        </Typography>
+      }
+      
       {children}
     </Card>
   );

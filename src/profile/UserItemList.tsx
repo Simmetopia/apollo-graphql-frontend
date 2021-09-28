@@ -15,6 +15,8 @@ export const userItemQuery = gql`
         saberPart
         partName
         partDescription
+        price
+        inShop
       }
     }
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CreateUserForm } from './auth/CreateUserForm';
-import { styled } from '@material-ui/styles';
-import { CssBaseline } from '@material-ui/core';
+import { styled, ThemeProvider } from '@material-ui/styles';
+import { createTheme, CssBaseline } from '@material-ui/core';
 import AuthenticatedRoot from './AuthenticatedRoot';
 import { useLocalData } from './useLocalData';
 
@@ -12,6 +12,14 @@ const AppRootDiv = styled('div')({
   padding: 50,
   paddingBottom: 70,
   backgroundColor: 'rgb(50,50,50)',
+});
+
+const theme = createTheme({
+  palette: {
+    primary: { main: '#ffd80a' },
+    secondary: {main: "#ffffff"},
+  },
+  typography: { fontFamily: 'Montserrat', allVariants: { color: 'white' } },
 });
 
 const App: React.FC = () => {
