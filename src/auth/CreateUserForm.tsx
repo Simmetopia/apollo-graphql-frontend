@@ -21,7 +21,6 @@ export const CreateUserForm: FC = () => {
 
   const handleKeyPress = (e: { key: string }) => {
     if (e.key === 'Enter') {
-      console.log(username);
       userLoginQuery({ variables: { username } });
     }
   };
