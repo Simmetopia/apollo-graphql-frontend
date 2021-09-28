@@ -8,7 +8,6 @@ import { ItemDisplayQuery, ItemDisplayQueryVariables } from './__generated__/Ite
 
 export type UserItemListProps = { userId: string };
 
-
 export const itemDisplayQuery = gql`
  query ItemDisplayQuery($userId: String!) {
  displayItems(userId: $userId) {
@@ -26,8 +25,6 @@ export const itemDisplayQuery = gql`
     price
  }} 
 `
-//price
-//description
 
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   const { data } = useSWQuery<ItemDisplayQuery, ItemDisplayQueryVariables>(itemDisplayQuery, ({ variables: { userId } }));
