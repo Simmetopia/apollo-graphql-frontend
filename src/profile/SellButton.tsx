@@ -55,7 +55,6 @@ export const SellButton: FC<Props> = ({ itemId }) => {
     if(!isNaN(parseInt(price))){
       sellPriceUpdate({variables: {id: itemId, price: parseInt(price), inShop: true}})
     }
-    console.log(parseInt(price))
   };
 
   const handleStopSell = () => {
