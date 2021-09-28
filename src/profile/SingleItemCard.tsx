@@ -9,12 +9,11 @@ const SingleItemCard: FC<{ item: ItemDisplayQuery_displayItems }> = ({ children,
             <SWLabelValue label="Name:" value={item.PartName!.name}></SWLabelValue>
             <SWLabelValue label="Price:" value={'' + item.price}></SWLabelValue>
             <SWLabelValue label="Part:" value={item.SaberPart!.name}></SWLabelValue>
-            <SWLabelValue label="Desc:" value={item.partDescription}></SWLabelValue>
+            <SWLabelValue label="Description:" value={item.partDescription}></SWLabelValue>
             <div className="self-end">
                 {children}
             </div>
         </div>
     );
 };
-
 export default SingleItemCard;
