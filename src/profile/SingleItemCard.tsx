@@ -5,7 +5,7 @@ import { ItemDisplayQuery_displayItems } from "./__generated__/ItemDisplayQuery"
 
 const SingleItemCard: FC<{ item: ItemDisplayQuery_displayItems }> = ({ children, item }) => {
     return (
-        <div className="rounded p-3 bg-white shadow flex flex-col gap-3">
+        <div className="rounded p-3 bg-purple-600 shadow flex flex-col gap-3">
             <SWLabelValue label="Name:" value={item.PartName!.name}></SWLabelValue>
             <SWLabelValue label="Price:" value={'' + item.price}></SWLabelValue>
             <SWLabelValue label="Part:" value={item.SaberPart!.name}></SWLabelValue>
