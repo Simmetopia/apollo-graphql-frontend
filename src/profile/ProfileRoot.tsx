@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography/Typography';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
-import { makeStyles } from '@material-ui/core';
 import { useSWQuery } from '../utils/useSWQuery';
 import gql from 'graphql-tag';
 import { ShowUserDetails, ShowUserDetailsVariables } from './__generated__/ShowUserDetails';
@@ -17,23 +16,12 @@ const showUserDetails = gql`
  }} 
 `
 
-const useStyles = makeStyles({
-  td: {
-    width: "50%"
-  },
-  text: {
-    textAlign: 'left'
-  }
-});
-
 export const ProfileRoot: FC = () => {
-  const classes = useStyles();
 
   const [{ id, name },] = useLocalData();
   if (!id) {
     return <div> something wong </div>
   }
-
 
   return (
     <>
@@ -53,7 +41,6 @@ export const ProfileRoot: FC = () => {
     </>
   );
 };
-
 
 export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
   const { data } = useSWQuery<ShowUserDetails, ShowUserDetailsVariables>(showUserDetails, ({ variables: { userId } }));
