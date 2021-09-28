@@ -2,9 +2,10 @@ import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { brown, red } from '@material-ui/core/colors';
+import { ThemeProvider } from '@material-ui/styles';
+import { brown } from '@material-ui/core/colors';
 import { SnackbarProvider } from 'notistack';
 
 /*
@@ -24,7 +25,7 @@ const client = new ApolloClient({
 const theme = createTheme({
   palette: {
     primary: { main: '#ffd80a' },
-    secondary: {main: "#ffffff"},
+    secondary: brown,
   },
   typography: { fontFamily: 'Montserrat', allVariants: { color: 'white' } },
 });
