@@ -28,12 +28,13 @@ export const ProfileRoot: FC = () => {
   return (
     <>
       <UserDetails userId={id} />
+      <EditUserDetails userId={id} />
+
       <Typography variant="h6" align="center">
         Items
       </Typography>
       <Divider variant="middle" />
       <UserItemList userId={id} />
-      <EditUserDetails userId={id} />
     </>
   );
 };
