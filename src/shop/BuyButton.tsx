@@ -20,7 +20,7 @@ export const buyItemFromShop = gql`
 
 export const BuyButton: FC<BuyButtonProps> = ({ itemId }) => {
   const [{ id }] = useLocalData();
-  const [buyItem, { data }] = useSWMutaion<buyItemMutation, buyItemMutationVariables>(buyItemFromShop, {
+  const [buyItem] = useSWMutaion<buyItemMutation, buyItemMutationVariables>(buyItemFromShop, {
     refetchQueries: [{ query: userItemQuery, variables: { id: id } }, { query: GetAllShopItemsQuery }],
   });
 

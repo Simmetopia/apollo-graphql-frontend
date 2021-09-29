@@ -26,7 +26,7 @@ export const userDetailsUpdateOrCreate = gql`
 
 export const EditUserDetails: FC<{ userId: string }> = ({ userId }) => {
   const [{ id }] = useLocalData();
-  const [userUpdate, { data }] = useSWMutaion<
+  const [userUpdate] = useSWMutaion<
     userDetailsUpdateOrCreateMutation,
     userDetailsUpdateOrCreateMutationVariables
   >(userDetailsUpdateOrCreate, { refetchQueries: [{ query: userDetailsquery, variables: { id: id } }] });

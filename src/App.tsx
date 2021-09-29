@@ -7,7 +7,6 @@ import { useLocalData } from './useLocalData';
 
 const AppRootDiv = styled('div')({
   minHeight: '100vh',
-  minWidth: '100vw',
   height: '100%',
   padding: 50,
   paddingBottom: 70,
