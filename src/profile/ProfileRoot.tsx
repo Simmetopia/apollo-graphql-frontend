@@ -8,7 +8,7 @@ import { useSWQuery } from '../utils/useSWQuery';
 import gql from 'graphql-tag';
 import { ShowUserDetails, ShowUserDetailsVariables } from './__generated__/ShowUserDetails';
 
-const showUserDetails = gql`
+export const showUserDetails = gql`
  query ShowUserDetails($userId: String!) {
   userDetails(userId: $userId) {
    id
