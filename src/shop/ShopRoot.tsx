@@ -19,6 +19,7 @@ export const GetAllShopItemsQuery = gql`
       saberPart
       partDescription
       price
+      url
     }
   }
 `;
@@ -52,11 +53,11 @@ export const ShopRoot: FC = () => {
 
   return (
     <>
-      <h1 className="star-wars">Star Wars Marked</h1>
-      <Grid container spacing={1} direction="row">
+      <h1 className="star-wars" style={{border: "3px solid", borderRadius: 10}}>Star Wars Marked</h1>
+      <Grid container spacing={2} direction="row">
         {data?.GetAllItemsInShop.map((item) => (
-          <Grid item key={item?.id}>
-            <SingleItemCard item={item}>
+          <Grid item key={item?.id} xs={3}>
+            <SingleItemCard item={item} >
               <BuyButton itemId={item?.id} />
             </SingleItemCard>
           </Grid>

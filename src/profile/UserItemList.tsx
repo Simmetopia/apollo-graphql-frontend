@@ -17,6 +17,7 @@ export const userItemQuery = gql`
         partDescription
         price
         inShop
+        url
       }
     }
   }
