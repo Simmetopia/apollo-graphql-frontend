@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import UserItemCard from './UserItemCard';
 import { SellButton } from './SellButton';
 import gql from 'graphql-tag';
@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { Typography } from '@material-ui/core';
+import { Stack } from '@mui/material';
 
 export const userItemQuery = gql`
   query getUserItemQuery($id: ID!) {
@@ -42,30 +43,31 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
 
   return (
     <>
-      <FormControl
-        variant="filled"
-        color="secondary"
-        fullWidth
-        style={{ marginTop: 25, marginBottom: 25, backgroundColor: 'ThreeDShadow' }}
-      >
-        <InputLabel>
-          <Typography>
-            <strong>Show</strong>
-          </Typography>
-        </InputLabel>
-        <Select value={sortItemBy} onChange={handleChange}>
-          <MenuItem value={1}>
-            <Typography color="primary">
-              <strong>All items</strong>
+      <Stack direction="row" justifyContent="center" spacing={5} style={{ marginTop: 25, marginBottom: 25 }}>
+        <FormControl
+          variant="filled"
+          color="secondary"
+          style={{ backgroundColor: 'ThreeDShadow', width: 200, borderRadius: 5 }}
+        >
+          <InputLabel>
+            <Typography>
+              <strong>Show</strong>
             </Typography>
-          </MenuItem>
-          <MenuItem value={2}>
-            <Typography color="primary">
-              <strong>Items in shop</strong>
-            </Typography>
-          </MenuItem>
-        </Select>
-      </FormControl>
+          </InputLabel>
+          <Select value={sortItemBy} onChange={handleChange}>
+            <MenuItem value={1}>
+              <Typography color="primary">
+                <strong>All items</strong>
+              </Typography>
+            </MenuItem>
+            <MenuItem value={2}>
+              <Typography color="primary">
+                <strong>Items in shop</strong>
+              </Typography>
+            </MenuItem>
+          </Select>
+        </FormControl>
+      </Stack>
 
       <Grid container direction="column" spacing={1}>
         {data?.GetUser.inventory.map((item) => {
