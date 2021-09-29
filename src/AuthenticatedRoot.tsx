@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/styles';
-
 import RestoreIcon from '@material-ui/icons/Home';
 import FavoriteIcon from '@material-ui/icons/ShoppingCart';
 import LocationOnIcon from '@material-ui/icons/Face';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-
 import { AppBar, BottomNavigation, BottomNavigationAction, Typography, Divider } from '@material-ui/core';
 import { UserDetails, ProfileRoot } from './profile/ProfileRoot';
 import { ShopRoot } from './shop/ShopRoot';

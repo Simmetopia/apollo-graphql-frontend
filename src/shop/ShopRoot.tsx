@@ -1,13 +1,11 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import { List } from '@material-ui/core';
+import { useQuery } from '@apollo/client';
 import Grid from '@material-ui/core/Grid/Grid';
-import Typography from '@material-ui/core/Typography/Typography';
 import gql from 'graphql-tag';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
 import { useLocalData } from '../useLocalData';
 import { BuyButton } from './BuyButton';
-import { GenerateRandomItemButton, itemCreateMutation } from './CreateRandomItemButton';
+import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { getAllItemsInShopQuery } from './__generated__/getAllItemsInShopQuery';
 import { userMoneyQuery, userMoneyQueryVariables } from './__generated__/userMoneyQuery';
 

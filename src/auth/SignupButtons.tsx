@@ -28,7 +28,7 @@ export const UserLoginQuery = gql`
 `;
 
 export const CreateUserButton: FC<AuthProps> = ({ username }) => {
-  const [userCreate, { data, loading }] = useSWMutaion<UserCreateMutation, UserCreateMutationVariables>(
+  const [userCreate, { loading }] = useSWMutaion<UserCreateMutation, UserCreateMutationVariables>(
     userCreateMutation,
   );
 

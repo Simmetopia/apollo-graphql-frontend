@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-import { Typography, Card, CardMedia } from '@material-ui/core';
-import { getAllItemsQuery_GetAllItems } from '../shop/__generated__/getAllItemsQuery';
+import { Typography, Card } from '@material-ui/core';
 import '../shop/Shop.css';
 import { getAllItemsInShopQuery_GetAllItemsInShop } from '../shop/__generated__/getAllItemsInShopQuery';
 

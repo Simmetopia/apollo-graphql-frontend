@@ -1,18 +1,15 @@
 import React, { FC, useState } from 'react';
 import RemoveShopIcon from '@material-ui/icons/RemoveShoppingCart';
 import Dialog from '@mui/material/Dialog';
-import DialogActions, { dialogActionsClasses } from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
-import { TextField, useTheme } from '@mui/material';
-import { IconButton, makeStyles, Theme } from '@material-ui/core';
+import { TextField } from '@mui/material';
+import { DialogActions, IconButton, makeStyles, Theme } from '@material-ui/core';
 import { useLocalData } from '../useLocalData';
 import { useSWMutaion } from '../utils/useSWMutation';
-import { gql, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { setSellPriceMutationVariables, setSellPriceMutation } from './__generated__/setSellPriceMutation';
-import { parse } from 'json5';
 import { userItemQuery } from './UserItemList';
 
 export const setSellPrice = gql`
@@ -35,8 +32,7 @@ export const SellButton: FC<Props> = ({ itemId }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [{ id }] = useLocalData();
-  const theme = useTheme();
-  const [sellPriceUpdate, { data }] = useSWMutaion<setSellPriceMutation, setSellPriceMutationVariables>(
+  const [sellPriceUpdate] = useSWMutaion<setSellPriceMutation, setSellPriceMutationVariables>(
     setSellPrice, { refetchQueries: [{ query: userItemQuery, variables: { id: id } }]
   });
 

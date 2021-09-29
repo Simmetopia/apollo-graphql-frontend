@@ -1,6 +1,5 @@
 import { Grid } from '@material-ui/core';
 import React, { FC } from 'react';
-import SingleItemCard from './SingleItemCard';
 import UserItemCard from './UserItemCard';
 import { SellButton } from './SellButton';
 import gql from 'graphql-tag';
