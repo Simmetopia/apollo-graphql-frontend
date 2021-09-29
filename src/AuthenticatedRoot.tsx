@@ -8,6 +8,8 @@ import { AppBar, BottomNavigation, BottomNavigationAction, Typography, Divider }
 import { UserDetails, ProfileRoot } from './profile/ProfileRoot';
 import { ShopRoot } from './shop/ShopRoot';
 import { useLocalData } from './useLocalData';
+import logo from './Images/logo.svg';
+import { Stack } from '@mui/material';
 
 const useStyles = makeStyles({
   appBar: {
@@ -68,15 +70,19 @@ const WelcomePage: FC = () => {
   }
   return (
     <>
-      <Typography variant="h3" color="primary">
-        Welcome!
-      </Typography>
-      <Typography variant="caption">To watto's webshop of doom</Typography>
+      <div className="star-warsFrontPage" style={{ border: '3px solid', borderRadius: 10 }}>
+        
+        <h1 >Welcome!</h1>
+        <h2 style={{fontSize: 30}}>To watto's webshop of doom</h2>
+        
+      </div>
       <Divider variant="middle" />
       <Typography>
         In this webshop you can find all the parts, all "legally" optained, to build your very own lightsaber.
       </Typography>
       <UserDetails userId={id} />
+      
     </>
   );
 };
+

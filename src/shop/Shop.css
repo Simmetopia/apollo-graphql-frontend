@@ -12,7 +12,24 @@
   line-height: 150%;
   perspective: 400px;
   text-align: justify;
-  margin: 0 0 100px;
+  margin: 0 0 60px;
+  text-transform: uppercase;
+  text-align: center;
+  -webkit-text-stroke: 2px black; /* width and color */
+}
+
+.star-warsFrontPage {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  background-color: #393939;
+  box-shadow: 0px 0px 25px rgb(128, 123, 123);
+  color: #feda4a;
+  font-family: 'Pathway Gothic One', sans-serif;
+  font-size: 200%;
+  letter-spacing: 6px;
+  margin: 0 0 60px 0;
   text-transform: uppercase;
   text-align: center;
   -webkit-text-stroke: 2px black; /* width and color */
