@@ -7,8 +7,6 @@ import gql from 'graphql-tag';
 import { useLazyQuery } from '@apollo/client';
 import { UserDetailsQuery, UserDetailsQueryVariables } from './__generated__/UserDetailsQuery';
 import EditUserDetails from './EditUserDetails';
-import SortItemList from './SortItemList';
-import Stack from '@mui/material/Stack';
 
 export const userDetailsquery = gql`
   query UserDetailsQuery($id: ID!) {
@@ -30,10 +28,7 @@ export const ProfileRoot: FC = () => {
   return (
     <>
       <UserDetails userId={id} />
-      <Stack direction="row">
-        <EditUserDetails userId={id} />
-        <SortItemList></SortItemList>
-      </Stack>
+      <EditUserDetails userId={id} />
 
       <Typography variant="h6" align="center">
         Items
