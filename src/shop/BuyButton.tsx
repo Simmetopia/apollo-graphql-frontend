@@ -22,11 +22,14 @@ function extractNameFromQuery(query: DocumentNode): string {
 
 type BuyButtonProps = { itemId: string };
 export const BuyButton: FC<BuyButtonProps> = ({ itemId }) => {
-  const [itemBuy, { data, loading }] = useSWMutation<ItemBuyMutation, ItemBuyMutationVariables>(itemBuyMutation, { refetchQueries: [extractNameFromQuery(itemDisplayQuery)] });
+  const [itemBuy, { data, loading }] = useSWMutation<ItemBuyMutation, ItemBuyMutationVariables>(
+    itemBuyMutation,
+    { refetchQueries: [extractNameFromQuery(itemDisplayQuery)] }
+  );
   const [{ id }] = useLocalData();
   if (!id) {
     return <div> something wong </div>
-  }  
+  }
 
   return (
     <IconButton

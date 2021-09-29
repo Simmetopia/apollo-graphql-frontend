@@ -19,11 +19,18 @@ const itemSellMutation = gql`
 
 type SellButtonProps = { itemId: string };
 export const SellButton: FC<SellButtonProps> = ({ itemId }) => {
-  const [itemSell, { data, loading }] = useSWMutation<ItemSellMutation, ItemSellMutationVariables>(itemSellMutation, { refetchQueries: [extractNameFromQuery(itemDisplayQuery), extractNameFromQuery(showUserDetails) ] });
-  const [ { id } ] = useLocalData();
+  const [itemSell, { data, loading }] = useSWMutation<ItemSellMutation, ItemSellMutationVariables>(itemSellMutation,
+    {
+      refetchQueries: [
+        extractNameFromQuery(itemDisplayQuery),
+        extractNameFromQuery(showUserDetails)
+      ]
+    });
+    
+  const [{ id }] = useLocalData();
   if (!id) {
     return <div> something wong </div>
-  }  
+  }
 
   return (
     <IconButton
