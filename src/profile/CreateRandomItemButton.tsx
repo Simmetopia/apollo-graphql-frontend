@@ -31,7 +31,7 @@ const itemCreateMutation = gql`
  }} 
 `
 
-function extractNameFromQuery(query: DocumentNode): string {
+export function extractNameFromQuery(query: DocumentNode): string {
   const a = query.definitions[0]
   return (a as any).name.value as string
 }
