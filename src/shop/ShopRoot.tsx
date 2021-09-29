@@ -54,7 +54,7 @@ export const ShopRoot: FC = () => {
       <h1 className="star-wars" style={{border: "3px solid", borderRadius: 10}}>Star Wars Marked</h1>
       <Grid container spacing={2} direction="row">
         {data?.GetAllItemsInShop.map((item) => (
-          <Grid item key={item?.id} xs={3}>
+          <Grid item key={item?.id} xs={2}>
             <SingleItemCard item={item} >
               <BuyButton itemId={item?.id} />
             </SingleItemCard>
