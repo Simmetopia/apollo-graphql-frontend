@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography/Typography';
-
 import Divider from '@material-ui/core/Divider/Divider';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';

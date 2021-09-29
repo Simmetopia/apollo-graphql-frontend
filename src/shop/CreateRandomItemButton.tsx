@@ -1,13 +1,8 @@
 import { makeStyles } from '@material-ui/styles';
-
 import { Theme, Button } from '@material-ui/core';
-
-import React, { FC, useEffect } from 'react';
-
-import { UserItemListProps } from '../profile/UserItemList';
+import React, { FC } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { GetAllShopItemsQuery } from './ShopRoot';
-import { async } from 'q';
 
 export const itemCreateMutation = gql`
   mutation itemCreateMutation {
@@ -37,10 +32,10 @@ type Props = {};
 
 export const GenerateRandomItemButton: FC<Props> = ({}) => {
   const classes = useStyles();
-  const [ItemCreate, { data: mutationData }] = useMutation(itemCreateMutation, {
+  const [ItemCreate] = useMutation(itemCreateMutation, {
     refetchQueries: [{ query: GetAllShopItemsQuery }],
   });
-  const [DeleteItemsNotOwned, { data }] = useMutation(deleteItemsMutation, {
+  const [DeleteItemsNotOwned] = useMutation(deleteItemsMutation, {
     onCompleted: () => {
       for (let i = 0; i < 10; i++) {
         ItemCreate();
