@@ -91,26 +91,21 @@ const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({
               <strong>{item.partDescription}</strong>
             </Typography>
           </div>
-        <div style={{ height: '3em' }}>
-        {item.inShop && (
-          <div className={classes.center} >
-          <Typography color="primary">
-            Selling price:
-          </Typography>
-          <Typography color="primary">
-            <strong>{item.price}</strong>
-          </Typography>
-          <Typography color="primary">
-            coins
-          </Typography>
+          <div style={{ height: '3em' }}>
+            {item.inShop && (
+              <div className={classes.center}>
+                <Typography color="primary">Selling price:</Typography>
+                <Typography color="primary">
+                  <strong>{item.price}</strong>
+                </Typography>
+                <Typography color="primary">coins</Typography>
+              </div>
+            )}
           </div>
-        )}
-        </div>
 
-        {children}
+          {children}
         </div>
       </Card>
-      
     </div>
   );
 };
