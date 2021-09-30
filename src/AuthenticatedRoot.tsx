@@ -8,8 +8,6 @@ import { AppBar, BottomNavigation, BottomNavigationAction, Typography, Divider }
 import { UserDetails, ProfileRoot } from './profile/ProfileRoot';
 import { ShopRoot } from './shop/ShopRoot';
 import { useLocalData } from './useLocalData';
-import logo from './Images/logo.svg';
-import { Stack } from '@mui/material';
 
 const useStyles = makeStyles({
   appBar: {
