@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import { useSWMutaion } from '../utils/useSWMutation';
 import { buyItemMutation, buyItemMutationVariables } from './__generated__/buyItemMutation';
 import { userItemQuery } from '../profile/UserItemList';
-import { GetAllShopItemsQuery } from './ShopRoot';
+import { getItemsInShop } from './ShopRoot';
 
 type BuyButtonProps = { itemId: string | undefined };
 
@@ -21,7 +21,10 @@ export const buyItemFromShop = gql`
 export const BuyButton: FC<BuyButtonProps> = ({ itemId }) => {
   const [{ id }] = useLocalData();
   const [buyItem] = useSWMutaion<buyItemMutation, buyItemMutationVariables>(buyItemFromShop, {
-    refetchQueries: [{ query: userItemQuery, variables: { id: id } }, { query: GetAllShopItemsQuery }],
+    refetchQueries: [
+      { query: userItemQuery, variables: { id: id } },
+      { query: getItemsInShop, variables: { filterPrice: 1000 } },
+    ],
   });
 
   if (id === undefined || itemId === undefined) {

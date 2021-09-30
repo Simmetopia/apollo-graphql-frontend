@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Typography, Card, makeStyles } from '@material-ui/core';
 import '../shop/Shop.css';
-import { getAllItemsInShopQuery_GetAllItemsInShop } from '../shop/__generated__/getAllItemsInShopQuery';
+import { getItemsInShopQuery_FilterItemsByPrice } from '../shop/__generated__/getItemsInShopQuery';
 
 const imgDivStyle = makeStyles({
   divStyle: {
@@ -33,7 +33,7 @@ const imgDivStyle = makeStyles({
     boxShadow: '3px 3px 8px black',
     borderRadius: '5%',
     padding: '1em',
-    position: 'relative'
+    position: 'relative',
   },
   textCenter: {
     textAlign: 'center',
@@ -42,11 +42,11 @@ const imgDivStyle = makeStyles({
     display: 'flex',
     gap: 5,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
-const SingleItemCard: FC<{ item: getAllItemsInShopQuery_GetAllItemsInShop | null }> = ({ children, item }) => {
+const SingleItemCard: FC<{ item: getItemsInShopQuery_FilterItemsByPrice | null }> = ({ children, item }) => {
   if (!item) {
     return <div> something wong </div>;
   }
@@ -92,14 +92,12 @@ const SingleItemCard: FC<{ item: getAllItemsInShopQuery_GetAllItemsInShop | null
           <div className={classes.center}>
             <Typography color="primary">Description:</Typography>
           </div>
-          <div style={{height: '3em'}}>
-          <Typography color="primary">
-            <strong>{item.partDescription}</strong>
-          </Typography>
+          <div style={{ height: '3em' }}>
+            <Typography color="primary">
+              <strong>{item.partDescription}</strong>
+            </Typography>
           </div>
-          <div>
-          {children}
-          </div>
+          <div>{children}</div>
         </div>
       </Card>
     </div>
