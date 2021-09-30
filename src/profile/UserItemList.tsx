@@ -32,10 +32,10 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   }
 
   return (
-    <Grid container direction="column" spacing={1}>
+    <Grid container direction="row" spacing={2}>
       {data?.GetUser.inventory.map((item) => {
         return (
-          <Grid item key={item?.id}>
+          <Grid item key={item?.id} xs={2}>
             <UserItemCard item={item}>
               <SellButton itemId={item?.id} />
             </UserItemCard>
