@@ -12,7 +12,7 @@ import { userDetailsquery } from './ProfileRoot';
 import { useLocalData } from '../useLocalData';
 
 const useStyles = makeStyles<Theme>((theme) => ({
-  spacer: { marginTop: theme.spacing(5) },
+  spacer: { marginTop: theme.spacing(0) },
 }));
 
 export const userDetailsUpdateOrCreate = gql`
@@ -36,7 +36,7 @@ export const EditUserDetails: FC<{ userId: string }> = ({ userId }) => {
 
   return (
     <>
-      <Grid className={classes.spacer} container direction="row" spacing={2}>
+      <Grid className={classes.spacer} container direction="row">
         <TextField
           inputProps={{ style: { color: '#fff' } }}
           variant="outlined"
