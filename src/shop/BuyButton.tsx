@@ -7,6 +7,7 @@ import { itemDisplayQuery } from '../profile/UserItemList';
 import { useSWMutation } from '../utils/useSWMutation';
 import { DocumentNode } from 'graphql';
 import { ItemBuyMutation, ItemBuyMutationVariables } from './__generated__/ItemBuyMutation';
+import { itemFilterQuery } from './ShopRoot';
 
 const itemBuyMutation = gql`
  mutation ItemBuyMutation($userBuyerId: String!, $itemId: String!) {
@@ -24,7 +25,7 @@ type BuyButtonProps = { itemId: string };
 export const BuyButton: FC<BuyButtonProps> = ({ itemId }) => {
   const [itemBuy, { data, loading }] = useSWMutation<ItemBuyMutation, ItemBuyMutationVariables>(
     itemBuyMutation,
-    { refetchQueries: [extractNameFromQuery(itemDisplayQuery)] }
+    { refetchQueries: [extractNameFromQuery(itemFilterQuery)] }
   );
   const [{ id }] = useLocalData();
   if (!id) {
