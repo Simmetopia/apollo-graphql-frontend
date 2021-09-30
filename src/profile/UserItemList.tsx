@@ -1,4 +1,3 @@
-
 import { Grid } from '@material-ui/core';
 import { FC, useEffect, useState } from 'react';
 import UserItemCard from './UserItemCard';
@@ -70,11 +69,11 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
         </FormControl>
       </Stack>
 
-      <Grid container direction="column" spacing={1}>
+      <Grid container direction="row" spacing={2}>
         {data?.GetUser.inventory.map((item) => {
           if (sortItemBy === 1) {
             return (
-              <Grid item key={item?.id}>
+              <Grid item key={item?.id} xs={2}>
                 <UserItemCard item={item}>
                   <SellButton itemId={item?.id} />
                 </UserItemCard>
@@ -83,7 +82,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
           } else {
             if (item.inShop === true)
               return (
-                <Grid item key={item?.id}>
+                <Grid item key={item?.id} xs={2}>
                   <UserItemCard item={item}>
                     <SellButton itemId={item?.id} />
                   </UserItemCard>
