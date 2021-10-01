@@ -51,7 +51,8 @@ const useStyles = makeStyles({
     gridColumnEnd: "3",
     height: "4rem",
     width: "80%",
-    borderRadius: "0.375rem"
+    borderRadius: "0.375rem",
+    resize: "none",
   }
 });
 
@@ -101,6 +102,7 @@ export const ShopRoot: FC = () => {
               </Typography></MenuItem>
           </Select>
         </FormControl>
+
         <textarea id="filter"
           className={classes.hideScroll}
           style={{ backgroundColor: "#616161" }}
