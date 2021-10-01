@@ -1,12 +1,12 @@
-import { Button, FormControl, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { FormControl, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
 import gql from 'graphql-tag';
-import React, { FC, useEffect } from 'react';
-import { GenerateRandomItemButton } from './CreateRandomItemButton';
+import React, { FC, useEffect, useState } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
 import { BuyButton } from './BuyButton';
+import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { MarketButton } from './MarketButton';
 import { ItemFilterQuery, ItemFilterQueryVariables } from './__generated__/ItemFilterQuery';
 
@@ -42,6 +42,16 @@ const useStyles = makeStyles({
     gridTemplateColumns: "repeat(11, minmax(0, 1fr))",
     gap: 20,
     paddingTop: 20,
+  },
+  hideScroll: {
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    gridColumnStart: "1",
+    gridColumnEnd: "3",
+    height: "4rem",
+    width: "80%",
+    borderRadius: "0.375rem"
   }
 });
 
@@ -92,15 +102,15 @@ export const ShopRoot: FC = () => {
           </Select>
         </FormControl>
         <textarea id="filter"
-          className="col-span-2 col-start-1 h-12 rounded-md"
-          style={{ minWidth: "100%", backgroundColor: "#616161" }}
+          className={classes.hideScroll}
+          style={{ backgroundColor: "#616161" }}
           name="filter"
           value={filter}
           onChange={event => setFilter(event.target.value)}
         />
         <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton ></MarketButton></div>
         <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton ></GenerateRandomItemButton></div>
-        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-4 row-start-1">
+        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-5 row-start-1">
           {data?.filterItems.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredName => (
             <Grid item key={filteredName.id}>
               <SingleItemCard item={filteredName}>
