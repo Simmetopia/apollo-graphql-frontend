@@ -47,6 +47,7 @@ const useStyles = makeStyles({
 
 export const ShopRoot: FC = () => {
   const [itemFilter, { data, loading }] = useSWLazyQuery<ItemFilterQuery, ItemFilterQueryVariables>(itemFilterQuery, ({ variables: { saberPart: "" } }));
+  const [filter, setFilter] = useState('');
   const classes = useStyles();
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export const ShopRoot: FC = () => {
     <>
       <Typography variant="h3">Watto's webshop</Typography>
       <div className={classes.grid} >
-        <FormControl className="col-span-2 w-4/5" variant="filled" style={{ color: "black", minWidth: 130 }}>
+        <FormControl className="col-span-2 w-4/5 rounded-md" variant="filled" style={{ color: "black", minWidth: 130 }}>
           <InputLabel style={{ color: "#00ff00" }}>Filter</InputLabel>
 
           <Select label="Sort items">
@@ -90,20 +91,24 @@ export const ShopRoot: FC = () => {
               </Typography></MenuItem>
           </Select>
         </FormControl>
-        {/* <Button className="col-start-1 col-span-2 h-16" color="primary" variant="contained"> Create New Item </Button> */}
+        <textarea id="filter"
+          className="col-span-2 col-start-1 h-12 rounded-md"
+          style={{ minWidth: "100%", backgroundColor: "#616161" }}
+          name="filter"
+          value={filter}
+          onChange={event => setFilter(event.target.value)}
+        />
         <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton ></MarketButton></div>
         <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton ></GenerateRandomItemButton></div>
-        {/*class="col-start-1 col-span-2 h-16"*/}
         <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-4 row-start-1">
-          {data?.filterItems.map((item) => (
-            <Grid item key={item.id}>
-              <SingleItemCard item={item}>
-                <BuyButton itemId={item.id} />
+          {data?.filterItems.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredName => (
+            <Grid item key={filteredName.id}>
+              <SingleItemCard item={filteredName}>
+                <BuyButton itemId={filteredName.id} />
               </SingleItemCard>
             </Grid>
           ))}
         </Grid>
-        <p>|</p>
       </div>
     </>
   );

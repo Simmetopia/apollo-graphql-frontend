@@ -27,6 +27,7 @@ export const ProfileRoot: FC = () => {
       <div className="grid grid-cols-3">
         <div >
           <UserDetails userId={id} />
+          <GenerateRandomItemButton userId={id} />
         </div>
         <div className="col-span-2">
           <Typography variant="h6" align="left" >
