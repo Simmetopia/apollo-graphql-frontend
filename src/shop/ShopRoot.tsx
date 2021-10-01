@@ -1,8 +1,8 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { FormControl, Input, InputLabel, MenuItem, Select } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
 import gql from 'graphql-tag';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
 import { BuyButton } from './BuyButton';
@@ -34,6 +34,7 @@ export const itemFilterQuery = gql`
 
 export const ShopRoot: FC = () => {
   const [itemFilter, { data, loading }] = useSWLazyQuery<ItemFilterQuery, ItemFilterQueryVariables>(itemFilterQuery, ({ variables: { saberPart: "" } }));
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     itemFilter({ variables: { saberPart: "" } })
@@ -43,8 +44,8 @@ export const ShopRoot: FC = () => {
   return (
     <>
       <Typography variant="h3">Watto's webshop</Typography>
-      <div className="grid grid-cols-11">
-        <FormControl className="col-span-1" variant="filled" style={{ color: "black", minWidth: 130 }}>
+      <div className="grid grid-cols-12">
+        <FormControl className="col-span-1 rounded-md" variant="filled" >
           <InputLabel style={{ color: "#00ff00" }}>Filter</InputLabel>
 
           <Select label="Sort items">
@@ -77,16 +78,23 @@ export const ShopRoot: FC = () => {
           </Select>
         </FormControl>
 
-        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3">
-          {data?.filterItems.map((item) => (
-            <Grid item key={item.id}>
-              <SingleItemCard item={item}>
-                <BuyButton itemId={item.id} />
+        <textarea id="filter"
+          className="col-span-2 col-start-1 h-12 rounded-md"
+          style={{ minWidth: "100%", backgroundColor: "#616161" }}
+          name="filter"
+          value={filter}
+          onChange={event => setFilter(event.target.value)}
+        />
+
+        <Grid container spacing={1} direction="row" className="col-span-8 col-start-4">
+          {data?.filterItems.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredName => (
+            <Grid item key={filteredName.id}>
+              <SingleItemCard item={filteredName}>
+                <BuyButton itemId={filteredName.id} />
               </SingleItemCard>
             </Grid>
           ))}
         </Grid>
-        <p>p</p>
       </div>
     </>
   );
