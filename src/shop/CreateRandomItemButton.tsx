@@ -28,12 +28,12 @@ const useStyles = makeStyles<Theme>((theme) => ({
   spacer: { marginTop: theme.spacing(1) },
 }));
 
-type Props = {};
+type Props = { maxPrice: number };
 
-export const GenerateRandomItemButton: FC<Props> = ({}) => {
+export const GenerateRandomItemButton: FC<Props> = ({ maxPrice }) => {
   const classes = useStyles();
   const [ItemCreate] = useMutation(itemCreateMutation, {
-    refetchQueries: [{ query: getItemsInShop, variables: { filterPrice: 1000 } }],
+    refetchQueries: [{ query: getItemsInShop, variables: { filterPrice: maxPrice } }],
   });
   const [DeleteItemsNotOwned] = useMutation(deleteItemsMutation, {
     onCompleted: () => {

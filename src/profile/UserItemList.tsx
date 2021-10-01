@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from 'react';
 import UserItemCard from './UserItemCard';
 import { SellButton } from './SellButton';
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
 import { getUserItemQuery, getUserItemQueryVariables } from './__generated__/getUserItemQuery';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,6 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { Typography } from '@material-ui/core';
 import { Stack } from '@mui/material';
+import { useSWLazyQuery } from '../utils/useSWLazyQuery';
 
 export const userItemQuery = gql`
   query getUserItemQuery($id: ID!) {
@@ -31,11 +31,23 @@ export const userItemQuery = gql`
 export type UserItemListProps = { userId: string };
 
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
-  const { data } = useQuery<getUserItemQuery, getUserItemQueryVariables>(userItemQuery, { variables: { id: userId } });
-  const [sortItemBy, setSortItemBy] = useState(1);
+  const [getItems, { data }] = useSWLazyQuery<getUserItemQuery, getUserItemQueryVariables>(userItemQuery, {
+    variables: { id: userId },
+  });
+  const [sortItemBy, setSortItemBy] = useState<number>(0);
 
-  const handleChange = (event: any) => {
-    setSortItemBy(event.target.value);
+  useEffect(() => {
+    getItems({ variables: { id: userId } });
+  }, []);
+
+  const handleChange = (
+    event: React.ChangeEvent<{
+      name?: string | undefined;
+      value: unknown;
+    }>,
+  ) => {
+    setSortItemBy(event.target.value as number);
+    getItems({ variables: { id: userId } });
   };
 
   if (data?.GetUser === null) {
@@ -56,14 +68,14 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
             </Typography>
           </InputLabel>
           <Select value={sortItemBy} onChange={handleChange}>
-            <MenuItem value={1}>
+            <MenuItem value={0}>
               <Typography color="primary">
-                <strong>All items</strong>
+                <strong>Items in inventory</strong>
               </Typography>
             </MenuItem>
-            <MenuItem value={2}>
+            <MenuItem value={1}>
               <Typography color="primary">
-                <strong>Items in shop</strong>
+                <strong>Items for sale</strong>
               </Typography>
             </MenuItem>
           </Select>
@@ -71,26 +83,17 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
       </Stack>
 
       <Grid container direction="row" spacing={2}>
-        {data?.GetUser.inventory.map((item) => {
-          if (sortItemBy === 1) {
+        {data?.GetUser.inventory
+          .filter((item) => item.inShop === !!sortItemBy)
+          .map((sortedItem) => {
             return (
-              <Grid item key={item?.id} xs={2}>
-                <UserItemCard item={item}>
-                  <SellButton itemId={item?.id} />
+              <Grid item key={sortedItem?.id} xs={2}>
+                <UserItemCard item={sortedItem}>
+                  <SellButton itemId={sortedItem?.id} />
                 </UserItemCard>
               </Grid>
             );
-          } else {
-            if (item.inShop === true)
-              return (
-                <Grid item key={item?.id} xs={2}>
-                  <UserItemCard item={item}>
-                    <SellButton itemId={item?.id} />
-                  </UserItemCard>
-                </Grid>
-              );
-          }
-        })}
+          })}
       </Grid>
     </>
   );

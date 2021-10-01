@@ -10,6 +10,8 @@ import { BuyButton } from './BuyButton';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { userMoneyQuery, userMoneyQueryVariables } from './__generated__/userMoneyQuery';
 import { getItemsInShopQuery, getItemsInShopQueryVariables } from './__generated__/getItemsInShopQuery';
+import { mostExpensiveItemQuery } from './__generated__/mostExpensiveItemQuery';
+import { Stack } from '@mui/material';
 
 export const getItemsInShop = gql`
   query getItemsInShopQuery($filterPrice: Int!) {
@@ -24,6 +26,14 @@ export const getItemsInShop = gql`
   }
 `;
 
+export const mostExpensiveItem = gql`
+  query mostExpensiveItemQuery {
+    MostExpensiveItemPrice {
+      price
+    }
+  }
+`;
+
 export const UserMoneyQuery = gql`
   query userMoneyQuery($id: ID!) {
     GetUser(input: { id: $id }) {
@@ -34,9 +44,10 @@ export const UserMoneyQuery = gql`
 
 export const ShopRoot: FC = () => {
   const [{ id }] = useLocalData();
+  const { data: priceData } = useQuery<mostExpensiveItemQuery>(mostExpensiveItem, { fetchPolicy: 'network-only' });
   const [width, setWindowWidth] = useState(0);
-  const [priceFilter, setPricefilter] = useState(1000);
-  const [priceValue, setPriceValue] = useState(1000);
+  const [priceFilter, setPricefilter] = useState(0);
+  const [priceValue, setPriceValue] = useState(0);
   const { data } = useQuery<getItemsInShopQuery, getItemsInShopQueryVariables>(getItemsInShop, {
     variables: { filterPrice: priceFilter },
     fetchPolicy: 'network-only',
@@ -47,25 +58,20 @@ export const ShopRoot: FC = () => {
   });
 
   useEffect(() => {
+    setPricefilter(priceData?.MostExpensiveItemPrice?.price ?? 0);
+    setPriceValue(priceData?.MostExpensiveItemPrice?.price ?? 0);
     updateDimensions();
 
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
+  }, [priceData]);
 
   const updateDimensions = () => {
     const width = window.innerWidth;
     setWindowWidth(width);
   };
 
-  if (!id) {
-    return <div> something wong </div>;
-  }
-  if (userData?.GetUser === undefined) {
-    return <div> something wong </div>;
-  }
-
-  if (data?.FilterItemsByPrice === null) {
+  if (!id || userData?.GetUser === undefined || data?.FilterItemsByPrice === null) {
     return <div> something wong </div>;
   }
 
@@ -79,12 +85,12 @@ export const ShopRoot: FC = () => {
           {data?.FilterItemsByPrice.map((item) => (
             <Grid item key={item?.id}>
               <SingleItemCard item={item}>
-                <BuyButton itemId={item?.id} />
+                <BuyButton itemId={item?.id} maxPrice={priceFilter} />
               </SingleItemCard>
             </Grid>
           ))}
         </Grid>
-        <GenerateRandomItemButton />
+        <GenerateRandomItemButton maxPrice={priceFilter} />
         <h3 className="money">Money: {userData.GetUser?.money}</h3>
       </>
     );
@@ -95,27 +101,33 @@ export const ShopRoot: FC = () => {
       <h1 className="star-wars" style={{ border: '3px solid', borderRadius: 10 }}>
         Star Wars Marked
       </h1>
+
       <Typography>Max price filter</Typography>
-      <Slider
-        style={{ width: '20%' }}
-        value={priceValue as number}
-        onChange={(e, val) => setPriceValue(val as number)}
-        onChangeCommitted={(e, val) => setPricefilter(val as number)}
-        min={0}
-        max={1000}
-        aria-label="Default"
-        valueLabelDisplay="auto"
-      />
+      <Stack direction="row" spacing={2}>
+        <Typography>0</Typography>
+        <Slider
+          style={{ width: '20%' }}
+          value={priceValue as number}
+          onChange={(e, val) => setPriceValue(val as number)}
+          onChangeCommitted={(e, val) => setPricefilter(val as number)}
+          min={0}
+          max={priceData?.MostExpensiveItemPrice?.price ?? 0}
+          aria-label="defult"
+          valueLabelDisplay="auto"
+        />
+        <Typography>{priceData?.MostExpensiveItemPrice?.price}</Typography>
+      </Stack>
+
       <Grid container spacing={2} direction="row">
         {data?.FilterItemsByPrice.map((item) => (
           <Grid item key={item?.id} xs={2}>
             <SingleItemCard item={item}>
-              <BuyButton itemId={item?.id} />
+              <BuyButton itemId={item?.id} maxPrice={priceFilter} />
             </SingleItemCard>
           </Grid>
         ))}
       </Grid>
-      <GenerateRandomItemButton />
+      <GenerateRandomItemButton maxPrice={priceFilter} />
       <h3 className="money">Money: {userData.GetUser?.money}</h3>
     </>
   );
