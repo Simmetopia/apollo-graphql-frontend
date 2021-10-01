@@ -8,7 +8,7 @@ import { useSWMutation } from '../utils/useSWMutation';
 import { DocumentNode } from 'graphql';
 import { ItemSellMutation, ItemSellMutationVariables } from './__generated__/ItemSellMutation';
 import { showUserDetails } from './ProfileRoot';
-import { extractNameFromQuery } from './CreateRandomItemButton';
+import { extractNameFromQuery } from '../shop/CreateRandomItemButton';
 
 const itemSellMutation = gql`
  mutation ItemSellMutation($userSellerId: String!, $itemId: String!) {

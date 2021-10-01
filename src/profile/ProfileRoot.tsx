@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Typography from '@material-ui/core/Typography/Typography';
-import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
 import { useSWQuery } from '../utils/useSWQuery';
