@@ -12,6 +12,7 @@ import { userMoneyQuery, userMoneyQueryVariables } from './__generated__/userMon
 import { getItemsInShopQuery, getItemsInShopQueryVariables } from './__generated__/getItemsInShopQuery';
 import { mostExpensiveItemQuery } from './__generated__/mostExpensiveItemQuery';
 import { Stack } from '@mui/material';
+import { ItemFilter } from './ItemFilter';
 
 export const getItemsInShop = gql`
   query getItemsInShopQuery($filterPrice: Int!) {
@@ -117,6 +118,8 @@ export const ShopRoot: FC = () => {
         />
         <Typography>{priceData?.MostExpensiveItemPrice?.price}</Typography>
       </Stack>
+
+      <ItemFilter filterName={'Name'} filterValues={['Fix Mig på MANDAG!!!!', 'haha']}></ItemFilter>
 
       <Grid container spacing={2} direction="row">
         {data?.FilterItemsByPrice.map((item) => (
