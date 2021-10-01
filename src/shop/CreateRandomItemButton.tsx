@@ -4,31 +4,32 @@ import { DocumentNode } from 'graphql';
 import gql from 'graphql-tag';
 import React, { FC } from 'react';
 import { useSWMutation } from '../utils/useSWMutation';
-import { itemDisplayQuery } from './UserItemList';
-import { ItemCreateMutation, ItemCreateMutationVariables } from './__generated__/ItemCreateMutation';
+import { ItemCreateMutation } from './__generated__/ItemCreateMutation';
+import { itemFilterQuery } from './ShopRoot';
+
 
 export type UserItemListPropsId = { userId: string };
 
 const useStyles = makeStyles<Theme>(theme => ({
-  spacer: { marginTop: theme.spacing(1) },
+  spacer: { marginTop: theme.spacing(1), width: "100%"},
 }));
 
 const itemCreateMutation = gql`
- mutation ItemCreateMutation($userId: String!) {
- itemCreate(userId: $userId) {
-   id
-   userId
-   SaberPart
-   {
-     name
-   }
-   PartName
-   {
-     name
-   }
-   partDescription
-   price
- }} 
+  mutation ItemCreateMutation {
+  itemCreate {
+    id
+    userId
+    SaberPart
+    {
+      name
+    }
+    PartName
+    {
+      name
+    }
+    partDescription
+    price
+  }} 
 `
 
 export function extractNameFromQuery(query: DocumentNode): string {
@@ -36,8 +37,8 @@ export function extractNameFromQuery(query: DocumentNode): string {
   return (a as any).name.value as string
 }
 
-export const GenerateRandomItemButton: FC<UserItemListPropsId> = ({ userId }) => {
-  const [itemCreate, { data, loading }] = useSWMutation<ItemCreateMutation, ItemCreateMutationVariables>(itemCreateMutation, { refetchQueries: [extractNameFromQuery(itemDisplayQuery)] });
+export const GenerateRandomItemButton: FC = () => {
+  const [itemCreate, { data, loading }] = useSWMutation<ItemCreateMutation>(itemCreateMutation, { refetchQueries: [extractNameFromQuery(itemFilterQuery)] });
 
   const classes = useStyles();
   return (
@@ -46,9 +47,9 @@ export const GenerateRandomItemButton: FC<UserItemListPropsId> = ({ userId }) =>
       className={classes.spacer}
       color="primary"
       disabled={false}
-      onClick={() => itemCreate({ variables: { userId } })}
+      onClick={() => itemCreate()}
     >
-      Generate random item
+      Create new item
     </Button>
   );
 };

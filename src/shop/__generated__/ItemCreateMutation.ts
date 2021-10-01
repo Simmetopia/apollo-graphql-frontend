@@ -30,7 +30,3 @@ export interface ItemCreateMutation_itemCreate {
 export interface ItemCreateMutation {
   itemCreate: ItemCreateMutation_itemCreate | null;
 }
-
-export interface ItemCreateMutationVariables {
-  userId: string;
-}

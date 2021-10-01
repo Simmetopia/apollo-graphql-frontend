@@ -10,7 +10,7 @@ const SingleItemCard: FC<{ item: ItemFilterQuery_filterItems }> = ({ children, i
             <SWLabelValue label="Name:" value={item.PartName!.name}></SWLabelValue>
             <SWLabelValue label="Price:" value={'' + item.price} ></SWLabelValue >
             <SWLabelValue label="Part:" value={item.SaberPart!.name}></SWLabelValue>
-            <SWLabelValue label="Description:" value={item.partDescription}></SWLabelValue>
+            {/* <SWLabelValue label="Description:" value={item.partDescription}></SWLabelValue> */}
             <div>
                 {children}
             </div>
