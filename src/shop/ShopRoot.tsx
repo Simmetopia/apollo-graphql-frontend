@@ -65,8 +65,6 @@ export const ShopRoot: FC = () => {
     setPriceValue(priceData?.MostExpensiveItemPrice?.price ?? 0);
     updateDimensions();
 
-    console.log(filter);
-
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
   }, [priceData, filter]);
@@ -107,30 +105,29 @@ export const ShopRoot: FC = () => {
         Star Wars Marked
       </h1>
 
-      <Typography>Max price filter</Typography>
-      <Stack direction="row" spacing={2}>
-        <Typography>0</Typography>
-        <Slider
-          style={{ width: '20%' }}
-          value={priceValue as number}
-          onChange={(e, val) => setPriceValue(val as number)}
-          onChangeCommitted={(e, val) => setPricefilter(val as number)}
-          min={0}
-          max={priceData?.MostExpensiveItemPrice?.price ?? 0}
-          aria-label="defult"
-          valueLabelDisplay="auto"
-        />
-        <Typography>{priceData?.MostExpensiveItemPrice?.price}</Typography>
+      <Stack style={{ marginBottom: '2em' }} direction="row" spacing={5}>
+        <div style={{ width: '20em' }}>
+          <Typography>Max price filter</Typography>
+          <Stack direction="row" spacing={2}>
+            <Typography>0</Typography>
+            <Slider
+              style={{ width: '100%' }}
+              value={priceValue as number}
+              onChange={(e, val) => setPriceValue(val as number)}
+              onChangeCommitted={(e, val) => setPricefilter(val as number)}
+              min={0}
+              max={priceData?.MostExpensiveItemPrice?.price ?? 0}
+              aria-label="defult"
+              valueLabelDisplay="auto"
+            />
+            <Typography>{priceData?.MostExpensiveItemPrice?.price}</Typography>
+          </Stack>
+        </div>
+        <ItemFilter filterName={'part name'} filterValues={['Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
       </Stack>
 
-      <ItemFilter filterName={'part name'} filterValues={['Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
-      <ItemFilter
-        filterName={'saber part'}
-        filterValues={['Emitter', 'Switch', 'Body', 'Pommel', 'Blade']}
-      ></ItemFilter>
-
       <Grid container spacing={2} direction="row">
-        {data?.FilterItemsByPrice.filter((item) => item?.partName?.includes(filterItemsVar())).map((item) => (
+        {data?.FilterItemsByPrice.filter((item) => item?.partName?.includes(filter)).map((item) => (
           <Grid item key={item?.id} xs={2}>
             <SingleItemCard item={item}>
               <BuyButton itemId={item?.id} maxPrice={priceFilter} />
