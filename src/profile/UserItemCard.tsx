@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Typography, Card, makeStyles } from '@material-ui/core';
+import { Typography, Card, makeStyles, Checkbox } from '@material-ui/core';
 import { getUserItemQuery_GetUser_inventory } from './__generated__/getUserItemQuery';
 import '../shop/Shop.css';
+import { clearVarItems, putItemInVar, removeItemFromVar } from '../utils/varUtilities'
 
 const style = makeStyles({
   divStyle: {
@@ -47,6 +48,8 @@ const style = makeStyles({
 });
 
 const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({ children, item }) => {
+  const [checked, setChecked] = React.useState(false);
+  clearVarItems();
   if (!item) {
     return <div> something wong </div>;
   }
@@ -64,11 +67,23 @@ const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({
 
   const classes = style();
 
+  
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if(checked === true){ 
+      removeItemFromVar(item)
+      setChecked(event.target.checked);
+    } else {
+      putItemInVar(item)
+      setChecked(event.target.checked);
+    }
+  };
+
   return (
     <div className="box">
       <Card className={classes.cardStyle}>
         <div className={classes.divStyle} style={{ outlineColor: imageBackgroundColor }}>
-          <img src={item.url ?? ''} alt="Commando Switch" className={classes.imgStyle} />
+          <img src={item.url ?? ''} alt="Card url" className={classes.imgStyle} />
         </div>
         <div className={classes.textCenter}>
           <div className={classes.center}>
@@ -102,8 +117,8 @@ const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({
               </div>
             )}
           </div>
-
-          {children}
+        <Checkbox checked={checked} onChange={handleChange}/>
+        {children}
         </div>
       </Card>
     </div>

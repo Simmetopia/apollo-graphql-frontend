@@ -10,6 +10,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { Typography } from '@material-ui/core';
 import { Stack } from '@mui/material';
+import { CombineButton } from './CombineButton'
+
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
 import { ItemFilter } from '../shop/ItemFilter';
 import { filterItemsVar, getFilterValue } from '../utils/filterVar';
@@ -32,6 +34,8 @@ export const userItemQuery = gql`
 `;
 
 export type UserItemListProps = { userId: string };
+
+
 
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   const [getItems, { data }] = useSWLazyQuery<getUserItemQuery, getUserItemQueryVariables>(userItemQuery, {
@@ -57,7 +61,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   if (data?.GetUser === null) {
     return <div> something wong </div>;
   }
-
+  
   return (
     <>
       <Stack direction="row" justifyContent="left" spacing={5} style={{ marginTop: 25, marginBottom: 25 }}>
@@ -102,6 +106,9 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
             );
           })}
       </Grid>
+      <div style={{textAlign: 'center', marginTop: '2em'}}>
+        <CombineButton/>
+      </div>
     </>
   );
 };
