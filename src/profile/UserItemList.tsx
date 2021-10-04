@@ -11,6 +11,9 @@ import FormControl from '@material-ui/core/FormControl';
 import { Typography } from '@material-ui/core';
 import { Stack } from '@mui/material';
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
+import { ItemFilter } from '../shop/ItemFilter';
+import { filterItemsVar, getFilterValue } from '../utils/filterVar';
+import { useReactiveVar } from '@apollo/client';
 
 export const userItemQuery = gql`
   query getUserItemQuery($id: ID!) {
@@ -35,6 +38,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
     variables: { id: userId },
   });
   const [sortItemBy, setSortItemBy] = useState<number>(0);
+  const filter = useReactiveVar<string>(filterItemsVar);
 
   useEffect(() => {
     getItems({ variables: { id: userId } });
@@ -56,7 +60,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
 
   return (
     <>
-      <Stack direction="row" justifyContent="center" spacing={5} style={{ marginTop: 25, marginBottom: 25 }}>
+      <Stack direction="row" justifyContent="left" spacing={5} style={{ marginTop: 25, marginBottom: 25 }}>
         <FormControl
           variant="filled"
           color="secondary"
@@ -80,11 +84,14 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
             </MenuItem>
           </Select>
         </FormControl>
+
+        <ItemFilter filterName={'part name'} filterValues={['None', 'Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
       </Stack>
 
       <Grid container direction="row" spacing={2}>
         {data?.GetUser.inventory
           .filter((item) => item.inShop === !!sortItemBy)
+          .filter((item) => item?.partName?.includes(getFilterValue(filter)))
           .map((sortedItem) => {
             return (
               <Grid item key={sortedItem?.id} xs={2}>

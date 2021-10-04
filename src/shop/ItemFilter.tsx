@@ -34,11 +34,6 @@ export const ItemFilter: FC<FilterProps> = ({ filterName, filterValues }) => {
               </Typography>
             </MenuItem>
           ))}
-          <MenuItem value={''}>
-            <Typography color="primary">
-              <strong>None</strong>
-            </Typography>
-          </MenuItem>
         </Select>
       </FormControl>
     </>
