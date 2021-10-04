@@ -55,13 +55,13 @@ const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({
   }
 
   var imageBackgroundColor: string = '#dfe6e9';
-  if (item.partDescription?.includes('uncommon')) {
+  if (item.rarity === 'Uncommon') {
     imageBackgroundColor = '#00b894';
-  } else if (item.partDescription?.includes('rare')) {
+  } else if (item.rarity === 'Rare') {
     imageBackgroundColor = '#0984e3';
-  } else if (item.partDescription?.includes('epic')) {
+  } else if (item.rarity === 'Epic') {
     imageBackgroundColor = '#6c5ce7';
-  } else if (item.partDescription?.includes('LEGENDARY')) {
+  } else if (item.rarity === 'Legendary') {
     imageBackgroundColor = '#fdcb6e';
   }
 
