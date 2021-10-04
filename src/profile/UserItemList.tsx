@@ -28,6 +28,7 @@ export const userItemQuery = gql`
         price
         inShop
         url
+        rarity
       }
     }
   }

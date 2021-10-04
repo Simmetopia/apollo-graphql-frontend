@@ -23,6 +23,7 @@ export const getItemsInShop = gql`
       saberPart
       partDescription
       price
+      rarity
       url
     }
   }
