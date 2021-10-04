@@ -9,11 +9,16 @@ import { useLocalData } from '../useLocalData';
 import { BuyButton } from './BuyButton';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { userMoneyQuery, userMoneyQueryVariables } from './__generated__/userMoneyQuery';
-import { getItemsInShopQuery, getItemsInShopQueryVariables } from './__generated__/getItemsInShopQuery';
+import {
+  getItemsInShopQuery,
+  getItemsInShopQueryVariables,
+  getItemsInShopQuery_FilterItemsByPrice,
+} from './__generated__/getItemsInShopQuery';
 import { mostExpensiveItemQuery } from './__generated__/mostExpensiveItemQuery';
 import { Stack } from '@mui/material';
 import { ItemFilter } from './ItemFilter';
 import { filterItemsVar, getFilterValue } from '../utils/filterVar';
+import { ItemSort, sortItemsVar } from './ItemSort';
 
 export const getItemsInShop = gql`
   query getItemsInShopQuery($filterPrice: Int!) {
@@ -51,6 +56,8 @@ export const ShopRoot: FC = () => {
   const [priceFilter, setPricefilter] = useState(0);
   const [priceValue, setPriceValue] = useState(0);
   const filter = useReactiveVar<string>(filterItemsVar);
+  const sorter = useReactiveVar<string>(sortItemsVar);
+  let sortedList: any[] = [];
   const { data } = useQuery<getItemsInShopQuery, getItemsInShopQueryVariables>(getItemsInShop, {
     variables: { filterPrice: priceFilter },
     fetchPolicy: 'network-only',
@@ -64,6 +71,8 @@ export const ShopRoot: FC = () => {
     setPricefilter(priceData?.MostExpensiveItemPrice?.price ?? 0);
     setPriceValue(priceData?.MostExpensiveItemPrice?.price ?? 0);
     updateDimensions();
+
+    console.log(sortedList);
 
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
@@ -123,7 +132,9 @@ export const ShopRoot: FC = () => {
             <Typography>{priceData?.MostExpensiveItemPrice?.price}</Typography>
           </Stack>
         </div>
-        <ItemFilter filterName={'part name'} filterValues={['None', 'Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
+        <ItemFilter filterName={'name'} filterValues={['None', 'Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
+
+        <ItemSort></ItemSort>
       </Stack>
 
       <Grid container spacing={2} direction="row">
