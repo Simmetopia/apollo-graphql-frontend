@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import UserItemCard from './UserItemCard';
 import { SellButton } from './SellButton';
 import gql from 'graphql-tag';
@@ -11,6 +11,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { Typography } from '@material-ui/core';
 import { Stack } from '@mui/material';
+import { CombineButton } from './CombineButton'
+
 
 export const userItemQuery = gql`
   query getUserItemQuery($id: ID!) {
@@ -30,6 +32,8 @@ export const userItemQuery = gql`
 
 export type UserItemListProps = { userId: string };
 
+
+
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   const { data } = useQuery<getUserItemQuery, getUserItemQueryVariables>(userItemQuery, { variables: { id: userId } });
   const [sortItemBy, setSortItemBy] = useState(1);
@@ -41,7 +45,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   if (data?.GetUser === null) {
     return <div> something wong </div>;
   }
-
+  
   return (
     <>
       <Stack direction="row" justifyContent="center" spacing={5} style={{ marginTop: 25, marginBottom: 25 }}>
@@ -92,6 +96,9 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
           }
         })}
       </Grid>
+      <div style={{textAlign: 'center', marginTop: '2em'}}>
+        <CombineButton/>
+      </div>
     </>
   );
 };

@@ -30,7 +30,7 @@ const useStyles = makeStyles<Theme>((theme) => ({
 
 type Props = {};
 
-export const GenerateRandomItemButton: FC<Props> = ({}) => {
+export const GenerateRandomItemButton: FC<Props> = () => {
   const classes = useStyles();
   const [ItemCreate] = useMutation(itemCreateMutation, {
     refetchQueries: [{ query: GetAllShopItemsQuery }],

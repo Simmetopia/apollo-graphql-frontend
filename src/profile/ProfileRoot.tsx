@@ -35,6 +35,7 @@ export const ProfileRoot: FC = () => {
       </Typography>
       <Divider variant="middle" />
       <UserItemList userId={id} />
+      
     </>
   );
 };

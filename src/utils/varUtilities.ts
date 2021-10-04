@@ -19,3 +19,7 @@ export function removeItemFromVar(item: getUserItemQuery_GetUser_inventory) {
   }
   checkedItemsVar([...items]);
 }
+
+export function clearVarItems() {
+  checkedItemsVar([]);
+}
