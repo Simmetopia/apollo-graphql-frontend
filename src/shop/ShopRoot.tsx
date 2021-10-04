@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import Slider from '@material-ui/core/Slider';
@@ -13,6 +13,7 @@ import { getItemsInShopQuery, getItemsInShopQueryVariables } from './__generated
 import { mostExpensiveItemQuery } from './__generated__/mostExpensiveItemQuery';
 import { Stack } from '@mui/material';
 import { ItemFilter } from './ItemFilter';
+import { filterItemsVar } from '../utils/filterVar';
 
 export const getItemsInShop = gql`
   query getItemsInShopQuery($filterPrice: Int!) {
@@ -49,6 +50,7 @@ export const ShopRoot: FC = () => {
   const [width, setWindowWidth] = useState(0);
   const [priceFilter, setPricefilter] = useState(0);
   const [priceValue, setPriceValue] = useState(0);
+  const filter = useReactiveVar<string>(filterItemsVar);
   const { data } = useQuery<getItemsInShopQuery, getItemsInShopQueryVariables>(getItemsInShop, {
     variables: { filterPrice: priceFilter },
     fetchPolicy: 'network-only',
@@ -63,9 +65,11 @@ export const ShopRoot: FC = () => {
     setPriceValue(priceData?.MostExpensiveItemPrice?.price ?? 0);
     updateDimensions();
 
+    console.log(filter);
+
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
-  }, [priceData]);
+  }, [priceData, filter]);
 
   const updateDimensions = () => {
     const width = window.innerWidth;
@@ -119,10 +123,14 @@ export const ShopRoot: FC = () => {
         <Typography>{priceData?.MostExpensiveItemPrice?.price}</Typography>
       </Stack>
 
-      <ItemFilter filterName={'Name'} filterValues={['Fix Mig på MANDAG!!!!', 'haha']}></ItemFilter>
+      <ItemFilter filterName={'part name'} filterValues={['Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
+      <ItemFilter
+        filterName={'saber part'}
+        filterValues={['Emitter', 'Switch', 'Body', 'Pommel', 'Blade']}
+      ></ItemFilter>
 
       <Grid container spacing={2} direction="row">
-        {data?.FilterItemsByPrice.map((item) => (
+        {data?.FilterItemsByPrice.filter((item) => item?.partName?.includes(filterItemsVar())).map((item) => (
           <Grid item key={item?.id} xs={2}>
             <SingleItemCard item={item}>
               <BuyButton itemId={item?.id} maxPrice={priceFilter} />
