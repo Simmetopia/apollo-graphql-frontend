@@ -49,7 +49,7 @@ const style = makeStyles({
 
 const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({ children, item }) => {
   const [checked, setChecked] = React.useState(false);
-  clearVarItems();
+  // clearVarItems();
   if (!item) {
     return <div> something wong </div>;
   }
