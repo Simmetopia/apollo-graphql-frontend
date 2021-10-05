@@ -42,7 +42,6 @@ export const itemFilterQuery = gql`
  }} 
 `
 
-
 const useStyles = makeStyles({
   grid: {
     display: "grid",
@@ -65,21 +64,24 @@ const useStyles = makeStyles({
 });
 
 export const ShopRoot: FC = () => {
-  const [itemFilter, { data, loading }] = useSWLazyQuery<ItemFilterQuery, ItemFilterQueryVariables>(itemFilterQuery, ({ variables: { saberPart: "" } }));
+  var [itemFilter, { data }] = useSWLazyQuery<ItemFilterQuery, ItemFilterQueryVariables>(itemFilterQuery, ({ variables: { saberPart: "" } }));
   const [filter, setFilter] = useState('');
+  const [sortData, setData] = useState(data?.filterItems);
+  const [sortSelectData, setsortSelectData] = useState('alphabeticalFalling')
+  const [filterSelectData, setFilterSelectData] = useState('None')
   const [{ id }] = useLocalData();
   const classes = useStyles();
 
   function selectButton(filteredItem: ItemFilterQuery_filterItems): React.ReactNode {
     let flag = false
 
-    filteredItem.carts.map(item => {
-      if(item.id === id) {
+    filteredItem.carts.forEach(item => {
+      if (item.id === id) {
         flag = true
       }
     });
-    
-    if(flag) {
+
+    if (flag) {
       return <RemoveCartButton itemId={filteredItem.id} />
     }
 
@@ -87,59 +89,123 @@ export const ShopRoot: FC = () => {
   }
 
   useEffect(() => {
+    setData(data?.filterItems)
+    sortItems('alphabeticalFalling')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
+
+  useEffect(() => {
     itemFilter({ variables: { saberPart: "" } })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const sortItems = (sortingType: string) => {
+    if (!data?.filterItems) return
+    const sortedData = [...data?.filterItems!];
+    setsortSelectData(sortingType)
+    let sortedStuff;
+    switch (sortingType) {
+      case 'alphabeticalRising':
+        sortedStuff = sortedData.sort((a, b) => b.PartName!.name.localeCompare(a.PartName!.name));
+        break;
+      case 'alphabeticalFalling':
+        sortedStuff = sortedData.sort((a, b) => a.PartName!.name.localeCompare(b.PartName!.name));
+        break;
+      case 'priceFalling':
+        sortedStuff = sortedData.sort((a, b) => a.price! - b.price!);
+        break
+      case 'priceRising':
+        sortedStuff = sortedData.sort((a, b) => b.price! - a.price!);
+        break;
+      default:
+        sortedStuff = sortedData.sort((a, b) => a.PartName!.name.localeCompare(b.PartName!.name));
+    }
+    setData(sortedStuff);
+  }
+
+  const filterItemsByName = (name: string, label: string) => {
+    itemFilter({ variables: { saberPart: name } })
+    setFilterSelectData(label)
+  }
 
   return (
     <>
       <Typography variant="h3">Watto's webshop</Typography>
       <div className={classes.grid} >
-        <FormControl className="col-span-2 w-4/5 rounded-md" variant="filled" style={{ color: "black", minWidth: 130 }}>
+
+        <textarea id="filter"
+          className={classes.hideScroll}
+          style={{ backgroundColor: "#616161" }}
+          name="filter"
+          placeholder="Search for item"
+          value={filter}
+          onChange={event => setFilter(event.target.value)}
+        />
+
+        <FormControl className="col-start-1 col-span-2 w-4/5 rounded-md" variant="filled" style={{ color: "black", minWidth: 130 }}>
           <InputLabel style={{ color: "#00ff00" }}>Filter</InputLabel>
 
-          <Select label="Sort items">
-            <MenuItem value="" onClick={() => itemFilter({ variables: { saberPart: "" } })}>
+          <Select value={filterSelectData}>
+            <MenuItem value="None" onClick={() => filterItemsByName('', 'None')}>
               <Typography color="primary">
                 <strong>None</strong>
               </Typography>
             </MenuItem>
-            <MenuItem value="Addon" onClick={() => itemFilter({ variables: { saberPart: "Addon" } })}>
+            <MenuItem value="Addon" onClick={() => filterItemsByName('Addon', 'Addon')}>
               <Typography color="primary">
                 <strong>Addon</strong>
               </Typography>
             </MenuItem>
-            <MenuItem value="Body" onClick={() => itemFilter({ variables: { saberPart: "Body" } })}>
+            <MenuItem value="Body" onClick={() => filterItemsByName('Body', 'Body')}>
               <Typography color="primary">
                 <strong>Body</strong>
               </Typography></MenuItem>
-            <MenuItem value="Emitter" onClick={() => itemFilter({ variables: { saberPart: "Emitter" } })}>
+            <MenuItem value="Emitter" onClick={() => filterItemsByName('Emitter', 'Emitter')}>
               <Typography color="primary">
                 <strong>Emitter</strong>
               </Typography></MenuItem>
-            <MenuItem value="Pommel" onClick={() => itemFilter({ variables: { saberPart: "Pommel" } })}>
+            <MenuItem value="Pommel" onClick={() => filterItemsByName('Pommel', 'Pommel')}>
               <Typography color="primary">
                 <strong>Pommel</strong>
               </Typography></MenuItem>
-            <MenuItem value="Switch" onClick={() => itemFilter({ variables: { saberPart: "Switch" } })}>
+            <MenuItem value="Switch" onClick={() => filterItemsByName('Switch', 'Switch')}>
               <Typography color="primary">
                 <strong>Switch</strong>
               </Typography></MenuItem>
           </Select>
         </FormControl>
 
-        <textarea id="filter"
-          className={classes.hideScroll}
-          style={{ backgroundColor: "#616161" }}
-          name="filter"
-          value={filter}
-          onChange={event => setFilter(event.target.value)}
-        />
-        <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton/></div>
-        <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton/></div>
-        <div className="col-start-1 col-span-2 h-16 w-4/5 text-center"><CartButton/></div>
-        <Grid container spacing={1} direction="row" className="col-span-8 col-start-4 row-span-6 row-start-1">
-          {data?.filterItems.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredItem => (
+        <FormControl className="col-start-1 col-span-2 w-4/5 rounded-md" variant="filled" style={{ color: "black", minWidth: 130 }}>
+          <InputLabel style={{ color: "#00ff00" }}>Sort</InputLabel>
+          <Select value={sortSelectData}>
+            <MenuItem value="alphabeticalFalling" onClick={() => sortItems('alphabeticalFalling')}>
+              <Typography color="primary">
+                <strong>Alphabetical ↓ </strong>
+              </Typography>
+            </MenuItem>
+            <MenuItem value="alphabeticalRising" onClick={() => sortItems('alphabeticalRising')}>
+              <Typography color="primary">
+                <strong>Alphabetical ↑ </strong>
+              </Typography>
+            </MenuItem>
+            <MenuItem value="priceFalling" onClick={() => sortItems('priceFalling')}>
+              <Typography color="primary">
+                <strong>Price ↓ </strong>
+              </Typography>
+            </MenuItem>
+            <MenuItem value="priceRising" onClick={() => sortItems('priceRising')}>
+              <Typography color="primary">
+                <strong>Price ↑ </strong>
+              </Typography>
+            </MenuItem>
+          </Select>
+        </FormControl>
+
+        <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton /></div>
+        <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton /></div>
+        <div className="col-start-1 col-span-2 h-16 w-4/5 text-center"><CartButton /></div>
+        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-7 row-start-1">
+          {sortData?.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredItem => (
             <Grid item key={filteredItem.id}>
               <SingleItemCard item={filteredItem}>
                 {selectButton(filteredItem)}
@@ -147,6 +213,7 @@ export const ShopRoot: FC = () => {
             </Grid>
           ))}
         </Grid>
+
       </div>
     </>
   );

@@ -32,6 +32,7 @@ enum Pages {
 export default function AuthenticatedRoot() {
   const [value, setValue] = React.useState(Pages.WELCOME);
   const classes = useStyles();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setData] = useLocalData();
 
   function logoutUser(): void {

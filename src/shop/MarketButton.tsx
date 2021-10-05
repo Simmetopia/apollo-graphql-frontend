@@ -11,7 +11,7 @@ import { ItemUpdateMarketMutation } from './__generated__/ItemUpdateMarketMutati
 
 const useStyles = makeStyles<Theme>(theme => ({
   spacer: { marginTop: theme.spacing(1), width: "100%" },
-  
+
 }));
 
 
@@ -24,7 +24,8 @@ const itemUpdateMarketMutation = gql`
 `
 
 export const MarketButton: FC = () => {
-  
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemUpdate, { data, loading }] = useSWMutation<ItemUpdateMarketMutation>(itemUpdateMarketMutation, { refetchQueries: [extractNameFromQuery(itemFilterQuery)] });
 
   const classes = useStyles();
