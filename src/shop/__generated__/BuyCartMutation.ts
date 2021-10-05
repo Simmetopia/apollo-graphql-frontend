@@ -4,19 +4,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: ItemBuyMutation
+// GraphQL mutation operation: BuyCartMutation
 // ====================================================
 
-export interface ItemBuyMutation_itemBuy {
+export interface BuyCartMutation_buyCart {
   __typename: "Item";
   id: string;
 }
 
-export interface ItemBuyMutation {
-  itemBuy: ItemBuyMutation_itemBuy | null;
+export interface BuyCartMutation {
+  buyCart: BuyCartMutation_buyCart[];
 }
 
-export interface ItemBuyMutationVariables {
-  userBuyerId: string;
-  itemId: string;
+export interface BuyCartMutationVariables {
+  userId: string;
 }
