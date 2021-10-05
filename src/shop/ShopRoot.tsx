@@ -74,7 +74,7 @@ export const ShopRoot: FC = () => {
     let flag = false
 
     filteredItem.carts.map(item => {
-      if(item.id == id) {
+      if(item.id === id) {
         flag = true
       }
     });
