@@ -13,9 +13,8 @@ import { UserCartQuery, UserCartQueryVariables } from './__generated__/UserCartQ
 
 
 const useStyles = makeStyles<Theme>(theme => ({
-  spacer: { transform: "scale(2.5)" },
-//   spacer: { marginTop: theme.spacing(1), transform: "scale(2.5)" },
-  
+  buttonSize: {  height: "6rem", width: "6rem" },
+  badgeSize: { transform: "scale(2.5)" },
 }));
 
 export const userCartQuery = gql`
@@ -57,8 +56,8 @@ export const CartButton: FC = () => {
   const classes = useStyles();
 
   return (
-    <IconButton className={classes.spacer} onClick={() => buyCart({ variables: { userId: id! } })} color="primary" >
-        <Badge badgeContent={data?.userCart.length} > 
+    <IconButton className={classes.buttonSize} onClick={() => buyCart({ variables: { userId: id! } })} color="primary" >
+        <Badge className={classes.badgeSize} badgeContent={data?.userCart.length} > 
             <ShoppingCart />
         </Badge>
     </IconButton >

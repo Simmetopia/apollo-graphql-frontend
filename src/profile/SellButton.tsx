@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import ShopIcon from '@material-ui/icons/ShoppingCart';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import gql from 'graphql-tag';
 import { IconButton } from '@material-ui/core';
 import { useLocalData } from '../useLocalData';
@@ -36,7 +36,7 @@ export const SellButton: FC<SellButtonProps> = ({ itemId }) => {
     <IconButton
       onClick={() => itemSell({ variables: { userSellerId: id, itemId } })}
     >
-      <ShopIcon />
+      <AttachMoneyIcon />
     </IconButton>
   );
 };
