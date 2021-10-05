@@ -8,6 +8,8 @@ import { AppBar, BottomNavigation, BottomNavigationAction, Typography, Divider }
 import { UserDetails, ProfileRoot } from './profile/ProfileRoot';
 import { ShopRoot } from './shop/ShopRoot';
 import { useLocalData } from './useLocalData';
+import { clearVarItems } from './utils/varUtilities';
+import { clearPartFilter } from './utils/filterVar';
 
 const useStyles = makeStyles({
   appBar: {
@@ -51,8 +53,8 @@ export default function AuthenticatedRoot() {
           className={classes.darkColor}
         >
           <BottomNavigationAction color="inherit" label="Welcome" value={Pages.WELCOME} icon={<RestoreIcon />} />
-          <BottomNavigationAction color="inherit" label="Shop" value={Pages.SHOP} icon={<FavoriteIcon />} />
-          <BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE} icon={<LocationOnIcon />} />
+          <BottomNavigationAction color="inherit" label="Shop" value={Pages.SHOP} icon={<FavoriteIcon />} onClick={() => clearPartFilter()} />
+          <BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE} icon={<LocationOnIcon />} onClick={() => {clearVarItems(); clearPartFilter()}} />
           <BottomNavigationAction color="inherit" onClick={logOutUser} label="Logout" icon={<MeetingRoomIcon />} />
         </BottomNavigation>
       </AppBar>

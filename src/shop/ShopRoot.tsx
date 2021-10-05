@@ -9,12 +9,17 @@ import { useLocalData } from '../useLocalData';
 import { BuyButton } from './BuyButton';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { userMoneyQuery, userMoneyQueryVariables } from './__generated__/userMoneyQuery';
-import { getItemsInShopQuery, getItemsInShopQueryVariables } from './__generated__/getItemsInShopQuery';
+import {
+  getItemsInShopQuery,
+  getItemsInShopQueryVariables,
+  getItemsInShopQuery_FilterItemsByPrice,
+} from './__generated__/getItemsInShopQuery';
 import { mostExpensiveItemQuery } from './__generated__/mostExpensiveItemQuery';
 import { Stack } from '@mui/material';
 import { ItemFilter } from './ItemFilter';
-import { filterItemsVar, getFilterValue } from '../utils/filterVar';
 import { ItemSort, sortItemsVar, sortVariants } from './ItemSort';
+import { PartFilter } from './PartFilter';
+import { filterItemsVar, filterPartVar, getFilterValue, getPartFilterVar } from '../utils/filterVar';
 
 export const getItemsInShop = gql`
   query getItemsInShopQuery($filterPrice: Int!) {
@@ -24,6 +29,7 @@ export const getItemsInShop = gql`
       saberPart
       partDescription
       price
+      rarity
       url
     }
   }
@@ -45,6 +51,8 @@ export const UserMoneyQuery = gql`
   }
 `;
 
+const partFilter: string[] = ['Blade', 'Emitter', 'Switch', 'Body', 'Pommel'];
+
 export const ShopRoot: FC = () => {
   const [{ id }] = useLocalData();
   const { data: priceData } = useQuery<mostExpensiveItemQuery>(mostExpensiveItem, { fetchPolicy: 'network-only' });
@@ -53,6 +61,8 @@ export const ShopRoot: FC = () => {
   const [priceValue, setPriceValue] = useState(0);
   const filter = useReactiveVar<string>(filterItemsVar);
   const sorter = useReactiveVar<string>(sortItemsVar);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const filterRender = useReactiveVar<string[]>(filterPartVar);
   const { data } = useQuery<getItemsInShopQuery, getItemsInShopQueryVariables>(getItemsInShop, {
     variables: { filterPrice: priceFilter },
     fetchPolicy: 'network-only',
@@ -135,7 +145,7 @@ export const ShopRoot: FC = () => {
         Star Wars Marked
       </h1>
 
-      <Stack style={{ marginBottom: '2em' }} direction="row" spacing={5}>
+      <Stack style={{ marginBottom: '3em' }} direction="row" spacing={5}>
         <div style={{ width: '20em' }}>
           <Typography>Max price filter</Typography>
           <Stack direction="row" spacing={2}>
@@ -156,11 +166,16 @@ export const ShopRoot: FC = () => {
         <ItemFilter filterName={'name'} filterValues={['None', 'Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
 
         <ItemSort></ItemSort>
+
+        {partFilter.map((filter) => (
+          <PartFilter filterName={filter}></PartFilter>
+        ))}
       </Stack>
 
       <Grid container spacing={2} direction="row">
         {items
           ?.filter((item) => item?.partName?.includes(getFilterValue(filter)))
+          .filter((item) => filterPart(item, getPartFilterVar()))
           .map((item) => (
             <Grid item key={item?.id} xs={2}>
               <SingleItemCard item={item}>
@@ -174,3 +189,18 @@ export const ShopRoot: FC = () => {
     </>
   );
 };
+
+function filterPart(item: getItemsInShopQuery_FilterItemsByPrice | null, filter: string[]) {
+  if (filter[0] === 'None') {
+    return true;
+  }
+  if (!item) {
+    return false;
+  }
+  for (let i = 0; i < filter.length; i++) {
+    if (item.saberPart === filter[i]) {
+      return true;
+    }
+  }
+  return false;
+}

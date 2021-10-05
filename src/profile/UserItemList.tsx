@@ -10,12 +10,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { Typography } from '@material-ui/core';
 import { Stack } from '@mui/material';
-import { CombineButton } from './CombineButton'
-
+import { CombineButton } from './CombineButton';
+import { PartFilter } from '../shop/PartFilter';
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
 import { ItemFilter } from '../shop/ItemFilter';
-import { filterItemsVar, getFilterValue } from '../utils/filterVar';
+import { filterItemsVar, filterPartVar, getFilterValue, getPartFilterVar } from '../utils/filterVar';
 import { useReactiveVar } from '@apollo/client';
+import { getItemsInShopQuery_FilterItemsByPrice } from '../shop/__generated__/getItemsInShopQuery';
 
 export const userItemQuery = gql`
   query getUserItemQuery($id: ID!) {
@@ -28,14 +29,14 @@ export const userItemQuery = gql`
         price
         inShop
         url
+        rarity
       }
     }
   }
 `;
 
 export type UserItemListProps = { userId: string };
-
-
+const partFilter: string[] = ['Blade', 'Emitter', 'Switch', 'Body', 'Pommel'];
 
 export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   const [getItems, { data }] = useSWLazyQuery<getUserItemQuery, getUserItemQueryVariables>(userItemQuery, {
@@ -43,6 +44,8 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   });
   const [sortItemBy, setSortItemBy] = useState<number>(0);
   const filter = useReactiveVar<string>(filterItemsVar);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const filterRender = useReactiveVar<string[]>(filterPartVar);
 
   useEffect(() => {
     getItems({ variables: { id: userId } });
@@ -61,7 +64,7 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
   if (data?.GetUser === null) {
     return <div> something wong </div>;
   }
-  
+
   return (
     <>
       <Stack direction="row" justifyContent="left" spacing={5} style={{ marginTop: 25, marginBottom: 25 }}>
@@ -90,12 +93,16 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
         </FormControl>
 
         <ItemFilter filterName={'part name'} filterValues={['None', 'Commando', 'Outcast', 'Pathfinder']}></ItemFilter>
+        {partFilter.map((filter) => (
+          <PartFilter filterName={filter}></PartFilter>
+        ))}
       </Stack>
 
       <Grid container direction="row" spacing={2}>
         {data?.GetUser.inventory
           .filter((item) => item.inShop === !!sortItemBy)
           .filter((item) => item?.partName?.includes(getFilterValue(filter)))
+          .filter((item) => filterPart(item, getPartFilterVar()))
           .map((sortedItem) => {
             return (
               <Grid item key={sortedItem?.id} xs={2}>
@@ -106,9 +113,24 @@ export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
             );
           })}
       </Grid>
-      <div style={{textAlign: 'center', marginTop: '2em'}}>
-        <CombineButton/>
+      <div style={{ textAlign: 'center', marginTop: '2em' }}>
+        <CombineButton />
       </div>
     </>
   );
 };
+
+function filterPart(item: getItemsInShopQuery_FilterItemsByPrice | null, filter: string[]) {
+  if (filter[0] === 'None') {
+    return true;
+  }
+  if (!item) {
+    return false;
+  }
+  for (let i = 0; i < filter.length; i++) {
+    if (item.saberPart === filter[i]) {
+      return true;
+    }
+  }
+  return false;
+}

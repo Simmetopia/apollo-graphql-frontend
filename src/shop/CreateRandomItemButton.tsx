@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Theme, Button } from '@material-ui/core';
 import React, { FC } from 'react';
 import { gql, useMutation } from '@apollo/client';
-import { getItemsInShop } from './ShopRoot';
+import { getItemsInShop, mostExpensiveItem } from './ShopRoot';
 
 export const itemCreateMutation = gql`
   mutation itemCreateMutation {
@@ -33,14 +33,14 @@ type Props = { maxPrice: number };
 export const GenerateRandomItemButton: FC<Props> = ({ maxPrice }) => {
   const classes = useStyles();
   const [ItemCreate] = useMutation(itemCreateMutation, {
-    refetchQueries: [{ query: getItemsInShop, variables: { filterPrice: maxPrice } }],
+    refetchQueries: [{ query: getItemsInShop, variables: { filterPrice: maxPrice } }, {query: mostExpensiveItem}],
   });
   const [DeleteItemsNotOwned] = useMutation(deleteItemsMutation, {
     onCompleted: () => {
       for (let i = 0; i < 10; i++) {
         ItemCreate();
       }
-    },
+    }, refetchQueries: [{query: mostExpensiveItem}]
   });
 
   return (
