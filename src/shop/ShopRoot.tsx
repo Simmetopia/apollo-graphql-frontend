@@ -90,7 +90,7 @@ export const ShopRoot: FC = () => {
 
   useEffect(() => {
     setData(data?.filterItems)
-    filterItems('alphabeticalFalling')
+    sortItems('alphabeticalFalling')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
@@ -99,12 +99,12 @@ export const ShopRoot: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const filterItems = (value: string) => {
+  const sortItems = (sortingType: string) => {
     if (!data?.filterItems) return
     const sortedData = [...data?.filterItems!];
-    setsortSelectData(value)
+    setsortSelectData(sortingType)
     let sortedStuff;
-    switch (value) {
+    switch (sortingType) {
       case 'alphabeticalRising':
         sortedStuff = sortedData.sort((a, b) => b.PartName!.name.localeCompare(a.PartName!.name));
         break;
@@ -123,8 +123,8 @@ export const ShopRoot: FC = () => {
     setData(sortedStuff);
   }
 
-  const filterItemsByName = (value: string, label: string) => {
-    itemFilter({ variables: { saberPart: value } })
+  const filterItemsByName = (name: string, label: string) => {
+    itemFilter({ variables: { saberPart: name } })
     setFilterSelectData(label)
   }
 
@@ -178,22 +178,22 @@ export const ShopRoot: FC = () => {
         <FormControl className="col-start-1 col-span-2 w-4/5 rounded-md" variant="filled" style={{ color: "black", minWidth: 130 }}>
           <InputLabel style={{ color: "#00ff00" }}>Sort</InputLabel>
           <Select value={sortSelectData}>
-            <MenuItem value="alphabeticalFalling" onClick={() => filterItems('alphabeticalFalling')}>
+            <MenuItem value="alphabeticalFalling" onClick={() => sortItems('alphabeticalFalling')}>
               <Typography color="primary">
                 <strong>Alphabetical ↓ </strong>
               </Typography>
             </MenuItem>
-            <MenuItem value="alphabeticalRising" onClick={() => filterItems('alphabeticalRising')}>
+            <MenuItem value="alphabeticalRising" onClick={() => sortItems('alphabeticalRising')}>
               <Typography color="primary">
                 <strong>Alphabetical ↑ </strong>
               </Typography>
             </MenuItem>
-            <MenuItem value="priceFalling" onClick={() => filterItems('priceFalling')}>
+            <MenuItem value="priceFalling" onClick={() => sortItems('priceFalling')}>
               <Typography color="primary">
                 <strong>Price ↓ </strong>
               </Typography>
             </MenuItem>
-            <MenuItem value="priceRising" onClick={() => filterItems('priceRising')}>
+            <MenuItem value="priceRising" onClick={() => sortItems('priceRising')}>
               <Typography color="primary">
                 <strong>Price ↑ </strong>
               </Typography>
