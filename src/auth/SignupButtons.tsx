@@ -26,6 +26,7 @@ export const userLoginMutation = gql`
 
 export const CreateUserButton: FC<AuthProps> = ({ username }) => {
   const [userCreate, { data, loading }] = useSWMutation<UserCreateMutation, UserCreateMutationVariables>(userCreateMutation);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setData] = useLocalData();
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export const CreateUserButton: FC<AuthProps> = ({ username }) => {
 
     setData({ name: data.userCreate?.username, id: data.userCreate?.id })
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   if (loading) {
@@ -50,12 +52,14 @@ export const CreateUserButton: FC<AuthProps> = ({ username }) => {
 
 export const LoginAsUser: FC<AuthProps> = ({ username }) => {
   const [userLogin, { data, loading }] = useSWMutation<UserLoginMutation, UserLoginMutationVariables>(userLoginMutation);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setData] = useLocalData();
 
   useEffect(() => {
     if (!data) return
 
     setData({ name: data.userLogin?.username, id: data.userLogin?.id });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   if (loading) {

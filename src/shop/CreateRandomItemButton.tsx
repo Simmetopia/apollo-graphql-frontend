@@ -11,7 +11,7 @@ import { itemFilterQuery } from './ShopRoot';
 export type UserItemListPropsId = { userId: string };
 
 const useStyles = makeStyles<Theme>(theme => ({
-  spacer: { marginTop: theme.spacing(1), width: "100%"},
+  spacer: { marginTop: theme.spacing(1), width: "100%" },
 }));
 
 const itemCreateMutation = gql`
@@ -38,6 +38,7 @@ export function extractNameFromQuery(query: DocumentNode): string {
 }
 
 export const GenerateRandomItemButton: FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [itemCreate, { data, loading }] = useSWMutation<ItemCreateMutation>(itemCreateMutation, { refetchQueries: [extractNameFromQuery(itemFilterQuery)] });
 
   const classes = useStyles();

@@ -9,6 +9,7 @@ import { userLoginMutation } from './SignupButtons'
 export const CreateUserForm: FC = () => {
   const [userLogin, { data, loading }] = useSWMutation<UserLoginMutation, UserLoginMutationVariables>(userLoginMutation);
   const [username, setUsername] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setData] = useLocalData();
 
 
@@ -16,6 +17,7 @@ export const CreateUserForm: FC = () => {
     if (!data) return
 
     setData({ name: data.userLogin?.username, id: data.userLogin?.id });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   if (loading) {

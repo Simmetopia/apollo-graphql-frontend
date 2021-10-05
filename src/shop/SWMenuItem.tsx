@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
 
 type Props = { label: string, value: string };
 export const SWMenuItem: FC<Props> = ({ label, value }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [itemFilter, { data, loading }] = useSWLazyQuery<ItemFilterQuery, ItemFilterQueryVariables>(itemFilterQuery, ({ variables: { saberPart: value } }));
 
     const classes = useStyles();
