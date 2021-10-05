@@ -22,6 +22,11 @@ export interface ItemDisplayQuery_displayItems_User {
   username: string;
 }
 
+export interface ItemDisplayQuery_displayItems_carts {
+  __typename: "User";
+  id: string;
+}
+
 export interface ItemDisplayQuery_displayItems {
   __typename: "Item";
   id: string;
@@ -31,6 +36,7 @@ export interface ItemDisplayQuery_displayItems {
   partDescription: string | null;
   price: number | null;
   User: ItemDisplayQuery_displayItems_User | null;
+  carts: ItemDisplayQuery_displayItems_carts[];
 }
 
 export interface ItemDisplayQuery {

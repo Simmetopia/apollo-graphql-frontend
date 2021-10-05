@@ -1,14 +1,18 @@
-import { FormControl, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { FormControl, IconButton, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
+import ClearIcon from '@material-ui/icons/Clear';
 import gql from 'graphql-tag';
 import React, { FC, useEffect, useState } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
+import { useLocalData } from '../useLocalData';
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
-import { BuyButton } from './BuyButton';
+import { AddCartButton } from './AddCartButton';
+import { CartButton } from './CartButton';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { MarketButton } from './MarketButton';
-import { ItemFilterQuery, ItemFilterQueryVariables } from './__generated__/ItemFilterQuery';
+import { RemoveCartButton } from './RemoveCartButton';
+import { ItemFilterQuery, ItemFilterQueryVariables, ItemFilterQuery_filterItems } from './__generated__/ItemFilterQuery';
 
 export type ItemListPropsName = { value: string };
 
@@ -31,6 +35,10 @@ export const itemFilterQuery = gql`
     {
       username
     }
+    carts
+    {
+      id
+    }
  }} 
 `
 
@@ -39,7 +47,7 @@ const useStyles = makeStyles({
   grid: {
     display: "grid",
     gridTemplateRows: "repeat(3, minmax(0, 4rem))",
-    gridTemplateColumns: "repeat(11, minmax(0, 1fr))",
+    gridTemplateColumns: "repeat(13, minmax(0, 1fr))",
     gap: 20,
     paddingTop: 20,
   },
@@ -59,7 +67,24 @@ const useStyles = makeStyles({
 export const ShopRoot: FC = () => {
   const [itemFilter, { data, loading }] = useSWLazyQuery<ItemFilterQuery, ItemFilterQueryVariables>(itemFilterQuery, ({ variables: { saberPart: "" } }));
   const [filter, setFilter] = useState('');
+  const [{ id }] = useLocalData();
   const classes = useStyles();
+
+  function selectButton(filteredItem: ItemFilterQuery_filterItems): React.ReactNode {
+    let flag = false
+
+    filteredItem.carts.map(item => {
+      if(item.id == id) {
+        flag = true
+      }
+    });
+    
+    if(flag) {
+      return <RemoveCartButton itemId={filteredItem.id} />
+    }
+
+    return <AddCartButton itemId={filteredItem.id} />
+  }
 
   useEffect(() => {
     itemFilter({ variables: { saberPart: "" } })
@@ -110,13 +135,14 @@ export const ShopRoot: FC = () => {
           value={filter}
           onChange={event => setFilter(event.target.value)}
         />
-        <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton ></MarketButton></div>
-        <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton ></GenerateRandomItemButton></div>
-        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-5 row-start-1">
-          {data?.filterItems.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredName => (
-            <Grid item key={filteredName.id}>
-              <SingleItemCard item={filteredName}>
-                <BuyButton itemId={filteredName.id} />
+        <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton/></div>
+        <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton/></div>
+        <div className="col-start-1 col-span-2 h-16 w-4/5 text-center"><CartButton/></div>
+        <Grid container spacing={1} direction="row" className="col-span-8 col-start-4 row-span-6 row-start-1">
+          {data?.filterItems.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredItem => (
+            <Grid item key={filteredItem.id}>
+              <SingleItemCard item={filteredItem}>
+                {selectButton(filteredItem)}
               </SingleItemCard>
             </Grid>
           ))}

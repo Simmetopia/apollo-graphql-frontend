@@ -4,6 +4,7 @@ import { DocumentNode } from 'graphql';
 import gql from 'graphql-tag';
 import React, { FC } from 'react';
 import { useSWMutation } from '../utils/useSWMutation';
+import { extractNameFromQuery } from './CreateRandomItemButton';
 import { itemFilterQuery } from './ShopRoot';
 import { ItemUpdateMarketMutation } from './__generated__/ItemUpdateMarketMutation';
 
@@ -21,11 +22,6 @@ const itemUpdateMarketMutation = gql`
     price
   }} 
 `
-
-export function extractNameFromQuery(query: DocumentNode): string {
-  const a = query.definitions[0]
-  return (a as any).name.value as string
-}
 
 export const MarketButton: FC = () => {
   
