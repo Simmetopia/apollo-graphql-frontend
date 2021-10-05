@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -8,14 +8,25 @@ import { makeVar } from '@apollo/client';
 
 export const sortItemsVar = makeVar<string>('none');
 
+export enum sortVariants {
+  ascendingPrice,
+  descendingPrice,
+  nameAlphabetically,
+}
+
 export const ItemSort: FC = () => {
   const [sort, setSort] = useState(sortItemsVar);
+
+  useEffect(() => {
+    sortItemsVar(sort);
+  }, [sort]);
+
   return (
     <>
       <FormControl
         variant="filled"
         color="secondary"
-        style={{ backgroundColor: 'ThreeDShadow', width: 200, borderRadius: 5 }}
+        style={{ backgroundColor: 'ThreeDShadow', width: '16em', borderRadius: 5 }}
       >
         <InputLabel>
           <Typography>
@@ -28,14 +39,19 @@ export const ItemSort: FC = () => {
               <strong>None</strong>
             </Typography>
           </MenuItem>
-          <MenuItem value={'low'}>
+          <MenuItem value={sortVariants.ascendingPrice}>
             <Typography color="primary">
-              <strong>Low price</strong>
+              <strong>Price ascending</strong>
             </Typography>
           </MenuItem>
-          <MenuItem value={'high'}>
+          <MenuItem value={sortVariants.descendingPrice}>
             <Typography color="primary">
-              <strong>High price</strong>
+              <strong>Price descending</strong>
+            </Typography>
+          </MenuItem>
+          <MenuItem value={sortVariants.nameAlphabetically}>
+            <Typography color="primary">
+              <strong>Name alphabetically</strong>
             </Typography>
           </MenuItem>
         </Select>

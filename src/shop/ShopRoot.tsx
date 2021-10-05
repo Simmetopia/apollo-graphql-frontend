@@ -9,16 +9,12 @@ import { useLocalData } from '../useLocalData';
 import { BuyButton } from './BuyButton';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { userMoneyQuery, userMoneyQueryVariables } from './__generated__/userMoneyQuery';
-import {
-  getItemsInShopQuery,
-  getItemsInShopQueryVariables,
-  getItemsInShopQuery_FilterItemsByPrice,
-} from './__generated__/getItemsInShopQuery';
+import { getItemsInShopQuery, getItemsInShopQueryVariables } from './__generated__/getItemsInShopQuery';
 import { mostExpensiveItemQuery } from './__generated__/mostExpensiveItemQuery';
 import { Stack } from '@mui/material';
 import { ItemFilter } from './ItemFilter';
 import { filterItemsVar, getFilterValue } from '../utils/filterVar';
-import { ItemSort, sortItemsVar } from './ItemSort';
+import { ItemSort, sortItemsVar, sortVariants } from './ItemSort';
 
 export const getItemsInShop = gql`
   query getItemsInShopQuery($filterPrice: Int!) {
@@ -57,7 +53,6 @@ export const ShopRoot: FC = () => {
   const [priceValue, setPriceValue] = useState(0);
   const filter = useReactiveVar<string>(filterItemsVar);
   const sorter = useReactiveVar<string>(sortItemsVar);
-  let sortedList: any[] = [];
   const { data } = useQuery<getItemsInShopQuery, getItemsInShopQueryVariables>(getItemsInShop, {
     variables: { filterPrice: priceFilter },
     fetchPolicy: 'network-only',
@@ -67,16 +62,42 @@ export const ShopRoot: FC = () => {
     skip: !id,
   });
 
+  const [items, setItems] = useState(data?.FilterItemsByPrice);
+
   useEffect(() => {
     setPricefilter(priceData?.MostExpensiveItemPrice?.price ?? 0);
     setPriceValue(priceData?.MostExpensiveItemPrice?.price ?? 0);
-    updateDimensions();
 
-    console.log(sortedList);
+    updateDimensions();
 
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);
-  }, [priceData, filter]);
+  }, [priceData]);
+
+  useEffect(() => {
+    setItems(data?.FilterItemsByPrice);
+
+    if (!data?.FilterItemsByPrice) {
+      return;
+    }
+
+    const sortedItems = [...data?.FilterItemsByPrice!];
+
+    switch (parseInt(sorter)) {
+      case sortVariants.ascendingPrice:
+        sortedItems.sort((a, b) => a?.price! - b?.price!);
+        break;
+      case sortVariants.descendingPrice:
+        sortedItems.sort((a, b) => b?.price! - a?.price!);
+        break;
+      case sortVariants.nameAlphabetically:
+        sortedItems.sort((a, b) => a?.partName!.localeCompare(b?.partName!));
+        break;
+      default:
+        break;
+    }
+    setItems(sortedItems);
+  }, [data, sorter]);
 
   const updateDimensions = () => {
     const width = window.innerWidth;
@@ -138,13 +159,15 @@ export const ShopRoot: FC = () => {
       </Stack>
 
       <Grid container spacing={2} direction="row">
-        {data?.FilterItemsByPrice.filter((item) => item?.partName?.includes(getFilterValue(filter))).map((item) => (
-          <Grid item key={item?.id} xs={2}>
-            <SingleItemCard item={item}>
-              <BuyButton itemId={item?.id} maxPrice={priceFilter} />
-            </SingleItemCard>
-          </Grid>
-        ))}
+        {items
+          ?.filter((item) => item?.partName?.includes(getFilterValue(filter)))
+          .map((item) => (
+            <Grid item key={item?.id} xs={2}>
+              <SingleItemCard item={item}>
+                <BuyButton itemId={item?.id} maxPrice={priceFilter} />
+              </SingleItemCard>
+            </Grid>
+          ))}
       </Grid>
       <GenerateRandomItemButton maxPrice={priceFilter} />
       <h3 className="money">Money: {userData.GetUser?.money}</h3>
