@@ -1,14 +1,18 @@
-import { FormControl, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { FormControl, IconButton, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
+import ClearIcon from '@material-ui/icons/Clear';
 import gql from 'graphql-tag';
 import React, { FC, useEffect, useState } from 'react';
 import SingleItemCard from '../profile/SingleItemCard';
+import { useLocalData } from '../useLocalData';
 import { useSWLazyQuery } from '../utils/useSWLazyQuery';
-import { BuyButton } from './BuyButton';
+import { AddCartButton } from './AddCartButton';
+import { CartButton } from './CartButton';
 import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import { MarketButton } from './MarketButton';
-import { ItemFilterQuery, ItemFilterQueryVariables } from './__generated__/ItemFilterQuery';
+import { RemoveCartButton } from './RemoveCartButton';
+import { ItemFilterQuery, ItemFilterQueryVariables, ItemFilterQuery_filterItems } from './__generated__/ItemFilterQuery';
 
 export type ItemListPropsName = { value: string };
 
@@ -31,6 +35,10 @@ export const itemFilterQuery = gql`
     {
       username
     }
+    carts
+    {
+      id
+    }
  }} 
 `
 
@@ -38,7 +46,7 @@ const useStyles = makeStyles({
   grid: {
     display: "grid",
     gridTemplateRows: "repeat(3, minmax(0, 4rem))",
-    gridTemplateColumns: "repeat(11, minmax(0, 1fr))",
+    gridTemplateColumns: "repeat(13, minmax(0, 1fr))",
     gap: 20,
     paddingTop: 20,
   },
@@ -61,8 +69,24 @@ export const ShopRoot: FC = () => {
   const [sortData, setData] = useState(data?.filterItems);
   const [sortSelectData, setsortSelectData] = useState('alphabeticalFalling')
   const [filterSelectData, setFilterSelectData] = useState('None')
-
+  const [{ id }] = useLocalData();
   const classes = useStyles();
+
+  function selectButton(filteredItem: ItemFilterQuery_filterItems): React.ReactNode {
+    let flag = false
+
+    filteredItem.carts.forEach(item => {
+      if (item.id === id) {
+        flag = true
+      }
+    });
+
+    if (flag) {
+      return <RemoveCartButton itemId={filteredItem.id} />
+    }
+
+    return <AddCartButton itemId={filteredItem.id} />
+  }
 
   useEffect(() => {
     setData(data?.filterItems)
@@ -153,7 +177,6 @@ export const ShopRoot: FC = () => {
 
         <FormControl className="col-start-1 col-span-2 w-4/5 rounded-md" variant="filled" style={{ color: "black", minWidth: 130 }}>
           <InputLabel style={{ color: "#00ff00" }}>Sort</InputLabel>
-
           <Select value={sortSelectData}>
             <MenuItem value="alphabeticalFalling" onClick={() => filterItems('alphabeticalFalling')}>
               <Typography color="primary">
@@ -178,19 +201,19 @@ export const ShopRoot: FC = () => {
           </Select>
         </FormControl>
 
-        <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton ></MarketButton></div>
-
-        <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton ></GenerateRandomItemButton></div>
-
-        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-5 row-start-1">
-          {sortData?.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredName => (
-            <Grid item key={filteredName.id}>
-              <SingleItemCard item={filteredName}>
-                <BuyButton itemId={filteredName.id} />
+        <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton /></div>
+        <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton /></div>
+        <div className="col-start-1 col-span-2 h-16 w-4/5 text-center"><CartButton /></div>
+        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-7 row-start-1">
+          {sortData?.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredItem => (
+            <Grid item key={filteredItem.id}>
+              <SingleItemCard item={filteredItem}>
+                {selectButton(filteredItem)}
               </SingleItemCard>
             </Grid>
           ))}
         </Grid>
+
       </div>
     </>
   );

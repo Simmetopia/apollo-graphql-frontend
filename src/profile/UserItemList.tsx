@@ -27,6 +27,10 @@ export const itemDisplayQuery = gql`
     {
       username
     }
+    carts
+    {
+      id
+    }
  }} 
 `
 
