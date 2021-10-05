@@ -45,8 +45,8 @@ export const itemFilterQuery = gql`
 const useStyles = makeStyles({
   grid: {
     display: "grid",
-    gridTemplateRows: "repeat(3, minmax(0, 4rem))",
-    gridTemplateColumns: "repeat(13, minmax(0, 1fr))",
+    gridTemplateRows: "repeat(5, minmax(0, 4rem)) auto",
+    gridTemplateColumns: "repeat(11, minmax(0, 1fr))",
     gap: 20,
     paddingTop: 20,
   },
@@ -204,7 +204,7 @@ export const ShopRoot: FC = () => {
         <div className="col-start-1 col-span-2 h-16 w-4/5"><MarketButton /></div>
         <div className="col-start-1 col-span-2 h-16 w-4/5"><GenerateRandomItemButton /></div>
         <div className="col-start-1 col-span-2 h-16 w-4/5 text-center"><CartButton /></div>
-        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-7 row-start-1">
+        <Grid container spacing={1} direction="row" className="col-span-7 col-start-3 row-span-full row-start-1">
           {sortData?.filter(item => item.PartName?.name.toLowerCase().includes(filter.toLowerCase())).map(filteredItem => (
             <Grid item key={filteredItem.id}>
               <SingleItemCard item={filteredItem}>
@@ -213,7 +213,6 @@ export const ShopRoot: FC = () => {
             </Grid>
           ))}
         </Grid>
-
       </div>
     </>
   );
