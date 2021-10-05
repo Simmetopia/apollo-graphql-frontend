@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import { useSWMutaion } from '../utils/useSWMutation';
 import { buyItemMutation, buyItemMutationVariables } from './__generated__/buyItemMutation';
 import { userItemQuery } from '../profile/UserItemList';
-import { getItemsInShop } from './ShopRoot';
+import { getItemsInShop, mostExpensiveItem } from './ShopRoot';
 
 type BuyButtonProps = { itemId: string | undefined; maxPrice: number };
 
@@ -24,7 +24,9 @@ export const BuyButton: FC<BuyButtonProps> = ({ itemId, maxPrice }) => {
     refetchQueries: [
       { query: userItemQuery, variables: { id: id } },
       { query: getItemsInShop, variables: { filterPrice: maxPrice } },
+      { query: mostExpensiveItem},
     ],
+    
   });
 
   if (id === undefined || itemId === undefined) {
