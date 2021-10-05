@@ -40,7 +40,7 @@ export const GenerateRandomItemButton: FC<Props> = ({ maxPrice }) => {
       for (let i = 0; i < 10; i++) {
         ItemCreate();
       }
-    },
+    }, refetchQueries: [{query: mostExpensiveItem}]
   });
 
   return (
