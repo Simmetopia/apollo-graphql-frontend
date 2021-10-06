@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { Typography, Card, makeStyles } from '@material-ui/core';
+import { Typography, Card, makeStyles, Checkbox } from '@material-ui/core';
+import { getUserItemQuery_GetUser_inventory } from './__generated__/getUserItemQuery';
 import '../shop/Shop.css';
-import { getItemsInShopQuery_FilterItemsByPrice } from '../shop/__generated__/getItemsInShopQuery';
+import { clearVarItems, putItemInVar, removeItemFromVar } from '../utils/varUtilities'
 
-const imgDivStyle = makeStyles({
+const style = makeStyles({
   divStyle: {
     borderRadius: '50%',
     outline: 'solid',
@@ -46,10 +47,13 @@ const imgDivStyle = makeStyles({
   },
 });
 
-const SingleItemCard: FC<{ item: getItemsInShopQuery_FilterItemsByPrice | null }> = ({ children, item }) => {
+const UserItemCard: FC<{ item: getUserItemQuery_GetUser_inventory | null }> = ({ children, item }) => {
+  const [checked, setChecked] = React.useState(false);
+  // clearVarItems();
   if (!item) {
     return <div> something wong </div>;
   }
+
   var imageBackgroundColor: string = '#dfe6e9';
   if (item.rarity === 'Uncommon') {
     imageBackgroundColor = '#00b894';
@@ -61,13 +65,25 @@ const SingleItemCard: FC<{ item: getItemsInShopQuery_FilterItemsByPrice | null }
     imageBackgroundColor = '#fdcb6e';
   }
 
-  const classes = imgDivStyle();
+  const classes = style();
+
+  
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if(checked === true){ 
+      removeItemFromVar(item)
+      setChecked(event.target.checked);
+    } else {
+      putItemInVar(item)
+      setChecked(event.target.checked);
+    }
+  };
 
   return (
     <div className="box">
       <Card className={classes.cardStyle}>
         <div className={classes.divStyle} style={{ outlineColor: imageBackgroundColor }}>
-          <img src={item.url ?? ''} alt="Commando Switch" className={classes.imgStyle} />
+          <img src={item.url ?? ''} alt="Card url" className={classes.imgStyle} />
         </div>
         <div className={classes.textCenter}>
           <div className={classes.center}>
@@ -75,13 +91,6 @@ const SingleItemCard: FC<{ item: getItemsInShopQuery_FilterItemsByPrice | null }
             <Typography color="primary">
               <strong>{item.partName}</strong>
             </Typography>
-          </div>
-          <div className={classes.center}>
-            <Typography color="primary">Price:</Typography>
-            <Typography color="primary">
-              <strong>{item.price}</strong>
-            </Typography>
-            <Typography color="primary">coins</Typography>
           </div>
           <div className={classes.center}>
             <Typography color="primary">Part:</Typography>
@@ -97,10 +106,22 @@ const SingleItemCard: FC<{ item: getItemsInShopQuery_FilterItemsByPrice | null }
               <strong>{item.partDescription}</strong>
             </Typography>
           </div>
-          <div>{children}</div>
+          <div style={{ height: '3em' }}>
+            {item.inShop && (
+              <div className={classes.center}>
+                <Typography color="primary">Selling price:</Typography>
+                <Typography color="primary">
+                  <strong>{item.price}</strong>
+                </Typography>
+                <Typography color="primary">coins</Typography>
+              </div>
+            )}
+          </div>
+        <Checkbox checked={checked} onChange={handleChange}/>
+        {children}
         </div>
       </Card>
     </div>
   );
 };
-export default SingleItemCard;
+export default UserItemCard;

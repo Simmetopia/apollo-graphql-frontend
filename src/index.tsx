@@ -6,13 +6,14 @@ import { createTheme } from '@material-ui/core/styles';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { ThemeProvider } from '@material-ui/styles';
 import { brown } from '@material-ui/core/colors';
+import { SnackbarProvider } from 'notistack';
 
 /*
  * APOLLO CLIENT SETUP
  */
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
-    cache: new InMemoryCache({}),
+  cache: new InMemoryCache({}),
   // clientState: {
   //   defaults: { localUser: { id: '', username: '', __typename: 'User' } },
   // },
@@ -33,7 +34,9 @@ const Bootstrap: FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={client}>
-        <App />
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
       </ApolloProvider>
     </ThemeProvider>
   );

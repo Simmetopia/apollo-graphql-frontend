@@ -7,7 +7,6 @@ import { useLocalData } from './useLocalData';
 
 const AppRootDiv = styled('div')({
   minHeight: '100vh',
-  minWidth: '100vw',
   height: '100%',
   padding: 50,
   paddingBottom: 70,
@@ -15,7 +14,7 @@ const AppRootDiv = styled('div')({
 });
 
 const App: React.FC = () => {
-  const localUser = useLocalData();
+  const [localUser] = useLocalData();
   const hasActiveUser = !!localUser && !!localUser.id;
   return (
     <AppRootDiv>

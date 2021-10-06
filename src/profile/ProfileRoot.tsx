@@ -1,29 +1,64 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography/Typography';
-import { GenerateRandomItemButton } from './CreateRandomItemButton';
 import Divider from '@material-ui/core/Divider/Divider';
 import { UserItemList } from './UserItemList';
 import { useLocalData } from '../useLocalData';
+import gql from 'graphql-tag';
+import { useLazyQuery } from '@apollo/client';
+import { UserDetailsQuery, UserDetailsQueryVariables } from './__generated__/UserDetailsQuery';
+import EditUserDetails from './EditUserDetails';
+
+export const userDetailsquery = gql`
+  query UserDetailsQuery($id: ID!) {
+    GetUserDetails(input: { id: $id }) {
+      firstName
+      lastName
+      user {
+        username
+      }
+    }
+  }
+`;
 
 export const ProfileRoot: FC = () => {
-  const { id } = useLocalData();
-  if(!id) {
-    return <div> something wong </div>
+  const [{ id }] = useLocalData();
+  if (!id) {
+    return <div> something wong </div>;
   }
   return (
     <>
       <UserDetails userId={id} />
+      <EditUserDetails userId={id} />
+
       <Typography variant="h6" align="center">
         Items
       </Typography>
       <Divider variant="middle" />
       <UserItemList userId={id} />
-      <GenerateRandomItemButton userId={id} />
+      
     </>
   );
 };
 
-
 export const UserDetails: FC<{ userId: string }> = ({ userId }) => {
-  return <div> User Details </div>
+  const [getUserDetails, { data }] = useLazyQuery<UserDetailsQuery, UserDetailsQueryVariables>(userDetailsquery, {
+    variables: { id: userId },
+  });
+
+  useEffect(() => {
+    if (userId) {
+      getUserDetails();
+    }
+  }, [userId]);
+
+  return (
+    <>
+      <Typography>
+        First name: <strong>{data?.GetUserDetails?.firstName}</strong>
+      </Typography>
+      <Typography>
+        Last name: <strong>{data?.GetUserDetails?.lastName}</strong>
+      </Typography>
+    </>
+  );
 };
