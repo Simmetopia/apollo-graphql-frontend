@@ -14,7 +14,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 const httpLink = new HttpLink({
-  uri: 'https://notacultbruha.herokuapp.com/',
+  uri: 'https://notacult.herokuapp.com',
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -42,7 +42,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'wss://notacultbruha.herokuapp.com/subscriptions',
+  uri: 'wss://localhost:4000/subscriptions',
   options: {
     reconnect: true,
   },
