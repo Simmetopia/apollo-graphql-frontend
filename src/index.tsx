@@ -42,7 +42,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://notacult.herokuapp.com/subscriptions',
+  uri: 'wss://notacult.herokuapp.com/subscriptions',
   options: {
     reconnect: true,
   },
