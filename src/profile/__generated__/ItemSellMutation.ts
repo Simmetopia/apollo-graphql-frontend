@@ -17,6 +17,5 @@ export interface ItemSellMutation {
 }
 
 export interface ItemSellMutationVariables {
-  userSellerId: string;
   itemId: string;
 }

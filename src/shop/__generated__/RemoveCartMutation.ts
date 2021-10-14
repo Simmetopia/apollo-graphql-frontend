@@ -17,6 +17,5 @@ export interface RemoveCartMutation {
 }
 
 export interface RemoveCartMutationVariables {
-  userId: string;
   itemId: string;
 }

@@ -17,7 +17,3 @@ export interface ShowUserDetails_userDetails {
 export interface ShowUserDetails {
   userDetails: ShowUserDetails_userDetails | null;
 }
-
-export interface ShowUserDetailsVariables {
-  userId: string;
-}

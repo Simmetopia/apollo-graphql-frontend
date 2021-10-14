@@ -17,6 +17,5 @@ export interface AddCartMutation {
 }
 
 export interface AddCartMutationVariables {
-  userId: string;
   itemId: string;
 }

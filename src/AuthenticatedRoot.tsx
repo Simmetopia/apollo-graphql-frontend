@@ -16,10 +16,10 @@ const useStyles = makeStyles({
   appBar: {
     top: 'auto',
     bottom: 0,
-    backgroundColor: 'rgb(51,51,51)',
+    backgroundColor: '#323232',
   },
   darkColor: {
-    backgroundColor: '#616161',
+    backgroundColor: '#646464',
   },
 });
 
@@ -32,11 +32,12 @@ enum Pages {
 export default function AuthenticatedRoot() {
   const [value, setValue] = React.useState(Pages.WELCOME);
   const classes = useStyles();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setData] = useLocalData();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-  function logoutUser(): void {
+  function Logout(): void {
     setData({});
+    sessionStorage.removeItem('token');
   }
 
   return (
@@ -58,7 +59,7 @@ export default function AuthenticatedRoot() {
           <BottomNavigationAction color="inherit" label="Welcome" value={Pages.WELCOME} icon={<RestoreIcon />} />
           <BottomNavigationAction color="inherit" label="Shop" value={Pages.SHOP} icon={<FavoriteIcon />} />
           <BottomNavigationAction color="inherit" label="Profile" value={Pages.PROFILE} icon={<LocationOnIcon />} />
-          <BottomNavigationAction color="inherit" label="Logout" onClick={logoutUser} icon={<MeetingRoomIcon />} />
+          <BottomNavigationAction color="inherit" label="Logout" onClick={Logout} icon={<MeetingRoomIcon />} />
         </BottomNavigation>
       </AppBar>
     </>
@@ -67,10 +68,6 @@ export default function AuthenticatedRoot() {
 
 export type LocalUser = { localUser: { username: string; id: string } };
 const WelcomePage: FC = () => {
-  const [{ id }] = useLocalData();
-  if (!id) {
-    return <div> what </div>
-  }
   return (
     <>
       <Typography variant="h3" color="primary">
@@ -81,7 +78,7 @@ const WelcomePage: FC = () => {
       <Typography>
         In this webshop you can find all the parts, all "legally" optained, to build your very own lightsaber.
       </Typography>
-      <UserDetails userId={id} />
+      <UserDetails />
     </>
   );
 };

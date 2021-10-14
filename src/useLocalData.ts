@@ -10,6 +10,10 @@ const defaultUser: LocalUser  = {};
 
 const userVar = makeVar<LocalUser>(defaultUser)
 
+export function removeUser() {
+  userVar(defaultUser)
+}
+
 // Since we are quering from local state, we can "safely" use ! operator
 export const useLocalData = (): [LocalUser, (user: LocalUser)=>void] => {
   const data = useReactiveVar(userVar)

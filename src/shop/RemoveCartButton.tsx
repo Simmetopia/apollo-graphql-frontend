@@ -1,44 +1,30 @@
-import React, { FC } from 'react';
-import ShopIcon from '@material-ui/icons/ShoppingCart';
-import gql from 'graphql-tag';
 import { IconButton } from '@material-ui/core';
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import ClearIcon from '@material-ui/icons/Clear';
-import { useLocalData } from '../useLocalData';
-import { itemDisplayQuery } from '../profile/UserItemList';
+import gql from 'graphql-tag';
+import React, { FC } from 'react';
 import { useSWMutation } from '../utils/useSWMutation';
-import { DocumentNode } from 'graphql';
-import { itemFilterQuery } from './ShopRoot';
 import { userCartQuery } from './CartButton';
-import { RemoveCartMutation, RemoveCartMutationVariables } from './__generated__/RemoveCartMutation';
 import { extractNameFromQuery } from './CreateRandomItemButton';
+import { itemFilterQuery } from './ShopRoot';
+import { RemoveCartMutation, RemoveCartMutationVariables } from './__generated__/RemoveCartMutation';
 
-const removeCartMutation = gql`
-  mutation RemoveCartMutation($userId: String!, $itemId: String!) {
-  removeFromCart(userId: $userId, itemId: $itemId) {
-    id
-  }}
-`
+export const removeCartMutation = gql`
+  mutation RemoveCartMutation($itemId: String!) {
+    removeFromCart(itemId: $itemId) {
+      id
+    }
+  }
+`;
 
 type RemoveCartButtonProps = { itemId: string };
 export const RemoveCartButton: FC<RemoveCartButtonProps> = ({ itemId }) => {
-  const [removeCart, { data, loading }] = useSWMutation<RemoveCartMutation, RemoveCartMutationVariables>(
-    removeCartMutation, { 
-      refetchQueries: [
-        extractNameFromQuery(itemFilterQuery), 
-        extractNameFromQuery(userCartQuery)
-      ] 
-    }
-  );
-  const [{ id }] = useLocalData();
-  if (!id) {
-    return <div> something wong </div>
-  }
+  const [removeCart] = useSWMutation<RemoveCartMutation, RemoveCartMutationVariables>(removeCartMutation, {
+    refetchQueries: [extractNameFromQuery(itemFilterQuery), extractNameFromQuery(userCartQuery)],
+  });
 
   return (
-    <IconButton onClick={() => removeCart({ variables: { userId: id, itemId } })} >
+    <IconButton className="w-8 h-8" onClick={() => removeCart({ variables: { itemId } })}>
       <ClearIcon />
     </IconButton>
   );
 };
-

@@ -19,6 +19,7 @@ export interface UserCartQuery_userCart_PartName {
 
 export interface UserCartQuery_userCart {
   __typename: "Item";
+  id: string;
   userId: string | null;
   SaberPart: UserCartQuery_userCart_SaberPart | null;
   PartName: UserCartQuery_userCart_PartName | null;
@@ -28,8 +29,4 @@ export interface UserCartQuery_userCart {
 
 export interface UserCartQuery {
   userCart: UserCartQuery_userCart[];
-}
-
-export interface UserCartQueryVariables {
-  userId: string;
 }

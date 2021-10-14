@@ -9,6 +9,7 @@ import { userLoginMutation } from './SignupButtons'
 export const CreateUserForm: FC = () => {
   const [userLogin, { data, loading }] = useSWMutation<UserLoginMutation, UserLoginMutationVariables>(userLoginMutation);
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setData] = useLocalData();
 
@@ -16,7 +17,9 @@ export const CreateUserForm: FC = () => {
   useEffect(() => {
     if (!data) return
 
-    setData({ name: data.userLogin?.username, id: data.userLogin?.id });
+    sessionStorage.setItem("token", data.userLogin.token!)
+    setData({ name: data.userLogin?.username!, id: data.userLogin?.id! });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
@@ -26,13 +29,8 @@ export const CreateUserForm: FC = () => {
 
   const handleKeyPress = (e: { key: string; }) => {
     if (e.key === "Enter") {
-      handleTrack();
-    }
+      userLogin({ variables: { username, password } })    }
   };
-
-  function handleTrack() {
-    userLogin({ variables: { username } })
-  }
 
   return (
     <Grid container direction="column" spacing={2}>
@@ -41,23 +39,31 @@ export const CreateUserForm: FC = () => {
         variant="outlined"
         color="secondary"
         placeholder={'Username'}
-
         onChange={e => {
           setUsername(e.target.value);
         }}
         autoFocus
         value={username}
-
         onKeyPress={handleKeyPress}
-
+      />
+      <TextField
+        inputProps={{ style: { color: '#fff' } }}
+        variant="outlined"
+        color="secondary"
+        placeholder={'Password'}
+        onChange={e => {
+          setPassword(e.target.value);
+        }}
+        value={password}
+        onKeyPress={handleKeyPress}
       />
       <Grid item>
         <Grid container spacing={1}>
           <Grid item>
-            <LoginAsUser username={username} />
+            <LoginAsUser username={username} password={password} />
           </Grid>
           <Grid item>
-            <CreateUserButton username={username} />
+            <CreateUserButton username={username} password={password} />
           </Grid>
         </Grid>
       </Grid>

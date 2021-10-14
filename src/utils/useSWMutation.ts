@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import {useSnackbar} from 'notistack';
+import { useSnackbar } from 'notistack';
 
 
 export const useSWMutation: typeof useMutation = (a, b) => {

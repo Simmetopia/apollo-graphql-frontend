@@ -8,15 +8,17 @@
 // ====================================================
 
 export interface UserCreateMutation_userCreate {
-  __typename: "User";
-  id: string;
-  username: string;
+  __typename: "Login";
+  username: string | null;
+  token: string | null;
+  id: string | null;
 }
 
 export interface UserCreateMutation {
-  userCreate: UserCreateMutation_userCreate | null;
+  userCreate: UserCreateMutation_userCreate;
 }
 
 export interface UserCreateMutationVariables {
   username: string;
+  password: string;
 }
