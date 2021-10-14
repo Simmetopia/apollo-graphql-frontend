@@ -42,7 +42,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'wss://localhost:4000/subscriptions',
+  uri: 'wss://notacult.herokuapp.com/subscriptions',
   options: {
     reconnect: true,
   },
