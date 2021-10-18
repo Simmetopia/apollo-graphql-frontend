@@ -15,6 +15,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 
 const httpLink = new HttpLink({
   uri: 'notacultbruh.herokuapp.com/graphql',
+  // uri: 'http://localhost:4000/graphql',
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -43,11 +44,12 @@ const authLink = setContext((_, { headers }) => {
 
 const wsLink = new WebSocketLink({
   uri: 'wss://notacultbruh.herokuapp.com/subscriptions',
+  // uri: 'ws://localhost:4000/subscriptions',
   options: {
     reconnect: true,
-  },
-  connectionParams: {
-    authorization: sessionStorage.getItem('token'),
+    connectionParams: () => ({
+      authorization: sessionStorage.getItem('token'),
+    }),
   },
 });
 

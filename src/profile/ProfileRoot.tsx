@@ -61,7 +61,7 @@ export const UserDetails: FC = () => {
     <>
       <Typography variant="h4">Username: {dataDetails?.userDetails?.username}</Typography>
 
-      <Typography variant="h4">Money: {!loading && data!.userMoney} </Typography>
+      <Typography variant="h4">Money: {!loading && data?.userMoney!} </Typography>
     </>
   );
 };
