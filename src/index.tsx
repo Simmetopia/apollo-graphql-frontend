@@ -14,7 +14,7 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 const httpLink = new HttpLink({
-  uri: 'notacultbruh.herokuapp.com/graphql',
+  uri: 'https://notacultbruh.herokuapp.com/graphql',
   // uri: 'http://localhost:4000/graphql',
 });
 
