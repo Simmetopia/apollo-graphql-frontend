@@ -1,23 +1,57 @@
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import React, { FC } from 'react';
-import SingleItemCard from './SingleItemCard';
+import SingleItemCard from '../utils/SingleItemCard';
 import { SellButton } from './SellButton';
-export type UserItemListProps = { userId: string };
+import gql from 'graphql-tag';
+import { useSWQuery } from '../utils/useSWQuery';
+import { ItemDisplayQuery, ItemDisplayQueryVariables } from './__generated__/ItemDisplayQuery';
 
-export const UserItemList: FC<UserItemListProps> = ({ userId }) => {
+export type UserItemListPropsUsername = { username: string };
 
-  const userItems: any[] = [];
+export const itemDisplayQuery = gql`
+  query ItemDisplayQuery($username: String!) {
+    displayItems(username: $username) {
+      id
+      userId
+      SaberPart {
+        name
+      }
+      PartName {
+        name
+      }
+      partDescription
+      price
+      User {
+        username
+      }
+      carts {
+        id
+      }
+    }
+  }
+`;
+
+const useStyles = makeStyles({
+  card: { width: '30%' },
+});
+
+export const UserItemList: FC<UserItemListPropsUsername> = ({ username }) => {
+  const { data } = useSWQuery<ItemDisplayQuery, ItemDisplayQueryVariables>(itemDisplayQuery, {
+    variables: { username },
+  });
+  const classes = useStyles();
+
   return (
-    <Grid container direction="column" spacing={1}>
-      {userItems.map(item => {
+    <div className="flex flex-wrap flex-row gap-3">
+      {data?.displayItems.map((item) => {
         return (
-          <Grid item key={item.id}>
-            <SingleItemCard {...item}>
+          <div className={classes.card}>
+            <SingleItemCard item={item}>
               <SellButton itemId={item.id} />
             </SingleItemCard>
-          </Grid>
+          </div>
         );
       })}
-    </Grid>
+    </div>
   );
 };
