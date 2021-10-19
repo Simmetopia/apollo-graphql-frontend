@@ -12,6 +12,7 @@ import { removeUser } from './useLocalData';
 import { setContext } from '@apollo/client/link/context';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 const httpLink = new HttpLink({
   uri: 'https://notacultbruh.herokuapp.com/graphql',
@@ -42,16 +43,15 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const wsLink = new WebSocketLink({
-  uri: 'wss://notacultbruh.herokuapp.com/subscriptions',
-  // uri: 'ws://localhost:4000/subscriptions',
-  options: {
-    reconnect: true,
-    connectionParams: () => ({
-      authorization: sessionStorage.getItem('token'),
-    }),
-  },
+const wsClient = new SubscriptionClient('wss://notacultbruh.herokuapp.com/subscriptions', {
+  // const wsClient = new SubscriptionClient('ws://localhost:4000/subscriptions', {
+  reconnect: true,
+  connectionParams: () => ({
+    authorization: 'Bearer ' + sessionStorage.getItem('token'),
+  }),
 });
+
+const wsLink = new WebSocketLink(wsClient);
 
 const splitLink = split(
   ({ query }) => {
